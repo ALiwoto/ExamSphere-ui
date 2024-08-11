@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import axios from 'axios';
 import Login from './components/Login';
+import apiClient from './apiClient';
 
 const Dashboard = () => <div>Dashboard</div>; // Placeholder component
 
@@ -16,9 +16,8 @@ const App: React.FC = () => {
 
       if (accessToken && refreshToken) {
         try {
-          const response = await axios.get('https://example.com/user/me', {
-            headers: { Authorization: `Bearer ${accessToken}` }
-          });
+          const response = await apiClient.apiV1UserMeGet(`Bearer ${accessToken}`);
+          console.log(response.data);
           setIsLoggedIn(true);
         } catch (error) {
           localStorage.removeItem('accessToken');

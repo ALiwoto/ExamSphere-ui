@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import styled from 'styled-components';
+import backgroundImage from '../assets/login_bg1.jpg';
+import apiClient  from '../apiClient';
 
 const LoginContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f0f2f5;
+  background-image: url(${backgroundImage});
+  background-size: cover;
+  background-position: center;
 `;
 
 const LoginForm = styled.form`
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.9);
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -41,29 +44,41 @@ const Button = styled.button`
   }
 `;
 
+const ErrorMessage = styled.div`
+  color: #d32f2f;
+  background-color: #ffcdd2;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  text-align: center;
+`;
+
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://example.com/api/login', {
-        username,
-        password,
-      });
-      console.log(response.data);
+      const response = await apiClient.apiV1UserLoginPost({
+        user_id: username,
+        password: password,
+      })
+      console.log(response.data.result);
       // Handle successful login here
     } catch (error) {
-      console.error('Login failed:', error);
-      // Handle login error here
+      setLoginError('Login failed. Please check your username and password.');
     }
   };
 
   return (
     <LoginContainer>
       <LoginForm onSubmit={handleSubmit}>
-        <h2>Login</h2>
+        <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+          <h2>Welcome!</h2>
+        </div>
+        {loginError && <ErrorMessage>{loginError}</ErrorMessage>}
         <Input
           type="text"
           placeholder="Username"
