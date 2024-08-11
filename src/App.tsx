@@ -16,7 +16,7 @@ const App: React.FC = () => {
 
       if (accessToken && refreshToken) {
         try {
-          const response = await apiClient.apiV1UserMeGet(`Bearer ${accessToken}`);
+          const response = await apiClient.getMeV1(`Bearer ${accessToken}`);
           console.log(response.data);
           setIsLoggedIn(true);
         } catch (error) {

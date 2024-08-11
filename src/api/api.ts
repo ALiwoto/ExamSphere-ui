@@ -26,15 +26,66 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerM
 /**
  * 
  * @export
+ * @enum {string}
+ */
+
+export const ApiHandlersAPIErrorCode = {
+    ErrCodeMalformedJWT: 2100,
+    ErrCodeInvalidJWT: 2101,
+    ErrCodeInvalidBodyData: 2102,
+    ErrCodeInvalidUsernamePass: 2103,
+    ErrCodeInvalidAuth: 2104,
+    ErrCodePermissionDenied: 2105,
+    ErrCodeInvalidInputPass: 2106,
+    ErrCodeUsernameExists: 2107,
+    ErrCodeInternalServerError: 2108,
+    ErrCodeInvalidFileData: 2109,
+    ErrCodeInvalidPhoneNumber: 2110,
+    ErrCodePhoneNumberAlreadyImported: 2111,
+    ErrCodeInvalidUsername: 2112,
+    ErrCodeNoPhonesDonated: 2113,
+    ErrCodeAgentNotConnected: 2114,
+    ErrCodeInvalidPagination: 2115,
+    ErrCodeMaxContactImportLimit: 2116,
+    ErrCodePhoneNumberNotFound: 2117,
+    ErrCodeParameterRequired: 2118,
+    ErrCodeUserBanned: 2119,
+    ErrCodeLabelInfoNotFound: 2120,
+    ErrCodeLabelAlreadyApplied: 2121,
+    ErrCodeLabelAlreadyExistsByName: 2122,
+    ErrCodeTooManyChatLabelInfo: 2123,
+    ErrCodeLabelNameTooLong: 2124,
+    ErrCodeLabelDescriptionTooLong: 2125,
+    ErrCodeInvalidColor: 2126,
+    ErrCodeLabelNotApplied: 2127,
+    ErrCodeCannotDeleteBuiltInLabel: 2128,
+    ErrCodeDuplicatePhoneNumber: 2129,
+    ErrCodePhoneNotWorking: 2130,
+    ErrCodeInvalidPmsPass: 2131,
+    ErrCodeInvalidAgentId: 2132,
+    ErrCodeInvalidAppSettingName: 2133,
+    ErrCodeAppSettingNotFound: 2134,
+    ErrCodeTextEmpty: 2135,
+    ErrCodeTextTooLong: 2136,
+    ErrCodeInvalidClientRId: 2137,
+    ErrCodeInvalidCaptcha: 2138
+} as const;
+
+export type ApiHandlersAPIErrorCode = typeof ApiHandlersAPIErrorCode[keyof typeof ApiHandlersAPIErrorCode];
+
+
+/**
+ * 
+ * @export
  * @interface ApiHandlersEndpointError
  */
 export interface ApiHandlersEndpointError {
     /**
      * 
-     * @type {number}
+     * @type {ApiHandlersAPIErrorCode}
      * @memberof ApiHandlersEndpointError
      */
-    'code'?: number;
+    'code'?: ApiHandlersAPIErrorCode;
     /**
      * 
      * @type {string}
@@ -54,6 +105,8 @@ export interface ApiHandlersEndpointError {
      */
     'origin'?: string;
 }
+
+
 /**
  * 
  * @export
@@ -76,81 +129,6 @@ export interface ApiHandlersEndpointResponse {
      * 
      * @type {boolean}
      * @memberof ApiHandlersEndpointResponse
-     */
-    'success'?: boolean;
-}
-/**
- * 
- * @export
- * @interface ApiV1UserLoginPost200Response
- */
-export interface ApiV1UserLoginPost200Response {
-    /**
-     * 
-     * @type {ApiHandlersEndpointError}
-     * @memberof ApiV1UserLoginPost200Response
-     */
-    'error'?: ApiHandlersEndpointError;
-    /**
-     * 
-     * @type {UserHandlersLoginResult}
-     * @memberof ApiV1UserLoginPost200Response
-     */
-    'result'?: UserHandlersLoginResult;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ApiV1UserLoginPost200Response
-     */
-    'success'?: boolean;
-}
-/**
- * 
- * @export
- * @interface ApiV1UserMeGet200Response
- */
-export interface ApiV1UserMeGet200Response {
-    /**
-     * 
-     * @type {ApiHandlersEndpointError}
-     * @memberof ApiV1UserMeGet200Response
-     */
-    'error'?: ApiHandlersEndpointError;
-    /**
-     * 
-     * @type {UserHandlersMeResult}
-     * @memberof ApiV1UserMeGet200Response
-     */
-    'result'?: UserHandlersMeResult;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ApiV1UserMeGet200Response
-     */
-    'success'?: boolean;
-}
-/**
- * 
- * @export
- * @interface ApiV1UserReAuthPost200Response
- */
-export interface ApiV1UserReAuthPost200Response {
-    /**
-     * 
-     * @type {ApiHandlersEndpointError}
-     * @memberof ApiV1UserReAuthPost200Response
-     */
-    'error'?: ApiHandlersEndpointError;
-    /**
-     * 
-     * @type {UserHandlersAuthResult}
-     * @memberof ApiV1UserReAuthPost200Response
-     */
-    'result'?: UserHandlersAuthResult;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ApiV1UserReAuthPost200Response
      */
     'success'?: boolean;
 }
@@ -226,6 +204,81 @@ export interface GenerateCaptchaV1200Response {
      * 
      * @type {boolean}
      * @memberof GenerateCaptchaV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface GetMeV1200Response
+ */
+export interface GetMeV1200Response {
+    /**
+     * 
+     * @type {ApiHandlersEndpointError}
+     * @memberof GetMeV1200Response
+     */
+    'error'?: ApiHandlersEndpointError;
+    /**
+     * 
+     * @type {UserHandlersMeResult}
+     * @memberof GetMeV1200Response
+     */
+    'result'?: UserHandlersMeResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetMeV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface LoginV1200Response
+ */
+export interface LoginV1200Response {
+    /**
+     * 
+     * @type {ApiHandlersEndpointError}
+     * @memberof LoginV1200Response
+     */
+    'error'?: ApiHandlersEndpointError;
+    /**
+     * 
+     * @type {UserHandlersLoginResult}
+     * @memberof LoginV1200Response
+     */
+    'result'?: UserHandlersLoginResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof LoginV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface ReAuthV1200Response
+ */
+export interface ReAuthV1200Response {
+    /**
+     * 
+     * @type {ApiHandlersEndpointError}
+     * @memberof ReAuthV1200Response
+     */
+    'error'?: ApiHandlersEndpointError;
+    /**
+     * 
+     * @type {UserHandlersAuthResult}
+     * @memberof ReAuthV1200Response
+     */
+    'result'?: UserHandlersAuthResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ReAuthV1200Response
      */
     'success'?: boolean;
 }
@@ -453,116 +506,6 @@ export interface UserHandlersMeResult {
 export const UserApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Allows a user to login to the system and obtain access/refresh tokens
-         * @summary Login to the system
-         * @param {UserHandlersLoginData} loginData Login data
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiV1UserLoginPost: async (loginData: UserHandlersLoginData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'loginData' is not null or undefined
-            assertParamExists('apiV1UserLoginPost', 'loginData', loginData)
-            const localVarPath = `/api/v1/user/login`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(loginData, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Allows a user to get their own information
-         * @summary Get the user\'s information
-         * @param {string} authorization Authorization token
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiV1UserMeGet: async (authorization: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'authorization' is not null or undefined
-            assertParamExists('apiV1UserMeGet', 'authorization', authorization)
-            const localVarPath = `/api/v1/user/me`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (authorization != null) {
-                localVarHeaderParameter['Authorization'] = String(authorization);
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Allows a user to refresh their access token
-         * @summary Refresh the access token
-         * @param {string} authorization Refresh token
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiV1UserReAuthPost: async (authorization: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'authorization' is not null or undefined
-            assertParamExists('apiV1UserReAuthPost', 'authorization', authorization)
-            const localVarPath = `/api/v1/user/reAuth`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (authorization != null) {
-                localVarHeaderParameter['Authorization'] = String(authorization);
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
          * Allows a user to create a new user
          * @summary Create a new user
          * @param {string} authorization Authorization token
@@ -627,8 +570,118 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (clientRID !== undefined) {
-                localVarQueryParameter['Client-R-ID'] = clientRID;
+            if (clientRID != null) {
+                localVarHeaderParameter['Client-R-ID'] = String(clientRID);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Allows a user to get their own information
+         * @summary Get the user\'s information
+         * @param {string} authorization Authorization token
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getMeV1: async (authorization: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('getMeV1', 'authorization', authorization)
+            const localVarPath = `/api/v1/user/me`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Allows a user to login to the system and obtain access/refresh tokens
+         * @summary Login to the system
+         * @param {UserHandlersLoginData} loginData Login data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        loginV1: async (loginData: UserHandlersLoginData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'loginData' is not null or undefined
+            assertParamExists('loginV1', 'loginData', loginData)
+            const localVarPath = `/api/v1/user/login`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(loginData, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Allows a user to refresh their access token
+         * @summary Refresh the access token
+         * @param {string} authorization Refresh token
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        reAuthV1: async (authorization: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('reAuthV1', 'authorization', authorization)
+            const localVarPath = `/api/v1/user/reAuth`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
             }
 
 
@@ -652,45 +705,6 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
 export const UserApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = UserApiAxiosParamCreator(configuration)
     return {
-        /**
-         * Allows a user to login to the system and obtain access/refresh tokens
-         * @summary Login to the system
-         * @param {UserHandlersLoginData} loginData Login data
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiV1UserLoginPost(loginData: UserHandlersLoginData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1UserLoginPost200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1UserLoginPost(loginData, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UserApi.apiV1UserLoginPost']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Allows a user to get their own information
-         * @summary Get the user\'s information
-         * @param {string} authorization Authorization token
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiV1UserMeGet(authorization: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1UserMeGet200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1UserMeGet(authorization, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UserApi.apiV1UserMeGet']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Allows a user to refresh their access token
-         * @summary Refresh the access token
-         * @param {string} authorization Refresh token
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiV1UserReAuthPost(authorization: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1UserReAuthPost200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1UserReAuthPost(authorization, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UserApi.apiV1UserReAuthPost']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
         /**
          * Allows a user to create a new user
          * @summary Create a new user
@@ -718,6 +732,45 @@ export const UserApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['UserApi.generateCaptchaV1']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * Allows a user to get their own information
+         * @summary Get the user\'s information
+         * @param {string} authorization Authorization token
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getMeV1(authorization: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMeV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getMeV1(authorization, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UserApi.getMeV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Allows a user to login to the system and obtain access/refresh tokens
+         * @summary Login to the system
+         * @param {UserHandlersLoginData} loginData Login data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async loginV1(loginData: UserHandlersLoginData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LoginV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.loginV1(loginData, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UserApi.loginV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Allows a user to refresh their access token
+         * @summary Refresh the access token
+         * @param {string} authorization Refresh token
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async reAuthV1(authorization: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ReAuthV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.reAuthV1(authorization, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UserApi.reAuthV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -728,36 +781,6 @@ export const UserApiFp = function(configuration?: Configuration) {
 export const UserApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = UserApiFp(configuration)
     return {
-        /**
-         * Allows a user to login to the system and obtain access/refresh tokens
-         * @summary Login to the system
-         * @param {UserHandlersLoginData} loginData Login data
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiV1UserLoginPost(loginData: UserHandlersLoginData, options?: any): AxiosPromise<ApiV1UserLoginPost200Response> {
-            return localVarFp.apiV1UserLoginPost(loginData, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Allows a user to get their own information
-         * @summary Get the user\'s information
-         * @param {string} authorization Authorization token
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiV1UserMeGet(authorization: string, options?: any): AxiosPromise<ApiV1UserMeGet200Response> {
-            return localVarFp.apiV1UserMeGet(authorization, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Allows a user to refresh their access token
-         * @summary Refresh the access token
-         * @param {string} authorization Refresh token
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiV1UserReAuthPost(authorization: string, options?: any): AxiosPromise<ApiV1UserReAuthPost200Response> {
-            return localVarFp.apiV1UserReAuthPost(authorization, options).then((request) => request(axios, basePath));
-        },
         /**
          * Allows a user to create a new user
          * @summary Create a new user
@@ -779,6 +802,36 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
         generateCaptchaV1(clientRID: string, options?: any): AxiosPromise<GenerateCaptchaV1200Response> {
             return localVarFp.generateCaptchaV1(clientRID, options).then((request) => request(axios, basePath));
         },
+        /**
+         * Allows a user to get their own information
+         * @summary Get the user\'s information
+         * @param {string} authorization Authorization token
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getMeV1(authorization: string, options?: any): AxiosPromise<GetMeV1200Response> {
+            return localVarFp.getMeV1(authorization, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Allows a user to login to the system and obtain access/refresh tokens
+         * @summary Login to the system
+         * @param {UserHandlersLoginData} loginData Login data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        loginV1(loginData: UserHandlersLoginData, options?: any): AxiosPromise<LoginV1200Response> {
+            return localVarFp.loginV1(loginData, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Allows a user to refresh their access token
+         * @summary Refresh the access token
+         * @param {string} authorization Refresh token
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        reAuthV1(authorization: string, options?: any): AxiosPromise<ReAuthV1200Response> {
+            return localVarFp.reAuthV1(authorization, options).then((request) => request(axios, basePath));
+        },
     };
 };
 
@@ -789,42 +842,6 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
  * @extends {BaseAPI}
  */
 export class UserApi extends BaseAPI {
-    /**
-     * Allows a user to login to the system and obtain access/refresh tokens
-     * @summary Login to the system
-     * @param {UserHandlersLoginData} loginData Login data
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserApi
-     */
-    public apiV1UserLoginPost(loginData: UserHandlersLoginData, options?: RawAxiosRequestConfig) {
-        return UserApiFp(this.configuration).apiV1UserLoginPost(loginData, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Allows a user to get their own information
-     * @summary Get the user\'s information
-     * @param {string} authorization Authorization token
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserApi
-     */
-    public apiV1UserMeGet(authorization: string, options?: RawAxiosRequestConfig) {
-        return UserApiFp(this.configuration).apiV1UserMeGet(authorization, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Allows a user to refresh their access token
-     * @summary Refresh the access token
-     * @param {string} authorization Refresh token
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserApi
-     */
-    public apiV1UserReAuthPost(authorization: string, options?: RawAxiosRequestConfig) {
-        return UserApiFp(this.configuration).apiV1UserReAuthPost(authorization, options).then((request) => request(this.axios, this.basePath));
-    }
-
     /**
      * Allows a user to create a new user
      * @summary Create a new user
@@ -848,6 +865,42 @@ export class UserApi extends BaseAPI {
      */
     public generateCaptchaV1(clientRID: string, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).generateCaptchaV1(clientRID, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows a user to get their own information
+     * @summary Get the user\'s information
+     * @param {string} authorization Authorization token
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public getMeV1(authorization: string, options?: RawAxiosRequestConfig) {
+        return UserApiFp(this.configuration).getMeV1(authorization, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows a user to login to the system and obtain access/refresh tokens
+     * @summary Login to the system
+     * @param {UserHandlersLoginData} loginData Login data
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public loginV1(loginData: UserHandlersLoginData, options?: RawAxiosRequestConfig) {
+        return UserApiFp(this.configuration).loginV1(loginData, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows a user to refresh their access token
+     * @summary Refresh the access token
+     * @param {string} authorization Refresh token
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public reAuthV1(authorization: string, options?: RawAxiosRequestConfig) {
+        return UserApiFp(this.configuration).reAuthV1(authorization, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
