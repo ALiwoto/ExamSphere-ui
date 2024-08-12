@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Login from './components/loginPage';
+import Dashboard from './components/dashboardPage';
 import apiClient from './apiClient';
-
-const Dashboard = () => <div>Dashboard</div>; // Placeholder component
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -11,8 +10,8 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const accessToken = localStorage.getItem('accessToken');
-      const refreshToken = localStorage.getItem('refreshToken');
+      const accessToken = localStorage.getItem('ExamSphere_accessToken');
+      const refreshToken = localStorage.getItem('ExamSphere_refreshToken');
 
       if (accessToken && refreshToken) {
         try {

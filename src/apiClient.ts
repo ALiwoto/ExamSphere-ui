@@ -4,6 +4,7 @@ import {
     Configuration as APIConfiguration,
     UserHandlersLoginData as LoginData,
     UserHandlersLoginResult as LoginResult,
+    UserHandlersMeResult as GetMeResult,
 } from './api';
 
 class ExamSphereAPIClient extends UserApi {
@@ -17,6 +18,9 @@ class ExamSphereAPIClient extends UserApi {
         super();
         this.guessBasePath();
         this.clientRId = this.generateClientRId();
+
+        this.accessToken = localStorage.getItem('ExamSphere_accessToken') ?? undefined;
+        this.refreshToken = localStorage.getItem('ExamSphere_refreshToken') ?? undefined;
     }
 
     private generateClientRId(): string {
@@ -64,7 +68,21 @@ class ExamSphereAPIClient extends UserApi {
 
         this.accessToken = loginResult.access_token;
         this.refreshToken = loginResult.refresh_token;
+        localStorage.setItem('ExamSphere_accessToken', this.accessToken!);
+        localStorage.setItem('ExamSphere_refreshToken', this.refreshToken!);
         return loginResult;
+    }
+
+    // Gets the current user's information
+    public async getCurrentUserInfo(): Promise<GetMeResult> {
+        let userInfo = (await this.getMeV1(`Bearer ${this.accessToken}`))?.data.result;
+        if (!userInfo) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to get user info");
+        }
+
+        return userInfo;
     }
 }
 
