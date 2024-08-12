@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import Login from './components/Login';
+import Login from './components/loginPage';
 import apiClient from './apiClient';
 
 const Dashboard = () => <div>Dashboard</div>; // Placeholder component

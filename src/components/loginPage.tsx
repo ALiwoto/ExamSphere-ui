@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import backgroundImage from '../assets/login_bg1.jpg';
 import apiClient from '../apiClient';
 import { ApiHandlersAPIErrorCode } from '../api';
@@ -23,12 +24,14 @@ const LoginForm = styled.form`
   max-width: 350px;
 `;
 
-const Input = styled.input`
-  width: 100%;
+const LoginInput = styled.input`
+  align-items: center;
+  width: 95%;
   padding: 0.5rem;
-  margin-bottom: 1rem;
+  margin: 0 auto;
   border: 1px solid #ddd;
   border-radius: 4px;
+  text-align: center;
 `;
 
 const Button = styled.button`
@@ -76,7 +79,7 @@ const ReloadButton = styled.button`
   font-size: 20px;
 `;
 
-const CaptchaInput = styled(Input)`
+const CaptchaInput = styled(LoginInput)`
   width: 100%;
 `;
 
@@ -87,19 +90,21 @@ const Login = () => {
   const [captchaAnswer, setCaptchaAnswer] = useState('');
   const [captchaImage, setCaptchaImage] = useState('');
   const [isCaptchaIncorrect, setIsCaptchaIncorrect] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await apiClient.loginWithPass({
+      const result = await apiClient.loginWithPass({
         user_id: username,
         password: password,
         captcha_id: apiClient.lastCaptchaId,
         captcha_answer: captchaAnswer,
         client_rid: apiClient.clientRId,
       })
-      console.log(response.full_name);
-      // Handle successful login here
+      
+      console.log(`logged in as ${result.user_id} | ${result.full_name}`);
+      navigate('/dashboard');
     } catch (error: any) {
       let errorCode = error.response?.data?.error.code;
       if (!errorCode) {
@@ -148,14 +153,14 @@ const Login = () => {
         <h2>Welcome to ExamSphere!</h2>
       </div>
         {loginError && <ErrorMessage>{loginError}</ErrorMessage>}
-        <Input
+        <LoginInput
           type="text"
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
         />
-        <Input
+        <LoginInput style={{ justifyContent: 'center' }}
           type="password"
           placeholder="Password"
           value={password}
