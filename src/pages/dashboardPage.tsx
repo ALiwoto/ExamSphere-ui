@@ -29,42 +29,6 @@ const MenuButton = styled.button`
   cursor: pointer;
 `;
 
-// const SideMenu = styled.div<{ isOpen: boolean, inTransition: boolean }>`
-//   position: fixed;
-//   top: 0;
-//   right: ${props => props.isOpen ? '0' : '-300px'};
-//   visibility: ${props => (props.isOpen || props.inTransition) ? 'visible' : 'hidden'};
-//   width: 300px;
-//   height: 100%;
-//   background-color: white;
-//   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-//   transition: right 0.3s ease-in-out;
-//   display: flex;
-//   flex-direction: column;
-//   padding: 20px;
-// `;
-
-
-
-const Menu = styled.div`
-  position: absolute;
-  right: 20px;
-  top: 60px;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 10px;
-`;
-
-
-const MenuItem = styled.div`
-  padding: 10px 0;
-  cursor: pointer;
-  &:hover {
-    background-color: #f0f0f0;
-  }
-`;
-
 const MainContent = styled.div`
   display: flex;
   gap: 20px;
@@ -107,7 +71,6 @@ const Button = styled.button`
 const Dashboard: React.FC = () => {
     const [isSideMenuOpen, setSsSideMenuOpen] = useState(false);
     const [userInfo, setUserInfo] = useState({});
-    const ref = React.useRef();
 
     const fetchUserInfo = async () => {
         try {

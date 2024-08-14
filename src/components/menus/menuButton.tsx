@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-
 
 const MenuButton = styled.button`
   background: none;

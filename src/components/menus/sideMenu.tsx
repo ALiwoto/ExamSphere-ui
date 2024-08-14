@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MenuItem from './menuItem';
 import MenuButton from './menuButton';
@@ -20,8 +19,6 @@ const SideMenuContainer = styled.div<{ open: boolean }>`
 
 interface SideMenuProps {
     open: boolean;
-    // setIsSideMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    // setIsInTransition: React.Dispatch<React.SetStateAction<boolean>>;
     toggleMenu: () => void;
 
     children?: React.ReactNode;
