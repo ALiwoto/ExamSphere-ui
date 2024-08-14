@@ -261,6 +261,10 @@ class ExamSphereAPIClient extends UserApi {
 
         return false;
     }
+
+    public logout(): void {
+        this.clearTokens();
+    }
 }
 
 const apiClient = new ExamSphereAPIClient();

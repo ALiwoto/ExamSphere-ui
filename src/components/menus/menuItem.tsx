@@ -36,6 +36,7 @@ interface MenuItemProps {
   label: string;
   children?: React.ReactNode;
   href?: string;
+  onClick?: () => void;
 }
 
 const MenuItem: React.FC<MenuItemProps> = ({ ...props }) => {
@@ -47,6 +48,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ ...props }) => {
       <MenuItemHeader 
         onClick={() => {
           setIsOpen(!isOpen);
+          props.onClick?.();
         }}
         href={href}
       >

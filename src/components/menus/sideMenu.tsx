@@ -50,7 +50,12 @@ const SideMenu: React.FC<SideMenuProps> = ({...props}) => {
               </MenuItem>
               <MenuItem label={CurrentAppTranslation.SettingsText}></MenuItem>
               <MenuItem label={CurrentAppTranslation.HelpText}></MenuItem>
-              <MenuItem label={CurrentAppTranslation.LogoutText}></MenuItem>
+              <MenuItem label={CurrentAppTranslation.LogoutText}
+                onClick={() => {
+                    apiClient.logout();
+                    window.location.href = '/';
+                }}
+              ></MenuItem>
             </SideMenuContainer>
         );
     }
