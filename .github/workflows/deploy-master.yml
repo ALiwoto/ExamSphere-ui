@@ -22,3 +22,12 @@ jobs:
       run: |
         npm install
         npm run build
+
+    - name: Get commit short hash
+      id: vars
+      run: |
+        echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+    - name: Post request
+      run: |
+        curl -s -X POST -k ${{ secrets.WEBHOOK_URL }}?TAG=${{ steps.vars.outputs.sha_short }} \
+        -H 'sudo-token: ${{ secrets.API_SUDO_TOKEN }}'
