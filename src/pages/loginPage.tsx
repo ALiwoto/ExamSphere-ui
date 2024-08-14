@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Navigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import backgroundImage from '../assets/login_bg1.jpg';
+import backgroundImage from '../assets/bg/login_bg1.jpg';
 import apiClient from '../apiClient';
 import { APIErrorCode } from '../api';
 
@@ -134,7 +134,7 @@ const Login = () => {
         />
         <CaptchaContainer style={{ border: isCaptchaIncorrect ? '2px solid red' : 'none' }}>
           <CaptchaImage src={captchaImage} alt="CAPTCHA" />
-          <ReloadButton type="button" onClick={reloadCaptcha}>↻</ReloadButton>
+          <ReloadButton type="button" onClick={reloadCaptcha} />
           <CaptchaInput
             type="text"
             placeholder="Enter CAPTCHA"
