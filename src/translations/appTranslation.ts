@@ -1,11 +1,11 @@
 
-class AppTranslationBase {
+export class AppTranslationBase {
     Login: string = "Login";
+    LoadingText: string = "Loading...";
 }
 
-var CurrentAppTranslation = new AppTranslationBase();
+export var CurrentAppTranslation = new AppTranslationBase();
 
-export {
-    AppTranslationBase, 
-    CurrentAppTranslation
-};
+export function setAppTranslation(translation: AppTranslationBase) {
+    CurrentAppTranslation = translation;
+}

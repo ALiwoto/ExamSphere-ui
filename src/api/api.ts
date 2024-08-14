@@ -135,6 +135,49 @@ export interface ApiHandlersEndpointResponse {
 /**
  * 
  * @export
+ * @interface AuthResult
+ */
+export interface AuthResult {
+    /**
+     * 
+     * @type {string}
+     * @memberof AuthResult
+     */
+    'access_token'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof AuthResult
+     */
+    'expiration'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof AuthResult
+     */
+    'full_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AuthResult
+     */
+    'refresh_token'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AuthResult
+     */
+    'role'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AuthResult
+     */
+    'user_id'?: string;
+}
+/**
+ * 
+ * @export
  * @interface CaptchaHandlersGetCaptchaResult
  */
 export interface CaptchaHandlersGetCaptchaResult {
@@ -160,6 +203,37 @@ export interface CaptchaHandlersGetCaptchaResult {
 /**
  * 
  * @export
+ * @interface CreateUserResult
+ */
+export interface CreateUserResult {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUserResult
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUserResult
+     */
+    'full_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUserResult
+     */
+    'role'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUserResult
+     */
+    'user_id'?: string;
+}
+/**
+ * 
+ * @export
  * @interface CreateUserV1200Response
  */
 export interface CreateUserV1200Response {
@@ -171,10 +245,10 @@ export interface CreateUserV1200Response {
     'error'?: ApiHandlersEndpointError;
     /**
      * 
-     * @type {UserHandlersCreateUserResult}
+     * @type {CreateUserResult}
      * @memberof CreateUserV1200Response
      */
-    'result'?: UserHandlersCreateUserResult;
+    'result'?: CreateUserResult;
     /**
      * 
      * @type {boolean}
@@ -210,6 +284,33 @@ export interface GenerateCaptchaV1200Response {
 /**
  * 
  * @export
+ * @interface GetMeResult
+ */
+export interface GetMeResult {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetMeResult
+     */
+    'full_name'?: string;
+    /**
+     * 
+     * @type {UserRole}
+     * @memberof GetMeResult
+     */
+    'role'?: UserRole;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetMeResult
+     */
+    'user_id'?: string;
+}
+
+
+/**
+ * 
+ * @export
  * @interface GetMeV1200Response
  */
 export interface GetMeV1200Response {
@@ -221,10 +322,10 @@ export interface GetMeV1200Response {
     'error'?: ApiHandlersEndpointError;
     /**
      * 
-     * @type {UserHandlersMeResult}
+     * @type {GetMeResult}
      * @memberof GetMeV1200Response
      */
-    'result'?: UserHandlersMeResult;
+    'result'?: GetMeResult;
     /**
      * 
      * @type {boolean}
@@ -232,6 +333,88 @@ export interface GetMeV1200Response {
      */
     'success'?: boolean;
 }
+/**
+ * 
+ * @export
+ * @interface LoginData
+ */
+export interface LoginData {
+    /**
+     * 
+     * @type {string}
+     * @memberof LoginData
+     */
+    'captcha_answer'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof LoginData
+     */
+    'captcha_id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof LoginData
+     */
+    'client_rid'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof LoginData
+     */
+    'password'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof LoginData
+     */
+    'user_id'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface LoginResult
+ */
+export interface LoginResult {
+    /**
+     * 
+     * @type {string}
+     * @memberof LoginResult
+     */
+    'access_token'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof LoginResult
+     */
+    'expiration'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof LoginResult
+     */
+    'full_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof LoginResult
+     */
+    'refresh_token'?: string;
+    /**
+     * 
+     * @type {UserRole}
+     * @memberof LoginResult
+     */
+    'role'?: UserRole;
+    /**
+     * 
+     * @type {string}
+     * @memberof LoginResult
+     */
+    'user_id'?: string;
+}
+
+
 /**
  * 
  * @export
@@ -246,10 +429,10 @@ export interface LoginV1200Response {
     'error'?: ApiHandlersEndpointError;
     /**
      * 
-     * @type {UserHandlersLoginResult}
+     * @type {LoginResult}
      * @memberof LoginV1200Response
      */
-    'result'?: UserHandlersLoginResult;
+    'result'?: LoginResult;
     /**
      * 
      * @type {boolean}
@@ -271,59 +454,16 @@ export interface ReAuthV1200Response {
     'error'?: ApiHandlersEndpointError;
     /**
      * 
-     * @type {UserHandlersAuthResult}
+     * @type {AuthResult}
      * @memberof ReAuthV1200Response
      */
-    'result'?: UserHandlersAuthResult;
+    'result'?: AuthResult;
     /**
      * 
      * @type {boolean}
      * @memberof ReAuthV1200Response
      */
     'success'?: boolean;
-}
-/**
- * 
- * @export
- * @interface UserHandlersAuthResult
- */
-export interface UserHandlersAuthResult {
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersAuthResult
-     */
-    'access_token'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof UserHandlersAuthResult
-     */
-    'expiration'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersAuthResult
-     */
-    'full_name'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersAuthResult
-     */
-    'refresh_token'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersAuthResult
-     */
-    'role'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersAuthResult
-     */
-    'user_id'?: string;
 }
 /**
  * 
@@ -351,153 +491,36 @@ export interface UserHandlersCreateUserData {
     'password'?: string;
     /**
      * 
+     * @type {UserRole}
+     * @memberof UserHandlersCreateUserData
+     */
+    'role'?: UserRole;
+    /**
+     * 
      * @type {string}
      * @memberof UserHandlersCreateUserData
      */
-    'role'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersCreateUserData
-     */
     'user_id'?: string;
 }
+
+
 /**
- * 
+ * UserRole is the role of the user.
  * @export
- * @interface UserHandlersCreateUserResult
+ * @enum {string}
  */
-export interface UserHandlersCreateUserResult {
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersCreateUserResult
-     */
-    'email'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersCreateUserResult
-     */
-    'full_name'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersCreateUserResult
-     */
-    'role'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersCreateUserResult
-     */
-    'user_id'?: string;
-}
-/**
- * 
- * @export
- * @interface UserHandlersLoginData
- */
-export interface UserHandlersLoginData {
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersLoginData
-     */
-    'captcha_answer'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersLoginData
-     */
-    'captcha_id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersLoginData
-     */
-    'client_rid'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersLoginData
-     */
-    'password'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersLoginData
-     */
-    'user_id'?: string;
-}
-/**
- * 
- * @export
- * @interface UserHandlersLoginResult
- */
-export interface UserHandlersLoginResult {
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersLoginResult
-     */
-    'access_token'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof UserHandlersLoginResult
-     */
-    'expiration'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersLoginResult
-     */
-    'full_name'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersLoginResult
-     */
-    'refresh_token'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersLoginResult
-     */
-    'role'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersLoginResult
-     */
-    'user_id'?: string;
-}
-/**
- * 
- * @export
- * @interface UserHandlersMeResult
- */
-export interface UserHandlersMeResult {
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersMeResult
-     */
-    'full_name'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersMeResult
-     */
-    'role'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersMeResult
-     */
-    'user_id'?: string;
-}
+
+export const UserRole = {
+    UserRoleOwner: 'owner',
+    UserRoleAdmin: 'admin',
+    UserRoleStudent: 'student',
+    UserRoleTeacher: 'teacher',
+    UserRoleUnknown: ''
+} as const;
+
+export type UserRole = typeof UserRole[keyof typeof UserRole];
+
+
 
 /**
  * UserApi - axios parameter creator
@@ -625,11 +648,11 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
         /**
          * Allows a user to login to the system and obtain access/refresh tokens
          * @summary Login to the system
-         * @param {UserHandlersLoginData} loginData Login data
+         * @param {LoginData} loginData Login data
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        loginV1: async (loginData: UserHandlersLoginData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        loginV1: async (loginData: LoginData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'loginData' is not null or undefined
             assertParamExists('loginV1', 'loginData', loginData)
             const localVarPath = `/api/v1/user/login`;
@@ -748,11 +771,11 @@ export const UserApiFp = function(configuration?: Configuration) {
         /**
          * Allows a user to login to the system and obtain access/refresh tokens
          * @summary Login to the system
-         * @param {UserHandlersLoginData} loginData Login data
+         * @param {LoginData} loginData Login data
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async loginV1(loginData: UserHandlersLoginData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LoginV1200Response>> {
+        async loginV1(loginData: LoginData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LoginV1200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.loginV1(loginData, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserApi.loginV1']?.[localVarOperationServerIndex]?.url;
@@ -815,11 +838,11 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
         /**
          * Allows a user to login to the system and obtain access/refresh tokens
          * @summary Login to the system
-         * @param {UserHandlersLoginData} loginData Login data
+         * @param {LoginData} loginData Login data
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        loginV1(loginData: UserHandlersLoginData, options?: any): AxiosPromise<LoginV1200Response> {
+        loginV1(loginData: LoginData, options?: any): AxiosPromise<LoginV1200Response> {
             return localVarFp.loginV1(loginData, options).then((request) => request(axios, basePath));
         },
         /**
@@ -882,12 +905,12 @@ export class UserApi extends BaseAPI {
     /**
      * Allows a user to login to the system and obtain access/refresh tokens
      * @summary Login to the system
-     * @param {UserHandlersLoginData} loginData Login data
+     * @param {LoginData} loginData Login data
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public loginV1(loginData: UserHandlersLoginData, options?: RawAxiosRequestConfig) {
+    public loginV1(loginData: LoginData, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).loginV1(loginData, options).then((request) => request(this.axios, this.basePath));
     }
 

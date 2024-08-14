@@ -3,26 +3,25 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Login from './pages/loginPage';
 import Dashboard from './pages/dashboardPage';
 import apiClient from './apiClient';
+import { CurrentAppTranslation } from './translations/appTranslation';
 
 const App: React.FC = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(apiClient.isLoggedIn());
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const checkAuth = async () => {
-      const accessToken = localStorage.getItem('ExamSphere_accessToken');
-      const refreshToken = localStorage.getItem('ExamSphere_refreshToken');
-
-      if (accessToken && refreshToken) {
+      if (apiClient.isLoggedIn()) {
         try {
           const response = await apiClient.getCurrentUserInfo();
-          console.log(response.full_name);
+          console.log(`logged in as ${response.user_id} | ${response.full_name}`);
           setIsLoggedIn(true);
         } catch (error) {
-          localStorage.removeItem('ExamSphere_accessToken');
-          localStorage.removeItem('ExamSphere_refreshToken');
+          apiClient.clearTokens();
+          setIsLoggedIn(false);
         }
       }
+
       setIsLoading(false);
     };
 
@@ -30,7 +29,7 @@ const App: React.FC = () => {
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>{CurrentAppTranslation.LoadingText}</div>;
   }
 
   return (
