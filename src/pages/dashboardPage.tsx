@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { UserHandlersMeResult } from '../api';
 import apiClient from '../apiClient';
+import SideMenu from '../components/menus/sideMenu';
 
 
 
@@ -28,20 +29,20 @@ const MenuButton = styled.button`
   cursor: pointer;
 `;
 
-const SideMenu = styled.div<{ isOpen: boolean }>`
-  position: fixed;
-  top: 0;
-  right: ${props => props.isOpen ? '0' : '-300px'};
-  visibility: ${props => props.isOpen ? 'visible' : 'hidden'};
-  width: 300px;
-  height: 100%;
-  background-color: white;
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-  transition: right 0.3s ease-in-out;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-`;
+// const SideMenu = styled.div<{ isOpen: boolean, inTransition: boolean }>`
+//   position: fixed;
+//   top: 0;
+//   right: ${props => props.isOpen ? '0' : '-300px'};
+//   visibility: ${props => (props.isOpen || props.inTransition) ? 'visible' : 'hidden'};
+//   width: 300px;
+//   height: 100%;
+//   background-color: white;
+//   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+//   transition: right 0.3s ease-in-out;
+//   display: flex;
+//   flex-direction: column;
+//   padding: 20px;
+// `;
 
 
 
@@ -104,8 +105,9 @@ const Button = styled.button`
 `;
 
 const Dashboard: React.FC = () => {
-    const [menuOpen, setMenuOpen] = useState(false);
+    const [isSideMenuOpen, setSsSideMenuOpen] = useState(false);
     const [userInfo, setUserInfo] = useState({});
+    const ref = React.useRef();
 
     const fetchUserInfo = async () => {
         try {
@@ -119,7 +121,7 @@ const Dashboard: React.FC = () => {
         fetchUserInfo();
     }, []);
 
-    const toggleMenu = () => setMenuOpen(!menuOpen);
+    const toggleMenu = () => setSsSideMenuOpen(!isSideMenuOpen);
 
     return (
       <DashboardContainer>
@@ -127,12 +129,9 @@ const Dashboard: React.FC = () => {
           <Title>Exam Platform Dashboard</Title>
           <MenuButton onClick={toggleMenu}>☰</MenuButton>
         </Header>
-        <SideMenu isOpen={menuOpen} onTransitionEnd={() => {}}> {/* TODO: Fix this later */}
-          <MenuButton onClick={toggleMenu}>✕</MenuButton>
-          <MenuItem>Profile</MenuItem>
-          <MenuItem>Settings</MenuItem>
-          <MenuItem>Help</MenuItem>
-          <MenuItem>Logout</MenuItem>
+        <SideMenu open={isSideMenuOpen}
+            toggleMenu={toggleMenu}
+          >
         </SideMenu>
         <MainContent>
           <Section>

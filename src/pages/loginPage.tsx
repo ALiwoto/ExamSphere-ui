@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { Navigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import backgroundImage from '../assets/login_bg1.jpg';
 import apiClient from '../apiClient';
 import { ApiHandlersAPIErrorCode } from '../api';
+
+/* *********** components input *********** */
+import ReloadButton from '../components/buttons/reloadButton';
+import LoginInput from '../components/inputs/loginInput';
+import CaptchaImage from '../components/images/captchaImage';
+import SubmitButton from '../components/buttons/submitButton';
+import ErrorLabel from '../components/labels/errorLabel';
+import CaptchaInput from '../components/inputs/captchaInput';
+/********************************************/
 
 const LoginContainer = styled.div`
   display: flex;
@@ -24,64 +34,12 @@ const LoginForm = styled.form`
   max-width: 350px;
 `;
 
-const LoginInput = styled.input`
-  align-items: center;
-  width: 95%;
-  padding: 0.5rem;
-  margin: 0 auto;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  text-align: center;
-`;
-
-const Button = styled.button`
-  width: 100%;
-  padding: 0.5rem;
-  background-color: #1877f2;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-
-  &:hover {
-    background-color: #166fe5;
-  }
-`;
-
-const ErrorMessage = styled.div`
-  color: #d32f2f;
-  background-color: #ffcdd2;
-  padding: 10px;
-  border-radius: 4px;
-  margin-bottom: 1rem;
-  text-align: center;
-`;
-
 const CaptchaContainer = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 1rem;
 `;
 
-const CaptchaImage = styled.img`
-  width: 150px;
-  height: 50px;
-  margin-right: 10px;
-  width: 40%;
-  max-width: 110px;
-`;
-
-const ReloadButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 20px;
-`;
-
-const CaptchaInput = styled(LoginInput)`
-  width: 100%;
-`;
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -90,8 +48,9 @@ const Login = () => {
   const [captchaAnswer, setCaptchaAnswer] = useState('');
   const [captchaImage, setCaptchaImage] = useState('');
   const [isCaptchaIncorrect, setIsCaptchaIncorrect] = useState(false);
-  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const navigate = useNavigate();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -104,7 +63,9 @@ const Login = () => {
       })
       
       console.log(`logged in as ${result.user_id} | ${result.full_name}`);
+      setIsLoggedIn(true);
       navigate('/dashboard');
+      window.location.reload();
     } catch (error: any) {
       let errorCode = error.response?.data?.error.code;
       if (!errorCode) {
@@ -141,6 +102,10 @@ const Login = () => {
     });
   }, []);
 
+  if (isLoggedIn) {
+    return <Navigate to="/dashboard" />;
+  }
+
   return (
     <LoginContainer>
       <LoginForm onSubmit={handleSubmit}>
@@ -152,7 +117,7 @@ const Login = () => {
       }}>
         <h2>Welcome to ExamSphere!</h2>
       </div>
-        {loginError && <ErrorMessage>{loginError}</ErrorMessage>}
+        {loginError && <ErrorLabel>{loginError}</ErrorLabel>}
         <LoginInput
           type="text"
           placeholder="Username"
@@ -181,7 +146,7 @@ const Login = () => {
             required
           />
         </CaptchaContainer>
-        <Button type="submit">Log In</Button>
+        <SubmitButton type="submit">Log In</SubmitButton>
       </LoginForm>
     </LoginContainer>
   );

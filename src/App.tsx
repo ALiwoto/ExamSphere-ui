@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import Login from './components/loginPage';
-import Dashboard from './components/dashboardPage';
+import Login from './pages/loginPage';
+import Dashboard from './pages/dashboardPage';
 import apiClient from './apiClient';
 
 const App: React.FC = () => {
@@ -15,12 +15,12 @@ const App: React.FC = () => {
 
       if (accessToken && refreshToken) {
         try {
-          const response = await apiClient.getMeV1(`Bearer ${accessToken}`);
-          console.log(response.data);
+          const response = await apiClient.getCurrentUserInfo();
+          console.log(response.full_name);
           setIsLoggedIn(true);
         } catch (error) {
-          localStorage.removeItem('accessToken');
-          localStorage.removeItem('refreshToken');
+          localStorage.removeItem('ExamSphere_accessToken');
+          localStorage.removeItem('ExamSphere_refreshToken');
         }
       }
       setIsLoading(false);
