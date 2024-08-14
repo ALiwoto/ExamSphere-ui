@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { UserHandlersMeResult } from '../api';
 import apiClient from '../apiClient';
 import SideMenu from '../components/menus/sideMenu';
-
-
+import { useNavigate } from 'react-router-dom';
 
 const DashboardContainer = styled.div`
   position: relative; 
@@ -69,65 +67,67 @@ const Button = styled.button`
 `;
 
 const Dashboard: React.FC = () => {
-    const [isSideMenuOpen, setSsSideMenuOpen] = useState(false);
-    const [userInfo, setUserInfo] = useState({});
+    const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
+    const navigate = useNavigate();
 
     const fetchUserInfo = async () => {
         try {
-            const myInfo = await apiClient.getCurrentUserInfo();
-            setUserInfo(myInfo);
+            await apiClient.getCurrentUserInfo();
         } catch (error) {
-            console.error(error);
+            console.error(`Failed to get user info: ${error}`);
+            apiClient.clearTokens();
+            navigate('/login');
+            window.location.reload();
         }
     };
     useEffect(() => {
         fetchUserInfo();
     }, []);
 
-    const toggleMenu = () => setSsSideMenuOpen(!isSideMenuOpen);
+    const toggleMenu = () => setIsSideMenuOpen(!isSideMenuOpen);
 
     return (
-      <DashboardContainer>
-        <Header>
-          <Title>Exam Platform Dashboard</Title>
-          <MenuButton onClick={toggleMenu}>☰</MenuButton>
-        </Header>
-        <SideMenu open={isSideMenuOpen}
-            toggleMenu={toggleMenu}
-          >
-        </SideMenu>
-        <MainContent>
-          <Section>
-            <SectionTitle>Courses</SectionTitle>
-            <List>
-              <ListItem>Mathematics</ListItem>
-              <ListItem>Physics</ListItem>
-              <ListItem>Chemistry</ListItem>
-            </List>
-          </Section>
-          <Section>
-            <SectionTitle>Exams</SectionTitle>
-            <List>
-              <ListItem>Midterm Exam</ListItem>
-              <ListItem>Final Exam</ListItem>
-              <ListItem>Pop Quiz</ListItem>
-            </List>
-          </Section>
-          <Section>
-            <SectionTitle>Topics</SectionTitle>
-            <List>
-              <ListItem>Ongoing Exams</ListItem>
-              <ListItem>Participated Exams</ListItem>
-            </List>
-          </Section>
-        </MainContent>
-        {((userInfo as UserHandlersMeResult).role === 'teacher' || (userInfo as UserHandlersMeResult).role === 'admin') && (
-          <div>
-            <Button>New Exam</Button>
-            <Button>New Course</Button>
-          </div>
-        )}
-      </DashboardContainer>
+        <DashboardContainer>
+            <Header>
+                <Title>Exam Platform Dashboard</Title>
+                <MenuButton onClick={toggleMenu}>☰</MenuButton>
+            </Header>
+            <SideMenu open={isSideMenuOpen}
+                toggleMenu={toggleMenu}
+            >
+            </SideMenu>
+            <MainContent>
+                <Section>
+                    <SectionTitle>Courses</SectionTitle>
+                    <List>
+                        <ListItem>Mathematics</ListItem>
+                        <ListItem>Physics</ListItem>
+                        <ListItem>Chemistry</ListItem>
+                    </List>
+                </Section>
+                <Section>
+                    <SectionTitle>Exams</SectionTitle>
+                    <List>
+                        <ListItem>Midterm Exam</ListItem>
+                        <ListItem>Final Exam</ListItem>
+                        <ListItem>Pop Quiz</ListItem>
+                    </List>
+                </Section>
+                <Section>
+                    <SectionTitle>Topics</SectionTitle>
+                    <List>
+                        <ListItem>Ongoing Exams</ListItem>
+                        <ListItem>Participated Exams</ListItem>
+                    </List>
+                </Section>
+            </MainContent>
+            {(apiClient.isAdmin() || apiClient.isTeacher()) && (
+                <div>
+                    <Button>New Exam</Button>
+                    <Button>New Course</Button>
+                </div>
+            )}
+        </DashboardContainer>
     )
 };
 

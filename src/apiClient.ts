@@ -1,6 +1,6 @@
 
-import { 
-    UserApi, 
+import {
+    UserApi,
     Configuration as APIConfiguration,
     LoginData,
     LoginResult,
@@ -47,21 +47,6 @@ class ExamSphereAPIClient extends UserApi {
             result += characters.charAt(Math.floor(Math.random() * characters.length));
         }
         return result;
-    }
-
-    /**
-     * Returns true if we are considered as "logged in" by the API client,
-     * This method only checks if the access token is present, it doesn't
-     * guarantee that the token is still valid, in case of token being invalid,
-     * the client will first try to refresh the token, if it failed, the page itself 
-     * should try to redirect the user to the login page.
-     * @returns True if the user is logged in, false otherwise.
-     */
-    public isLoggedIn(): boolean {
-        return this.accessToken !== undefined && 
-            (this.accessToken?.length > 0 ?? false) &&
-            this.refreshToken !== undefined &&
-            (this.refreshToken?.length > 0 ?? false);
     }
 
     /**
@@ -116,7 +101,7 @@ class ExamSphereAPIClient extends UserApi {
      * Requests a new captcha image from the backend.
      * @returns the captcha image as a base64 string.
      */
-    public async getCaptchaImage() : Promise<string> {
+    public async getCaptchaImage(): Promise<string> {
         let captchaResult = await this.generateCaptchaV1(this.clientRId);
         if (!captchaResult?.data?.result?.captcha) {
             throw new Error("Failed to get captcha image");
@@ -131,7 +116,7 @@ class ExamSphereAPIClient extends UserApi {
      * @param loginData the login data.
      * @returns the login result.
      */
-    public async loginWithPass(loginData: LoginData) : Promise<LoginResult> {
+    public async loginWithPass(loginData: LoginData): Promise<LoginResult> {
         let loginResult = (await this.loginV1(loginData))?.data.result;
         if (!loginResult) {
             // we shouldn't reach here, because if there is an error somewhere,
@@ -171,7 +156,7 @@ class ExamSphereAPIClient extends UserApi {
 
             throw error;
         }
-        
+
         if (!userInfo) {
             // we shouldn't reach here, because if there is an error somewhere,
             // it should have already been thrown by the API client
@@ -199,6 +184,41 @@ class ExamSphereAPIClient extends UserApi {
         this.refreshToken = authResult.refresh_token;
         this.storeTokens();
         return authResult;
+    }
+
+    /**
+     * Returns true if we are considered as "logged in" by the API client,
+     * This method only checks if the access token is present, it doesn't
+     * guarantee that the token is still valid, in case of token being invalid,
+     * the client will first try to refresh the token, if it failed, the page itself 
+     * should try to redirect the user to the login page.
+     * @returns True if the user is logged in, false otherwise.
+     */
+    public isLoggedIn(): boolean {
+        return this.accessToken !== undefined &&
+            (this.accessToken?.length > 0 ?? false) &&
+            this.refreshToken !== undefined &&
+            (this.refreshToken?.length > 0 ?? false);
+    }
+
+    /**
+     * Checks if the current logged-in user is the owner of the platform.
+     * @returns True if the user is the owner of the platform.
+     */
+    public isOwner(): boolean {
+        return this.role === UserRole.UserRoleOwner;
+    }
+
+    public isAdmin(): boolean {
+        return this.role === UserRole.UserRoleAdmin;
+    }
+
+    public isTeacher(): boolean {
+        return this.role === UserRole.UserRoleTeacher;
+    }
+
+    public isStudent(): boolean {
+        return this.role === UserRole.UserRoleStudent;
     }
 }
 
