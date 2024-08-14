@@ -145,6 +145,45 @@ export interface CaptchaHandlersGetCaptchaResult {
 /**
  * 
  * @export
+ * @interface CreateUserData
+ */
+export interface CreateUserData {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUserData
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUserData
+     */
+    'full_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUserData
+     */
+    'password'?: string;
+    /**
+     * 
+     * @type {UserRole}
+     * @memberof CreateUserData
+     */
+    'role'?: UserRole;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUserData
+     */
+    'user_id'?: string;
+}
+
+
+/**
+ * 
+ * @export
  * @interface CreateUserResult
  */
 export interface CreateUserResult {
@@ -466,45 +505,6 @@ export interface ReAuthV1200Response {
     'success'?: boolean;
 }
 /**
- * 
- * @export
- * @interface UserHandlersCreateUserData
- */
-export interface UserHandlersCreateUserData {
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersCreateUserData
-     */
-    'email'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersCreateUserData
-     */
-    'full_name'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersCreateUserData
-     */
-    'password'?: string;
-    /**
-     * 
-     * @type {UserRole}
-     * @memberof UserHandlersCreateUserData
-     */
-    'role'?: UserRole;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserHandlersCreateUserData
-     */
-    'user_id'?: string;
-}
-
-
-/**
  * UserRole is the role of the user.
  * @export
  * @enum {string}
@@ -532,11 +532,11 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
          * Allows a user to create a new user
          * @summary Create a new user
          * @param {string} authorization Authorization token
-         * @param {UserHandlersCreateUserData} createUserData Create user data
+         * @param {CreateUserData} createUserData Create user data
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUserV1: async (authorization: string, createUserData: UserHandlersCreateUserData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createUserV1: async (authorization: string, createUserData: CreateUserData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'authorization' is not null or undefined
             assertParamExists('createUserV1', 'authorization', authorization)
             // verify required parameter 'createUserData' is not null or undefined
@@ -732,11 +732,11 @@ export const UserApiFp = function(configuration?: Configuration) {
          * Allows a user to create a new user
          * @summary Create a new user
          * @param {string} authorization Authorization token
-         * @param {UserHandlersCreateUserData} createUserData Create user data
+         * @param {CreateUserData} createUserData Create user data
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createUserV1(authorization: string, createUserData: UserHandlersCreateUserData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateUserV1200Response>> {
+        async createUserV1(authorization: string, createUserData: CreateUserData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateUserV1200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createUserV1(authorization, createUserData, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserApi.createUserV1']?.[localVarOperationServerIndex]?.url;
@@ -808,11 +808,11 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * Allows a user to create a new user
          * @summary Create a new user
          * @param {string} authorization Authorization token
-         * @param {UserHandlersCreateUserData} createUserData Create user data
+         * @param {CreateUserData} createUserData Create user data
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUserV1(authorization: string, createUserData: UserHandlersCreateUserData, options?: any): AxiosPromise<CreateUserV1200Response> {
+        createUserV1(authorization: string, createUserData: CreateUserData, options?: any): AxiosPromise<CreateUserV1200Response> {
             return localVarFp.createUserV1(authorization, createUserData, options).then((request) => request(axios, basePath));
         },
         /**
@@ -869,12 +869,12 @@ export class UserApi extends BaseAPI {
      * Allows a user to create a new user
      * @summary Create a new user
      * @param {string} authorization Authorization token
-     * @param {UserHandlersCreateUserData} createUserData Create user data
+     * @param {CreateUserData} createUserData Create user data
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public createUserV1(authorization: string, createUserData: UserHandlersCreateUserData, options?: RawAxiosRequestConfig) {
+    public createUserV1(authorization: string, createUserData: CreateUserData, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).createUserV1(authorization, createUserData, options).then((request) => request(this.axios, this.basePath));
     }
 

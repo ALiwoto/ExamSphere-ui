@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import Login from './pages/loginPage';
-import Dashboard from './pages/dashboardPage';
-import apiClient from './apiClient';
 import { CurrentAppTranslation } from './translations/appTranslation';
+import apiClient from './apiClient';
+import Login from './pages/loginPage';
+import CreateUserPage from './pages/createUserPage';
+import Dashboard from './pages/dashboardPage';
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(apiClient.isLoggedIn());
@@ -35,7 +36,14 @@ const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={isLoggedIn ? <Navigate to="/dashboard" /> : <Login />} />
+        <Route 
+          path="/login" 
+          element={isLoggedIn ? <Navigate to="/dashboard" /> : <Login />} 
+        />
+        <Route 
+          path="/createUser" 
+          element={apiClient.canCreateNewUsers() ? <CreateUserPage/> : <Navigate to="/dashboard" />}
+        />
         <Route
           path="/dashboard"
           element={isLoggedIn ? <Dashboard /> : <Navigate to="/login" />}

@@ -1,46 +1,56 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { CurrentAppTheme } from '../../themes/appThemeBase';
 
 const MenuItemWrapper = styled.div`
   cursor: pointer;
 `;
 
-const MenuItemHeader = styled.div`
+const MenuItemHeader = styled.a`
   padding: 10px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  text-decoration: none;
+  color: ${CurrentAppTheme.primaryMenuTextColor}
   &:hover {
     background-color: #f0f0f0;
+    border-radius: 4px;
+  }
+  &:visited {
+    color: ${CurrentAppTheme.primaryMenuTextColor}; // This makes the visited link color the same as the normal state
   }
 `;
 
 const MenuItemChildren = styled.div<{ $isOpen: boolean }>`
-  max-height: ${props => props.$isOpen ? '1000px' : '0'};
+  max-height: ${props => props.$isOpen ? '100%' : '0'};
   overflow: hidden;
-  transition: max-height 0.3s ease-in-out;
+  transition: max-height 0.1s linear;
 `;
 
 const ChildItem = styled.div`
   padding: 5px 0 5px 20px;
-  &:hover {
-    background-color: #e0e0e0;
-  }
 `;
 
 interface MenuItemProps {
   label: string;
   children?: React.ReactNode;
+  href?: string;
 }
 
 const MenuItem: React.FC<MenuItemProps> = ({ ...props }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { label, children } = props;
+  const { label, children, href } = props;
 
   return (
     <MenuItemWrapper>
-      <MenuItemHeader onClick={() => setIsOpen(!isOpen)}>
-        {label}
+      <MenuItemHeader 
+        onClick={() => {
+          setIsOpen(!isOpen);
+        }}
+        href={href}
+      >
+        <div>{label}</div>
       </MenuItemHeader>
       {children && (
         <MenuItemChildren $isOpen={isOpen}>

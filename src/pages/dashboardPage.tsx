@@ -1,31 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import apiClient from '../apiClient';
-import SideMenu from '../components/menus/sideMenu';
 import { useNavigate } from 'react-router-dom';
-
-const DashboardContainer = styled.div`
-  position: relative; 
-  overflow-x: hidden;
-`;
-
-const Header = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-
-const Title = styled.h1`
-  font-size: 24px;
-`;
-
-const MenuButton = styled.button`
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-`;
+import apiClient from '../apiClient';
+import DashboardContainer from '../components/containers/dashboardContainer';
 
 const MainContent = styled.div`
   display: flex;
@@ -67,7 +44,6 @@ const Button = styled.button`
 `;
 
 const Dashboard: React.FC = () => {
-    const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
     const navigate = useNavigate();
 
     const fetchUserInfo = async () => {
@@ -80,24 +56,13 @@ const Dashboard: React.FC = () => {
             window.location.reload();
         }
     };
-
     
     useEffect(() => {
         fetchUserInfo();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const toggleMenu = () => setIsSideMenuOpen(!isSideMenuOpen);
-
     return (
         <DashboardContainer>
-            <Header>
-                <Title>Exam Platform Dashboard</Title>
-                <MenuButton onClick={toggleMenu}>☰</MenuButton>
-            </Header>
-            <SideMenu open={isSideMenuOpen}
-                toggleMenu={toggleMenu}
-            >
-            </SideMenu>
             <MainContent>
                 <Section>
                     <SectionTitle>Courses</SectionTitle>

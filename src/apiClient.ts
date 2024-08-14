@@ -8,6 +8,8 @@ import {
     UserRole,
     APIErrorCode,
     AuthResult,
+    CreateUserData,
+    CreateUserResult,
 } from './api';
 
 class ExamSphereAPIClient extends UserApi {
@@ -186,6 +188,23 @@ class ExamSphereAPIClient extends UserApi {
         return authResult;
     }
 
+    public async createNewUser(newUserData: CreateUserData): Promise<CreateUserResult> {
+        if (!this.isLoggedIn()) {
+            throw new Error("Not logged in");
+        } else if (!this.canCreateTargetRole(newUserData.role ?? UserRole.UserRoleStudent)) {
+            throw new Error("Cannot create this user");
+        }
+
+        let createUserResult = (await this.createUserV1(`Bearer ${this.accessToken}`, newUserData))?.data.result;
+        if (!createUserResult) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to create user");
+        }
+
+        return createUserResult;
+    }
+
     /**
      * Returns true if we are considered as "logged in" by the API client,
      * This method only checks if the access token is present, it doesn't
@@ -219,6 +238,28 @@ class ExamSphereAPIClient extends UserApi {
 
     public isStudent(): boolean {
         return this.role === UserRole.UserRoleStudent;
+    }
+
+    public canCreateNewUsers(): boolean {
+        return this.isOwner() || this.isAdmin();
+    }
+
+    public canCreateTargetRole(targetRole: UserRole): boolean {
+        if (targetRole === UserRole.UserRoleOwner || 
+            UserRole.UserRoleUnknown) {
+            return false;
+        }
+
+        if (this.isOwner()) {
+            // the owner can create any role
+            return true;
+        }
+
+        if (this.isAdmin()) {
+            return targetRole !== UserRole.UserRoleAdmin;
+        }
+
+        return false;
     }
 }
 

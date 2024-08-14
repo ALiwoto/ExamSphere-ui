@@ -2,37 +2,19 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Navigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import backgroundImage from '../assets/bg/login_bg1.jpg';
 import apiClient from '../apiClient';
 import { APIErrorCode } from '../api';
 
-/* *********** components input *********** */
+/* *********** components import *********** */
+import LoginContainer from '../components/containers/loginContainer';
 import ReloadButton from '../components/buttons/reloadButton';
 import LoginInput from '../components/inputs/loginInput';
 import CaptchaImage from '../components/images/captchaImage';
 import SubmitButton from '../components/buttons/submitButton';
 import ErrorLabel from '../components/labels/errorLabel';
 import CaptchaInput from '../components/inputs/captchaInput';
+import LoginForm from '../components/forms/loginForm';
 /********************************************/
-
-const LoginContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-image: url(${backgroundImage});
-  background-size: cover;
-  background-position: center;
-`;
-
-const LoginForm = styled.form`
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-width: 350px;
-`;
 
 const CaptchaContainer = styled.div`
   display: flex;
