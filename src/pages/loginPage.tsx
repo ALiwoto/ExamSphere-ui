@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import backgroundImage from '../assets/login_bg1.jpg';
 import apiClient from '../apiClient';
-import { ApiHandlersAPIErrorCode } from '../api';
+import { APIErrorCode } from '../api';
 
 /* *********** components input *********** */
 import ReloadButton from '../components/buttons/reloadButton';
@@ -76,12 +76,12 @@ const Login = () => {
       }
 
       switch (error.response?.data?.error.code) {
-        case ApiHandlersAPIErrorCode.ErrCodeInvalidCaptcha:
+        case APIErrorCode.ErrCodeInvalidCaptcha:
           setLoginError('Invalid CAPTCHA. Please try again.');
           reloadCaptcha();
           setIsCaptchaIncorrect(true);
           break;
-        case ApiHandlersAPIErrorCode.ErrCodeInvalidUsernamePass:
+        case APIErrorCode.ErrCodeInvalidUsernamePass:
           setLoginError('Invalid username or password.');
           reloadCaptcha();
           break;

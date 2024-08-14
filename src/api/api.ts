@@ -29,7 +29,7 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerM
  * @enum {string}
  */
 
-export const ApiHandlersAPIErrorCode = {
+export const APIErrorCode = {
     ErrCodeMalformedJWT: 2100,
     ErrCodeInvalidJWT: 2101,
     ErrCodeInvalidBodyData: 2102,
@@ -71,67 +71,9 @@ export const ApiHandlersAPIErrorCode = {
     ErrCodeInvalidCaptcha: 2138
 } as const;
 
-export type ApiHandlersAPIErrorCode = typeof ApiHandlersAPIErrorCode[keyof typeof ApiHandlersAPIErrorCode];
+export type APIErrorCode = typeof APIErrorCode[keyof typeof APIErrorCode];
 
 
-/**
- * 
- * @export
- * @interface ApiHandlersEndpointError
- */
-export interface ApiHandlersEndpointError {
-    /**
-     * 
-     * @type {ApiHandlersAPIErrorCode}
-     * @memberof ApiHandlersEndpointError
-     */
-    'code'?: ApiHandlersAPIErrorCode;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiHandlersEndpointError
-     */
-    'date'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiHandlersEndpointError
-     */
-    'message'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiHandlersEndpointError
-     */
-    'origin'?: string;
-}
-
-
-/**
- * 
- * @export
- * @interface ApiHandlersEndpointResponse
- */
-export interface ApiHandlersEndpointResponse {
-    /**
-     * 
-     * @type {ApiHandlersEndpointError}
-     * @memberof ApiHandlersEndpointResponse
-     */
-    'error'?: ApiHandlersEndpointError;
-    /**
-     * 
-     * @type {object}
-     * @memberof ApiHandlersEndpointResponse
-     */
-    'result'?: object;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ApiHandlersEndpointResponse
-     */
-    'success'?: boolean;
-}
 /**
  * 
  * @export
@@ -239,10 +181,10 @@ export interface CreateUserResult {
 export interface CreateUserV1200Response {
     /**
      * 
-     * @type {ApiHandlersEndpointError}
+     * @type {EndpointError}
      * @memberof CreateUserV1200Response
      */
-    'error'?: ApiHandlersEndpointError;
+    'error'?: EndpointError;
     /**
      * 
      * @type {CreateUserResult}
@@ -259,15 +201,73 @@ export interface CreateUserV1200Response {
 /**
  * 
  * @export
+ * @interface EndpointError
+ */
+export interface EndpointError {
+    /**
+     * 
+     * @type {APIErrorCode}
+     * @memberof EndpointError
+     */
+    'code'?: APIErrorCode;
+    /**
+     * 
+     * @type {string}
+     * @memberof EndpointError
+     */
+    'date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EndpointError
+     */
+    'message'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EndpointError
+     */
+    'origin'?: string;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface EndpointResponse
+ */
+export interface EndpointResponse {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof EndpointResponse
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {object}
+     * @memberof EndpointResponse
+     */
+    'result'?: object;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EndpointResponse
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
  * @interface GenerateCaptchaV1200Response
  */
 export interface GenerateCaptchaV1200Response {
     /**
      * 
-     * @type {ApiHandlersEndpointError}
+     * @type {EndpointError}
      * @memberof GenerateCaptchaV1200Response
      */
-    'error'?: ApiHandlersEndpointError;
+    'error'?: EndpointError;
     /**
      * 
      * @type {CaptchaHandlersGetCaptchaResult}
@@ -316,10 +316,10 @@ export interface GetMeResult {
 export interface GetMeV1200Response {
     /**
      * 
-     * @type {ApiHandlersEndpointError}
+     * @type {EndpointError}
      * @memberof GetMeV1200Response
      */
-    'error'?: ApiHandlersEndpointError;
+    'error'?: EndpointError;
     /**
      * 
      * @type {GetMeResult}
@@ -423,10 +423,10 @@ export interface LoginResult {
 export interface LoginV1200Response {
     /**
      * 
-     * @type {ApiHandlersEndpointError}
+     * @type {EndpointError}
      * @memberof LoginV1200Response
      */
-    'error'?: ApiHandlersEndpointError;
+    'error'?: EndpointError;
     /**
      * 
      * @type {LoginResult}
@@ -448,10 +448,10 @@ export interface LoginV1200Response {
 export interface ReAuthV1200Response {
     /**
      * 
-     * @type {ApiHandlersEndpointError}
+     * @type {EndpointError}
      * @memberof ReAuthV1200Response
      */
-    'error'?: ApiHandlersEndpointError;
+    'error'?: EndpointError;
     /**
      * 
      * @type {AuthResult}

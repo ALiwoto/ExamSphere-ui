@@ -6,7 +6,7 @@ import {
     LoginResult,
     GetMeResult,
     UserRole,
-    ApiHandlersAPIErrorCode,
+    APIErrorCode,
     AuthResult,
 } from './api';
 
@@ -164,10 +164,12 @@ class ExamSphereAPIClient extends UserApi {
             }
 
             let errorCode = error.response?.data?.error.code;
-            if (errorCode == ApiHandlersAPIErrorCode.ErrCodeInvalidJWT) {
+            if (errorCode == APIErrorCode.ErrCodeInvalidJWT) {
                 this.refreshAuth();
                 return await this.getCurrentUserInfo(noReAuth = true);
             }
+
+            throw error;
         }
         
         if (!userInfo) {
