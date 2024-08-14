@@ -149,7 +149,7 @@ class ExamSphereAPIClient extends UserApi {
             }
 
             let errorCode = error.response?.data?.error.code;
-            if (errorCode == APIErrorCode.ErrCodeInvalidJWT) {
+            if (errorCode === APIErrorCode.ErrCodeInvalidJWT) {
                 this.refreshAuth();
                 return await this.getCurrentUserInfo(noReAuth = true);
             }

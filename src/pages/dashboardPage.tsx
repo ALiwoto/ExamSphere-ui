@@ -80,9 +80,11 @@ const Dashboard: React.FC = () => {
             window.location.reload();
         }
     };
+
+    
     useEffect(() => {
         fetchUserInfo();
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const toggleMenu = () => setIsSideMenuOpen(!isSideMenuOpen);
 
