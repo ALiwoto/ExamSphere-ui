@@ -56,7 +56,7 @@ class ExamSphereAPIClient extends UserApi {
      */
     public guessBasePath(): void {
         // try to find out the base path
-        let correctBasePath = "http://localhost:8080";
+        let correctBasePath = "https://aliwoto.is-a.dev:8080";
         const envBasePath = process.env.EXAM_SPHERE_API_URL;
         if (envBasePath) {
             correctBasePath = envBasePath;

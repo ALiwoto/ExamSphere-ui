@@ -7,7 +7,7 @@ import styled from 'styled-components';
  */
 const LineInputWrapper = styled.input`
   align-items: center;
-  width: 95%;
+  width: 100%;
   padding: 0.5rem;
   margin: 0 auto;
   border: 1px solid #ddd;
