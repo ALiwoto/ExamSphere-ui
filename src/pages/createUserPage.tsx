@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { ChangeEventHandler, FormEvent, useState } from 'react';
 import SubmitButton from '../components/buttons/submitButton';
 import DashboardContainer from '../components/containers/dashboardContainer';
 import TitleLabel from '../components/labels/titleLabel';
-import LineInput from '../components/inputs/lineInput';
 import CreateUserForm from '../components/forms/createUserForm';
 import CreateUserContainer from '../components/containers/createUserContainer';
 import SelectMenu from '../components/menus/selectMenu';
@@ -11,6 +10,7 @@ import { CreateUserData, UserRole } from '../api';
 import { CurrentAppTranslation } from '../translations/appTranslation';
 import ErrorLabel from '../components/labels/errorLabel';
 import SuccessLabel from '../components/labels/successLabel';
+import { TextField } from '@mui/material';
 
 const CreateUserPage: React.FC = () => {
   const [userInfo, setUserInfo] = useState<CreateUserData>({
@@ -48,49 +48,60 @@ const CreateUserPage: React.FC = () => {
                 <TitleLabel>Create New User</TitleLabel>
                 { errText && <ErrorLabel>{errText}</ErrorLabel> }
                 { successText && <SuccessLabel>{successText}</SuccessLabel> }
-                <div>
-                    <div>User ID:</div>
-                    <LineInput 
-                        name="user_id" 
-                        value={userInfo.user_id ?? ''}
-                        onChange={handleInputChange} 
-                        placeholder="User ID" required />
-                </div>
-                <div>
-                    <div>Full Name:</div>
-                    <LineInput 
-                        name="full_name" 
-                        value={userInfo.full_name ?? ''}
-                        onChange={handleInputChange} 
-                        placeholder="Full Name" required />
-                </div>
-                <div>
-                    <div>Email:</div>
-                    <LineInput 
-                        name="email" 
-                        type="email" 
-                        value={userInfo.email ?? ''}
-                        onChange={handleInputChange} 
-                        placeholder="Email" required />
-                </div>
-                <div>
-                    <div>Password:</div>
-                    <LineInput 
-                        name="password" 
-                        type="password" 
-                        value={userInfo.password ?? ''}
-                        onChange={handleInputChange} 
-                        placeholder="Password" required />
-                </div>
-                <div>
-                    <div>Role:</div>
+                <TextField 
+                    style={{
+                        width: '100%',
+                        marginBottom: '1rem',
+                    }}
+                    name="user_id" 
+                    variant='standard'
+                    label='User ID'
+                    value={userInfo.user_id ?? ''} 
+                    onChange={(e) => {handleInputChange(e as any)}}
+                    required />
+                <TextField
+                    style={{
+                        width: '100%',
+                        marginBottom: '1rem'
+                    }}
+                    name="full_name"
+                    variant='standard'
+                    label='Full Name'
+                    value={userInfo.full_name ?? ''}
+                    onChange={(e) => {handleInputChange(e as any)}}
+                    required />
+                <TextField
+                    style={{
+                        width: '100%',
+                        marginBottom: '1rem'
+                    }}
+                    name="email"
+                    variant='standard'
+                    type="email" 
+                    label="Email"
+                    value={userInfo.email ?? ''}
+                    onChange={(e) => {handleInputChange(e as any)}}
+                    required />
+                <TextField
+                    style={{
+                        width: '100%',
+                        marginBottom: '1rem'
+                    }}
+                    name="password"
+                    variant='standard'
+                    type="password"
+                    label="Password"
+                    value={userInfo.password ?? ''}
+                    onChange={(e) => {handleInputChange(e as any)}}
+                    required />
                     <SelectMenu
+                        labelText='Role'
+                        labelId='role-select-label'
                         name="role"
                         value={userInfo.role ?? UserRole.UserRoleStudent}
                         onChange={handleInputChange}
                         options={Object.values(UserRole).filter(role => apiClient.canCreateTargetRole(role))}
                     />
-                </div>
                 <SubmitButton type="submit">{CurrentAppTranslation.CreateUserButtonText}</SubmitButton>
             </CreateUserForm>
         </CreateUserContainer>

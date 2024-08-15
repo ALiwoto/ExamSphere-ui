@@ -1,61 +1,45 @@
 
-import React from 'react';
-import styled from 'styled-components';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-const SelectContainer = styled.div`
-  position: relative;
-  width: 200px;
-`;
-
-const StyledSelect = styled.select`
-  width: 100%;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  appearance: none; /* Removes default styling of select in WebKit browsers */
-  background-color: white;
-  font-size: 16px;
-  cursor: pointer;
-
-  &:focus {
-    outline: none;
-    border-color: #007bff;
-  }
-`;
-
-const StyledOption = styled.option`
-`;
-
-const Arrow = styled.div`
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-  border-style: solid;
-  border-width: 8px 5px 0 5px;
-  border-color: #007bff transparent transparent transparent;
-`;
 
 interface SelectMenuProps {
     options: string[];
     value: string;
     onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
     name: string;
+    labelId?: string;
+    labelText: string;
 }
 
 const SelectMenu: React.FC<SelectMenuProps> = ({ ...props }) => {
     return (
-        <SelectContainer>
-            <StyledSelect name={props.name} value={props.value} onChange={props.onChange}>
-            {props.options.filter(option => option !== '').map((option) => (
-                <StyledOption key={option} value={option}>
-                {option.charAt(0).toUpperCase() + option.slice(1)}
-                </StyledOption>
-            ))}
-            </StyledSelect>
-        <Arrow />
-    </SelectContainer>
-)};
+        <Box sx={{ 
+            minWidth: 120,
+            width: '100%',
+            marginBottom: '1rem',
+        }}>
+            <FormControl fullWidth>
+                <InputLabel id={props.labelId ?? 'select-label'}>{props.labelText}</InputLabel>
+                <Select
+                    labelId={props.labelId ?? 'select-label'}
+                    id="simple-select"
+                    value={props.value}
+                    label={props.labelText}
+                    name={props.name}
+                    onChange={(e) => props.onChange(e as any)}
+                >
+                    {props.options.map((option, index) => (
+                        <MenuItem key={index} value={option}>{option}</MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
+        </Box>
+    )
+};
 
 export default SelectMenu;

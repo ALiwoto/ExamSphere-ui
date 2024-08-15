@@ -6,7 +6,7 @@ const CaptchaImage = styled.img`
   height: 50px;
   margin-right: 10px;
   width: 40%;
-  max-width: 110px;
+  max-width: 140px;
 `;
 
 export default CaptchaImage;

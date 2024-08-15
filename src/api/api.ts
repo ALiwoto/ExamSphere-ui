@@ -505,6 +505,120 @@ export interface ReAuthV1200Response {
     'success'?: boolean;
 }
 /**
+ * 
+ * @export
+ * @interface SearchUserData
+ */
+export interface SearchUserData {
+    /**
+     * 
+     * @type {number}
+     * @memberof SearchUserData
+     */
+    'limit'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof SearchUserData
+     */
+    'offset'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchUserData
+     */
+    'query'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface SearchUserResult
+ */
+export interface SearchUserResult {
+    /**
+     * 
+     * @type {Array<SearchedUserInfo>}
+     * @memberof SearchUserResult
+     */
+    'users'?: Array<SearchedUserInfo>;
+}
+/**
+ * 
+ * @export
+ * @interface SearchUserV1200Response
+ */
+export interface SearchUserV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof SearchUserV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {SearchUserResult}
+     * @memberof SearchUserV1200Response
+     */
+    'result'?: SearchUserResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SearchUserV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface SearchedUserInfo
+ */
+export interface SearchedUserInfo {
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchedUserInfo
+     */
+    'ban_reason'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchedUserInfo
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchedUserInfo
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchedUserInfo
+     */
+    'full_name'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SearchedUserInfo
+     */
+    'is_banned'?: boolean;
+    /**
+     * 
+     * @type {UserRole}
+     * @memberof SearchedUserInfo
+     */
+    'role'?: UserRole;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchedUserInfo
+     */
+    'user_id'?: string;
+}
+
+
+/**
  * UserRole is the role of the user.
  * @export
  * @enum {string}
@@ -718,6 +832,49 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * Allows a user to search for users
+         * @summary Search users
+         * @param {string} authorization Authorization token
+         * @param {SearchUserData} searchUserData Search user data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        searchUserV1: async (authorization: string, searchUserData: SearchUserData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('searchUserV1', 'authorization', authorization)
+            // verify required parameter 'searchUserData' is not null or undefined
+            assertParamExists('searchUserV1', 'searchUserData', searchUserData)
+            const localVarPath = `/api/v1/user/search`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(searchUserData, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -794,6 +951,20 @@ export const UserApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['UserApi.reAuthV1']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * Allows a user to search for users
+         * @summary Search users
+         * @param {string} authorization Authorization token
+         * @param {SearchUserData} searchUserData Search user data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async searchUserV1(authorization: string, searchUserData: SearchUserData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SearchUserV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.searchUserV1(authorization, searchUserData, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UserApi.searchUserV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -854,6 +1025,17 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          */
         reAuthV1(authorization: string, options?: any): AxiosPromise<ReAuthV1200Response> {
             return localVarFp.reAuthV1(authorization, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Allows a user to search for users
+         * @summary Search users
+         * @param {string} authorization Authorization token
+         * @param {SearchUserData} searchUserData Search user data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        searchUserV1(authorization: string, searchUserData: SearchUserData, options?: any): AxiosPromise<SearchUserV1200Response> {
+            return localVarFp.searchUserV1(authorization, searchUserData, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -924,6 +1106,19 @@ export class UserApi extends BaseAPI {
      */
     public reAuthV1(authorization: string, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).reAuthV1(authorization, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows a user to search for users
+     * @summary Search users
+     * @param {string} authorization Authorization token
+     * @param {SearchUserData} searchUserData Search user data
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public searchUserV1(authorization: string, searchUserData: SearchUserData, options?: RawAxiosRequestConfig) {
+        return UserApiFp(this.configuration).searchUserV1(authorization, searchUserData, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

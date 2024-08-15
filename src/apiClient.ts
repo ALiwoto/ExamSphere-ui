@@ -10,6 +10,8 @@ import {
     AuthResult,
     CreateUserData,
     CreateUserResult,
+    SearchUserData,
+    SearchUserResult,
 } from './api';
 
 class ExamSphereAPIClient extends UserApi {
@@ -205,6 +207,21 @@ class ExamSphereAPIClient extends UserApi {
         return createUserResult;
     }
 
+    public async searchUser(searchUserData: SearchUserData): Promise<SearchUserResult> {
+        if (!this.isLoggedIn()) {
+            throw new Error("Not logged in");
+        }
+
+        let searchUserResult = (await this.searchUserV1(`Bearer ${this.accessToken}`, searchUserData))?.data.result;
+        if (!searchUserResult) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to search user");
+        }
+
+        return searchUserResult;
+    }
+
     /**
      * Returns true if we are considered as "logged in" by the API client,
      * This method only checks if the access token is present, it doesn't
@@ -241,6 +258,10 @@ class ExamSphereAPIClient extends UserApi {
     }
 
     public canCreateNewUsers(): boolean {
+        return this.isOwner() || this.isAdmin();
+    }
+
+    public canSearchUser(): boolean {
         return this.isOwner() || this.isAdmin();
     }
 
