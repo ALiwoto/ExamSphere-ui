@@ -65,13 +65,31 @@ const SideMenu: React.FC<SideMenuProps> = ({...props}) => {
         return (
             <SideMenuContainer $isOpen={props?.isOpen ?? false}>
               <MenuButton onClick={props?.toggleMenu}>✕</MenuButton>
-              <MenuItem label='Profile'>
-                <MenuItem label='Edit Profile'></MenuItem>
-                <MenuItem label='Change Password'></MenuItem>
+              <MenuItem label={CurrentAppTranslation.ProfileText}>
+                <MenuItem label={CurrentAppTranslation.EditProfileText}></MenuItem>
+                <MenuItem label={CurrentAppTranslation.ChangePasswordText}></MenuItem>
               </MenuItem>
-              <MenuItem label='Settings'></MenuItem>
-              <MenuItem label='Help'></MenuItem>
-              <MenuItem label='Logout'></MenuItem>
+              <MenuItem label={CurrentAppTranslation.ManageUsersText}>
+                <MenuItem 
+                    label={CurrentAppTranslation.AddUserText}
+                    href='/createUser'
+                >
+                </MenuItem>
+                <MenuItem label={CurrentAppTranslation.EditUserInfoText}></MenuItem>
+                <MenuItem label={CurrentAppTranslation.ChangeUserPasswordText}></MenuItem>
+              </MenuItem>
+              <MenuItem label={CurrentAppTranslation.ManageExamsText}>
+                <MenuItem label={CurrentAppTranslation.AddExamText}></MenuItem>
+                <MenuItem label={CurrentAppTranslation.EditExamText}></MenuItem>
+              </MenuItem>
+              <MenuItem label={CurrentAppTranslation.SettingsText}></MenuItem>
+              <MenuItem label={CurrentAppTranslation.HelpText}></MenuItem>
+              <MenuItem label={CurrentAppTranslation.LogoutText}
+                onClick={() => {
+                    apiClient.logout();
+                    window.location.href = '/';
+                }}
+              ></MenuItem>
             </SideMenuContainer>
         );
     }
@@ -80,13 +98,31 @@ const SideMenu: React.FC<SideMenuProps> = ({...props}) => {
         return (
             <SideMenuContainer $isOpen={props?.isOpen ?? false}>
               <MenuButton onClick={props?.toggleMenu}>✕</MenuButton>
-              <MenuItem label='Profile'>
-                <MenuItem label='Edit Profile'></MenuItem>
-                <MenuItem label='Change Password'></MenuItem>
+              <MenuItem label={CurrentAppTranslation.ProfileText}>
+                <MenuItem label={CurrentAppTranslation.EditProfileText}></MenuItem>
+                <MenuItem label={CurrentAppTranslation.ChangePasswordText}></MenuItem>
               </MenuItem>
-              <MenuItem label='Settings'></MenuItem>
-              <MenuItem label='Help'></MenuItem>
-              <MenuItem label='Logout'></MenuItem>
+              <MenuItem label={CurrentAppTranslation.ManageUsersText}>
+                <MenuItem 
+                    label={CurrentAppTranslation.AddUserText}
+                    href='/createUser'
+                >
+                </MenuItem>
+                <MenuItem label={CurrentAppTranslation.EditUserInfoText}></MenuItem>
+                <MenuItem label={CurrentAppTranslation.ChangeUserPasswordText}></MenuItem>
+              </MenuItem>
+              <MenuItem label={CurrentAppTranslation.ManageExamsText}>
+                <MenuItem label={CurrentAppTranslation.AddExamText}></MenuItem>
+                <MenuItem label={CurrentAppTranslation.EditExamText}></MenuItem>
+              </MenuItem>
+              <MenuItem label={CurrentAppTranslation.SettingsText}></MenuItem>
+              <MenuItem label={CurrentAppTranslation.HelpText}></MenuItem>
+              <MenuItem label={CurrentAppTranslation.LogoutText}
+                onClick={() => {
+                    apiClient.logout();
+                    window.location.href = '/';
+                }}
+              ></MenuItem>
             </SideMenuContainer>
         );
     }
@@ -95,13 +131,22 @@ const SideMenu: React.FC<SideMenuProps> = ({...props}) => {
         return (
             <SideMenuContainer $isOpen={props?.isOpen ?? false}>
               <MenuButton onClick={props?.toggleMenu}>✕</MenuButton>
-              <MenuItem label='Profile'>
-                <MenuItem label='Edit Profile'></MenuItem>
-                <MenuItem label='Change Password'></MenuItem>
+              <MenuItem label={CurrentAppTranslation.ProfileText}>
+                <MenuItem label={CurrentAppTranslation.EditProfileText}></MenuItem>
+                <MenuItem label={CurrentAppTranslation.ChangePasswordText}></MenuItem>
               </MenuItem>
-              <MenuItem label='Settings'></MenuItem>
-              <MenuItem label='Help'></MenuItem>
-              <MenuItem label='Logout'></MenuItem>
+              <MenuItem label={CurrentAppTranslation.ManageExamsText}>
+                <MenuItem label={CurrentAppTranslation.AddExamText}></MenuItem>
+                <MenuItem label={CurrentAppTranslation.EditExamText}></MenuItem>
+              </MenuItem>
+              <MenuItem label={CurrentAppTranslation.SettingsText}></MenuItem>
+              <MenuItem label={CurrentAppTranslation.HelpText}></MenuItem>
+              <MenuItem label={CurrentAppTranslation.LogoutText}
+                onClick={() => {
+                    apiClient.logout();
+                    window.location.href = '/';
+                }}
+              ></MenuItem>
             </SideMenuContainer>
         );
     }
