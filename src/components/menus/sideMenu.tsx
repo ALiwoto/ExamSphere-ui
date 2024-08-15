@@ -7,7 +7,7 @@ import { CurrentAppTranslation } from '../../translations/appTranslation';
 const SideMenuContainer = styled.div<{ $isOpen: boolean }>`
   position: fixed;
   top: 0;
-  right: ${props => props.$isOpen ? '0' : `calc(-1 * min(100%, 340px))`};
+  right: ${props => props.$isOpen ? '0' : `calc(-1 * min(100%, 300px))`};
   width: 100%;
   max-width: 300px;
   height: 100%;
@@ -17,6 +17,7 @@ const SideMenuContainer = styled.div<{ $isOpen: boolean }>`
   display: flex;
   flex-direction: column;
   padding: 20px;
+  z-index: 1000;
 `;
 
 interface SideMenuProps {
