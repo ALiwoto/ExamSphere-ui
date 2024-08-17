@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 import apiClient from '../apiClient';
 import DashboardContainer from '../components/containers/dashboardContainer';
 
@@ -33,27 +32,14 @@ const ListItem = styled.li`
   margin-bottom: 5px;
 `;
 
-const Button = styled.button`
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-right: 10px;
-`;
-
 const Dashboard: React.FC = () => {
-    const navigate = useNavigate();
-
     const fetchUserInfo = async () => {
         try {
             await apiClient.getCurrentUserInfo();
         } catch (error) {
             console.error(`Failed to get user info: ${error}`);
             apiClient.clearTokens();
-            navigate('/login');
-            window.location.reload();
+            window.location.href = '/login';
         }
     };
     
@@ -88,12 +74,6 @@ const Dashboard: React.FC = () => {
                     </List>
                 </Section>
             </MainContent>
-            {(apiClient.isAdmin() || apiClient.isTeacher()) && (
-                <div>
-                    <Button>New Exam</Button>
-                    <Button>New Course</Button>
-                </div>
-            )}
         </DashboardContainer>
     )
 };

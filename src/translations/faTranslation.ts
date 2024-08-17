@@ -6,6 +6,7 @@ class FaTranslation extends AppTranslationBase {
     //#region common UI translations
 
     ExamSphereTitleText: string = "---کره ی آزمون---";
+    WelcomeToPlatformText: string = "به کره ی آزمون خوش آمدید!";
     LoginText: string = "ورود";
     LoadingText: string = "در حال بارگذاری...";
     ProfileText: string = "پروفایل";
@@ -25,6 +26,10 @@ class FaTranslation extends AppTranslationBase {
     SaveText: string = "ذخیره";
     EditText: string = "ویرایش";
     UserInformationText: string = "اطلاعات کاربر";
+    UserNotFoundText: string = "این کاربر وجود ندارد...";
+    CreateNewUserText: string = "ایجاد کاربر جدید";
+    UserCreatedSuccessfullyText: string = "کاربر با موفقیت ایجاد شد";
+    NoResultsFoundText: string = "نتیجه ای یافت نشد";
 
     //#endregion
 

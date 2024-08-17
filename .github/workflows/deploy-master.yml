@@ -1,33 +1,37 @@
 name: Build and Deploy
 
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+    push:
+        branches: ["master"]
+    pull_request:
+        branches: ["master"]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+    build:
+        runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v4
+        steps:
+            - uses: actions/checkout@v4
 
-    - name: Use Node.js 22.x
-      uses: actions/setup-node@v4
-      with:
-        node-version: 22.x
+            - name: Use Node.js 22.x
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 22.x
 
-    - name: Build
-      run: |
-        npm install
-        npm run build
+            - name: Build
+              run: |
+                  npm install
+                  npm run build
 
-    - name: Get commit short hash
-      id: vars
-      run: |
-        echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-    - name: Post request
-      run: |
-        curl -s -X POST -k ${{ secrets.WEBHOOK_URL }}?TAG=${{ steps.vars.outputs.sha_short }} \
-        -H 'sudo-token: ${{ secrets.API_SUDO_TOKEN }}'
+            - name: Get commit short hash
+              id: vars
+              run: |
+                  echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+                  
+            - name: Post request
+              env:
+                  API_WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+              if: ${{ env.API_WEBHOOK_URL != '' && env.API_WEBHOOK_URL != null }}
+              run: |
+                  curl -s -X POST -k ${{ secrets.WEBHOOK_URL }}?TAG=${{ steps.vars.outputs.sha_short }} \
+                  -H 'sudo-token: ${{ secrets.API_SUDO_TOKEN }}'
