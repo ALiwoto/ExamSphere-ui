@@ -7,6 +7,7 @@ import CreateUserPage from './pages/createUserPage';
 import Dashboard from './pages/dashboardPage';
 import SearchUserPage from './pages/searchUserPage';
 import UserInfoPage from './pages/userInfoPage';
+import { Box, CircularProgress, Typography } from '@mui/material';
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(apiClient.isLoggedIn());
@@ -32,7 +33,28 @@ const App: React.FC = () => {
   }, []);
 
   if (isLoading) {
-    return <div>{CurrentAppTranslation.LoadingText}</div>;
+      return (
+          <Box
+              sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '100vh',
+                  backgroundColor: '#f0f0f0',
+                  textAlign: 'center',
+                  padding: 2,
+              }}
+          >
+              <CircularProgress size={80} thickness={4} />
+              <Typography variant="h6" sx={{ mt: 3 }}>
+                  {CurrentAppTranslation.LoadingText}
+              </Typography>
+              <Typography variant="body2" sx={{ mt: 1, color: 'text.secondary' }}>
+                  Please wait while we load the content for you.
+              </Typography>
+          </Box>
+      );
   }
 
   return (

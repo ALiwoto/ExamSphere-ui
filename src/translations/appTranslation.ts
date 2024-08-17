@@ -23,6 +23,7 @@ export class AppTranslationBase {
     SaveText: string = "Save";
     EditText: string = "Edit";
     UserInformationText: string = "User Information";
+    UserNotFoundText: string = "This user doesn't seem to exist...";
 
     //#endregion
 

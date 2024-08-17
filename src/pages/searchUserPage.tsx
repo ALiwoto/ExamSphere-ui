@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { 
-    TextField, 
-    Button, 
+    TextField,
     List, 
-    ListItem, 
-    ListItemText, 
+    ListItem,
     CircularProgress,
     Paper,
     Grid,
@@ -18,21 +16,25 @@ import { SearchedUserInfo } from '../api';
 import apiClient from '../apiClient';
 import DashboardContainer from '../components/containers/dashboardContainer';
 import { timeAgo } from '../utils/timeUtils';
+import { CurrentAppTranslation } from '../translations/appTranslation';
 
 const SearchUserPage = () => {
-    const [query, setQuery] = useState('');
+    const providedQuery = new URLSearchParams(window.location.search).get('query');
+    const [query, setQuery] = useState(providedQuery ?? '');
     const [users, setUsers] = useState<SearchedUserInfo[]>([]);
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
     const limit = 10;
 
     const handleSearch = async (newPage = 0) => {
+        window.history.pushState(`searchUser_query_${query}`, "Search User", `/searchUser?query=${encodeURIComponent(query)}`);
+
         if (query === '') {
             return;
         }
 
-        setLoading(true);
+        setIsLoading(true);
         const results = await apiClient.searchUser({
             query: query,
             offset: newPage * limit,
@@ -40,7 +42,7 @@ const SearchUserPage = () => {
         })
 
         if (!results || !results.users) {
-            setLoading(false);
+            setIsLoading(false);
             return;
         }
 
@@ -52,13 +54,21 @@ const SearchUserPage = () => {
 
         setPage(newPage);
         setUsers(results.users!);
-        setLoading(false);
+        setIsLoading(false);
     };
+
+    useEffect(() => {
+        // if at first the query is not null (e.g. the providedQuery exists),
+        // do the search.
+        if (query) {
+            handleSearch();
+        }
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <DashboardContainer>
             <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '80vh' }}>
-                <Box sx={{ 
+                <Box sx={{
                     flexGrow: 1,
                     margin: '0 auto',
                     width: '100%',
@@ -73,29 +83,45 @@ const SearchUserPage = () => {
                     }
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder="Search users"
+                    onKeyDown={(e)=> e.key === 'Enter' && handleSearch()}
                     InputProps={{
                         endAdornment: (
-                            <IconButton onClick={() => handleSearch()} disabled={loading}>
+                            <IconButton onClick={() => handleSearch()} disabled={isLoading}>
                                 <SearchIcon />
                             </IconButton>
                         ),
                     }}
                 />
-                {loading ? (
-                    <CircularProgress />
+                {isLoading ? (
+                    <Box sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        margin: '0 auto',
+                        mt: 4,
+                    }}>
+                        <CircularProgress size={60} />
+                    </Box>
                 ) : (
                     <List>
                         {users.map((user) => (
                             <ListItem key={user.user_id} sx={{ mb: 2 }}>
-                            <Paper elevation={3} sx={{ width: '100%', p: 2, borderRadius: 2 }}>
+                            <Paper 
+                                elevation={3} 
+                                sx={{ width: '100%', p: 2, borderRadius: 2 }}
+                                onClick={
+                                    () => {
+                                        // Redirect to user info page, make sure to query encode it
+                                        window.location.href = `/userInfo?userId=${encodeURIComponent(user.user_id!)}`;
+                                    }
+                                }>
                               <Grid container spacing={2}>
                                 <Grid item xs={6}>
-                                  <Typography variant="body2">ID: {user.user_id}</Typography>
-                                  <Typography variant="body2">Email: {user.email}</Typography>
+                                  <Typography variant="body2">{`${CurrentAppTranslation.user_id}: ${user.user_id}`}</Typography>
+                                  <Typography variant="body2">{`${CurrentAppTranslation.email}: ${user.email}`}</Typography>
                                 </Grid>
                                 <Grid item xs={6} sx={{ textAlign: 'right' }}>
-                                  <Typography variant="body2">Name: {user.full_name}</Typography>
-                                  <Typography variant="body2">Created: {timeAgo(user.created_at!)}</Typography>
+                                  <Typography variant="body2">{`${CurrentAppTranslation.full_name}: ${user.full_name}`}</Typography>
+                                  <Typography variant="body2">{`${CurrentAppTranslation.created_at}: ${timeAgo(user.created_at!)}`}</Typography>
                                 </Grid>
                               </Grid>
                             </Paper>

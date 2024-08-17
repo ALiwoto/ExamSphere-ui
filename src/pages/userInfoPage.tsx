@@ -4,6 +4,7 @@ import apiClient from '../apiClient';
 import { EditUserData } from '../api';
 import DashboardContainer from '../components/containers/dashboardContainer';
 import { CurrentAppTranslation } from '../translations/appTranslation';
+import useAppSnackbar from '../components/snackbars/useAppSnackbars';
 
 const UserInfoPage = () => {
     const [userData, setUserData] = useState<EditUserData>({
@@ -13,7 +14,7 @@ const UserInfoPage = () => {
     });
     const [isEditing, setIsEditing] = useState(false);
     const [isUserNotFound, setIsUserNotFound] = useState(false);
-    const [serverError, setServerError] = useState('');
+    const snackbar = useAppSnackbar();
 
     useEffect(() => {
         fetchUserInfo();
@@ -35,7 +36,8 @@ const UserInfoPage = () => {
                 email: result.email,
             });
         } catch (error: any) {
-            setServerError('Failed to get user information');
+            snackbar.error('Failed to get user information');
+            setIsUserNotFound(true);
             return;
         }
     };
@@ -60,7 +62,7 @@ const UserInfoPage = () => {
         } catch (error: any) {
             const errCode = error.response?.data?.error?.code;
             const errMessage = error.response?.data?.error?.message;
-            setServerError(`Failed (${errCode}) - ${errMessage}`);
+            snackbar.error(`Failed (${errCode}) - ${errMessage}`);
             return;
         }
 
@@ -68,12 +70,23 @@ const UserInfoPage = () => {
 
     if (!userData) {
         // maybe return better stuff here in future?
-        return <CircularProgress />;
+        return (
+            <DashboardContainer>
+                <CircularProgress />
+            </DashboardContainer>
+        );
+    }
+
+    if (isUserNotFound) {
+        return (
+            <DashboardContainer>
+                <Typography>{CurrentAppTranslation.UserNotFoundText}</Typography>
+            </DashboardContainer>
+        );
     }
 
     return (
         <DashboardContainer>
-            {serverError && <Typography color="error">{serverError}</Typography>}
             <Container maxWidth="sm">
                 <Paper elevation={3} sx={{ p: 3, mt: 4 }}>
                     <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
