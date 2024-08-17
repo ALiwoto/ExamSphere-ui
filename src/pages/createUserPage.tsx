@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, FormEvent, useState } from 'react';
+import React, { useState } from 'react';
 import SubmitButton from '../components/buttons/submitButton';
 import DashboardContainer from '../components/containers/dashboardContainer';
 import TitleLabel from '../components/labels/titleLabel';
@@ -10,6 +10,7 @@ import { CreateUserData, UserRole } from '../api';
 import { CurrentAppTranslation } from '../translations/appTranslation';
 import { TextField } from '@mui/material';
 import useAppSnackbar from '../components/snackbars/useAppSnackbars';
+import { extractErrorDetails } from '../utils/errorUtils';
 
 const CreateUserPage: React.FC = () => {
     const [userInfo, setUserInfo] = useState<CreateUserData>({
@@ -31,9 +32,7 @@ const CreateUserPage: React.FC = () => {
             await apiClient.createNewUser(userInfo);
             snackbar.success(CurrentAppTranslation.UserCreatedSuccessfullyText);
         } catch (error: any) {
-            const errCode = error.response?.data?.error?.code;
-            const errMessage = error.response?.data?.error?.message;
-            //TODO: Add translation according to error code later.
+            const [errCode, errMessage] = extractErrorDetails(error);
             snackbar.error(`Failed to create new user (${errCode}): ${errMessage}`);
         }
     };

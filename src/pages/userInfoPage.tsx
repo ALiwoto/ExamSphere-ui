@@ -5,6 +5,7 @@ import { EditUserData } from '../api';
 import DashboardContainer from '../components/containers/dashboardContainer';
 import { CurrentAppTranslation } from '../translations/appTranslation';
 import useAppSnackbar from '../components/snackbars/useAppSnackbars';
+import { extractErrorDetails } from '../utils/errorUtils';
 
 const UserInfoPage = () => {
     const [userData, setUserData] = useState<EditUserData>({
@@ -22,7 +23,8 @@ const UserInfoPage = () => {
 
     const fetchUserInfo = async () => {
         // the user id is passed like /userInfo?userId=123
-        const targetUserId = new URLSearchParams(window.location.search).get('userId');
+        const urlSearch = new URLSearchParams(window.location.search);
+        const targetUserId = urlSearch.get('userId');
         if (!targetUserId) {
             window.location.href = '/searchUser';
             return;
@@ -36,8 +38,7 @@ const UserInfoPage = () => {
                 email: result.email,
             });
         } catch (error: any) {
-            const errCode = error.response?.data?.error?.code;
-            const errMessage = error.response?.data?.error?.message;
+            const [errCode, errMessage] = extractErrorDetails(error);
             snackbar.error(`Failed to get user info (${errCode}): ${errMessage}`);
             setIsUserNotFound(true);
             return;

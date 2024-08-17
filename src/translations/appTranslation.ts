@@ -4,6 +4,7 @@ export class AppTranslationBase {
     //#region common UI translations
 
     ExamSphereTitleText: string = "---ExamSphere---";
+    WelcomeToPlatformText: string = "Welcome to ExamSphere!";
     LoginText: string = "Login";
     LoadingText: string = "Loading...";
     ProfileText: string = "Profile";
@@ -26,6 +27,7 @@ export class AppTranslationBase {
     UserNotFoundText: string = "This user doesn't seem to exist...";
     CreateNewUserText: string = "Create New User";
     UserCreatedSuccessfullyText: string = "User created successfully";
+    NoResultsFoundText: string = "No results found";
 
     //#endregion
 
