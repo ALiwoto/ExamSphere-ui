@@ -18,7 +18,7 @@ const UserInfoPage = () => {
 
     useEffect(() => {
         fetchUserInfo();
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const fetchUserInfo = async () => {
         // the user id is passed like /userInfo?userId=123
@@ -36,7 +36,9 @@ const UserInfoPage = () => {
                 email: result.email,
             });
         } catch (error: any) {
-            snackbar.error('Failed to get user information');
+            const errCode = error.response?.data?.error?.code;
+            const errMessage = error.response?.data?.error?.message;
+            snackbar.error(`Failed to get user info (${errCode}): ${errMessage}`);
             setIsUserNotFound(true);
             return;
         }

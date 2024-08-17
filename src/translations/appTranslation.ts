@@ -24,6 +24,8 @@ export class AppTranslationBase {
     EditText: string = "Edit";
     UserInformationText: string = "User Information";
     UserNotFoundText: string = "This user doesn't seem to exist...";
+    CreateNewUserText: string = "Create New User";
+    UserCreatedSuccessfullyText: string = "User created successfully";
 
     //#endregion
 

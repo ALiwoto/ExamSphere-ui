@@ -26,6 +26,8 @@ class FaTranslation extends AppTranslationBase {
     EditText: string = "ویرایش";
     UserInformationText: string = "اطلاعات کاربر";
     UserNotFoundText: string = "این کاربر وجود ندارد...";
+    CreateNewUserText: string = "ایجاد کاربر جدید";
+    UserCreatedSuccessfullyText: string = "کاربر با موفقیت ایجاد شد";
 
     //#endregion
 
