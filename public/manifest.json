@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "ExamSphere",
+  "name": "ExamSphere: Online Exam Platform for Students",
   "icons": [
     {
       "src": "favicon.ico",

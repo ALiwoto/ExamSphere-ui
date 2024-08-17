@@ -6,6 +6,7 @@ import Login from './pages/loginPage';
 import CreateUserPage from './pages/createUserPage';
 import Dashboard from './pages/dashboardPage';
 import SearchUserPage from './pages/searchUserPage';
+import UserInfoPage from './pages/userInfoPage';
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(apiClient.isLoggedIn());
@@ -52,6 +53,10 @@ const App: React.FC = () => {
         <Route 
           path="/searchUser" 
           element={apiClient.canSearchUser() ? <SearchUserPage/> : <Navigate to="/dashboard" />}
+        />
+        <Route 
+          path="/userInfo" 
+          element={apiClient.canSearchUser() ? <UserInfoPage/> : <Navigate to="/dashboard" />}
         />
         <Route path="*" element={<Navigate to={isLoggedIn ? "/dashboard" : "/login"} />} />
       </Routes>

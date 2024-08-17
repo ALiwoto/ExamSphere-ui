@@ -12,6 +12,9 @@ import {
     CreateUserResult,
     SearchUserData,
     SearchUserResult,
+    GetUserInfoResult,
+    EditUserData,
+    EditUserResult,
 } from './api';
 
 class ExamSphereAPIClient extends UserApi {
@@ -170,6 +173,45 @@ class ExamSphereAPIClient extends UserApi {
         this.role = userInfo.role;
         this.currentUserInfo = userInfo;
         return userInfo;
+    }
+
+    public async getUserInfo(userId: string): Promise<GetUserInfoResult> {
+        if (!this.isLoggedIn()) {
+            throw new Error("Not logged in");
+        }
+
+        let userInfo = (await this.getUserInfoV1(`Bearer ${this.accessToken}`, userId))?.data.result;
+        if (!userInfo) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to get user info");
+        }
+
+        return userInfo
+    }
+
+    /**
+     * Checks if a certain field from a user can be edited or not.
+     * @param fieldName The field name that we want to check.
+     * @returns True if the field can be edited, false otherwise.
+     */
+    public canUserFieldBeEdited(fieldName: string): boolean {
+        return fieldName !== "user_id" && fieldName !== "role";
+    }
+
+    public async editUser(newUserData: EditUserData): Promise<EditUserResult> {
+        if (!this.isLoggedIn()) {
+            throw new Error("Not logged in");
+        }
+
+        let createUserResult = (await this.editUserV1(`Bearer ${this.accessToken}`, newUserData))?.data.result;
+        if (!createUserResult) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to create user");
+        }
+
+        return createUserResult;
     }
 
     /**

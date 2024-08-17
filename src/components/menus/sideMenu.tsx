@@ -79,7 +79,11 @@ const SideMenu: React.FC<SideMenuProps> = ({...props}) => {
                     href='/createUser'
                 >
                 </MenuItem>
-                <MenuItem label={CurrentAppTranslation.EditUserInfoText}></MenuItem>
+                <MenuItem 
+                  label={CurrentAppTranslation.EditUserInfoText}
+                  href='/searchUser'
+                >
+                </MenuItem>
                 <MenuItem label={CurrentAppTranslation.ChangeUserPasswordText}></MenuItem>
               </MenuItem>
               <MenuItem label={CurrentAppTranslation.ManageExamsText}>
@@ -105,15 +109,6 @@ const SideMenu: React.FC<SideMenuProps> = ({...props}) => {
               <MenuItem label={CurrentAppTranslation.ProfileText}>
                 <MenuItem label={CurrentAppTranslation.EditProfileText}></MenuItem>
                 <MenuItem label={CurrentAppTranslation.ChangePasswordText}></MenuItem>
-              </MenuItem>
-              <MenuItem label={CurrentAppTranslation.ManageUsersText}>
-                <MenuItem 
-                    label={CurrentAppTranslation.AddUserText}
-                    href='/createUser'
-                >
-                </MenuItem>
-                <MenuItem label={CurrentAppTranslation.EditUserInfoText}></MenuItem>
-                <MenuItem label={CurrentAppTranslation.ChangeUserPasswordText}></MenuItem>
               </MenuItem>
               <MenuItem label={CurrentAppTranslation.ManageExamsText}>
                 <MenuItem label={CurrentAppTranslation.AddExamText}></MenuItem>

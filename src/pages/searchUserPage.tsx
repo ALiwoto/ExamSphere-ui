@@ -17,7 +17,6 @@ import IconButton from '@mui/material/IconButton';
 import { SearchedUserInfo } from '../api';
 import apiClient from '../apiClient';
 import DashboardContainer from '../components/containers/dashboardContainer';
-import SearchUserContainer from '../components/containers/searchUserContainer';
 import { timeAgo } from '../utils/timeUtils';
 
 const SearchUserPage = () => {
@@ -25,7 +24,7 @@ const SearchUserPage = () => {
     const [users, setUsers] = useState<SearchedUserInfo[]>([]);
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(2);
+    const [totalPages, setTotalPages] = useState(1);
     const limit = 10;
 
     const handleSearch = async (newPage = 0) => {
@@ -39,6 +38,18 @@ const SearchUserPage = () => {
             offset: newPage * limit,
             limit: limit,
         })
+
+        if (!results || !results.users) {
+            setLoading(false);
+            return;
+        }
+
+        // we need to do setTotalPages dynamically, e.g. if the limit is reached,
+        // we should add one more page. if the amount of results returned is less than
+        // the limit, we shouldn't increment the total pages.
+        const newTotalPages = results.users.length < limit ? (newPage + 1) : newPage + 2;
+        setTotalPages(newTotalPages);
+
         setPage(newPage);
         setUsers(results.users!);
         setLoading(false);

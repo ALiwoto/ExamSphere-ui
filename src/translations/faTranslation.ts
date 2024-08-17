@@ -2,6 +2,9 @@ import { AppTranslationBase } from "./appTranslation";
 
 
 class FaTranslation extends AppTranslationBase {
+
+    //#region common UI translations
+
     ExamSphereTitleText: string = "---کره ی آزمون---";
     LoginText: string = "ورود";
     LoadingText: string = "در حال بارگذاری...";
@@ -19,6 +22,28 @@ class FaTranslation extends AppTranslationBase {
     HelpText: string = "راهنما";
     LogoutText: string = "خروج از حساب کاربری";
     CreateUserButtonText: string = "ایجاد کاربر";
+    SaveText: string = "ذخیره";
+    EditText: string = "ویرایش";
+    UserInformationText: string = "اطلاعات کاربر";
+
+    //#endregion
+
+
+    //#region API response fields translations
+
+    user_id: string = "شناسه کاربری";
+    full_name: string = "نام کامل";
+    email: string = "ایمیل";
+    password: string = "رمز عبور";
+    created_at: string = "ایجاد شده در";
+    updated_at: string = "به روز شده در";
+    last_login: string = "آخرین ورود";
+    role: string = "نقش";
+    user: string = "کاربر";
+    admin: string = "مدیر";
+
+    //#endregion
+
 };
 
 export default FaTranslation;

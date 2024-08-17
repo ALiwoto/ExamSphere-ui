@@ -68,7 +68,10 @@ export const APIErrorCode = {
     ErrCodeTextEmpty: 2135,
     ErrCodeTextTooLong: 2136,
     ErrCodeInvalidClientRId: 2137,
-    ErrCodeInvalidCaptcha: 2138
+    ErrCodeInvalidCaptcha: 2138,
+    ErrCodeQueryParameterNotProvided: 2139,
+    ErrCodeTooManyPasswordChangeAttempts: 2140,
+    ErrCodeRequestExpired: 2141
 } as const;
 
 export type APIErrorCode = typeof APIErrorCode[keyof typeof APIErrorCode];
@@ -120,6 +123,81 @@ export interface AuthResult {
 /**
  * 
  * @export
+ * @interface BanUserData
+ */
+export interface BanUserData {
+    /**
+     * 
+     * @type {string}
+     * @memberof BanUserData
+     */
+    'ban_reason'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof BanUserData
+     */
+    'is_banned'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof BanUserData
+     */
+    'user_id'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface BanUserResult
+ */
+export interface BanUserResult {
+    /**
+     * 
+     * @type {string}
+     * @memberof BanUserResult
+     */
+    'ban_reason'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof BanUserResult
+     */
+    'is_banned'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof BanUserResult
+     */
+    'user_id'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface BanUserV1200Response
+ */
+export interface BanUserV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof BanUserV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {BanUserResult}
+     * @memberof BanUserV1200Response
+     */
+    'result'?: BanUserResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof BanUserV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
  * @interface CaptchaHandlersGetCaptchaResult
  */
 export interface CaptchaHandlersGetCaptchaResult {
@@ -141,6 +219,93 @@ export interface CaptchaHandlersGetCaptchaResult {
      * @memberof CaptchaHandlersGetCaptchaResult
      */
     'client_r_id'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface ChangePasswordData
+ */
+export interface ChangePasswordData {
+    /**
+     * 
+     * @type {string}
+     * @memberof ChangePasswordData
+     */
+    'lang'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ChangePasswordData
+     */
+    'new_password'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ChangePasswordData
+     */
+    'user_id'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface ChangePasswordV1200Response
+ */
+export interface ChangePasswordV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof ChangePasswordV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ChangePasswordV1200Response
+     */
+    'result'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ChangePasswordV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface ConfirmChangePasswordData
+ */
+export interface ConfirmChangePasswordData {
+    /**
+     * 
+     * @type {string}
+     * @memberof ConfirmChangePasswordData
+     */
+    'new_password'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ConfirmChangePasswordData
+     */
+    'rq_id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ConfirmChangePasswordData
+     */
+    'rt_hash'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ConfirmChangePasswordData
+     */
+    'rt_param'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ConfirmChangePasswordData
+     */
+    'rt_verifier'?: string;
 }
 /**
  * 
@@ -234,6 +399,89 @@ export interface CreateUserV1200Response {
      * 
      * @type {boolean}
      * @memberof CreateUserV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface EditUserData
+ */
+export interface EditUserData {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditUserData
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditUserData
+     */
+    'full_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditUserData
+     */
+    'user_id'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface EditUserResult
+ */
+export interface EditUserResult {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditUserResult
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditUserResult
+     */
+    'full_name'?: string;
+    /**
+     * 
+     * @type {UserRole}
+     * @memberof EditUserResult
+     */
+    'role'?: UserRole;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditUserResult
+     */
+    'user_id'?: string;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface EditUserV1200Response
+ */
+export interface EditUserV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof EditUserV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {EditUserResult}
+     * @memberof EditUserV1200Response
+     */
+    'result'?: EditUserResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditUserV1200Response
      */
     'success'?: boolean;
 }
@@ -369,6 +617,82 @@ export interface GetMeV1200Response {
      * 
      * @type {boolean}
      * @memberof GetMeV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface GetUserInfoResult
+ */
+export interface GetUserInfoResult {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetUserInfoResult
+     */
+    'ban_reason'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetUserInfoResult
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetUserInfoResult
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetUserInfoResult
+     */
+    'full_name'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetUserInfoResult
+     */
+    'is_banned'?: boolean;
+    /**
+     * 
+     * @type {UserRole}
+     * @memberof GetUserInfoResult
+     */
+    'role'?: UserRole;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetUserInfoResult
+     */
+    'user_id'?: string;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface GetUserInfoV1200Response
+ */
+export interface GetUserInfoV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof GetUserInfoV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {GetUserInfoResult}
+     * @memberof GetUserInfoV1200Response
+     */
+    'result'?: GetUserInfoResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetUserInfoV1200Response
      */
     'success'?: boolean;
 }
@@ -643,6 +967,128 @@ export type UserRole = typeof UserRole[keyof typeof UserRole];
 export const UserApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
+         * Allows a user to ban another user
+         * @summary Ban a user
+         * @param {string} authorization Authorization token
+         * @param {BanUserData} banUserData Ban user data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        banUserV1: async (authorization: string, banUserData: BanUserData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('banUserV1', 'authorization', authorization)
+            // verify required parameter 'banUserData' is not null or undefined
+            assertParamExists('banUserV1', 'banUserData', banUserData)
+            const localVarPath = `/api/v1/user/ban`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(banUserData, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Allows a user to change a user\'s password.
+         * @summary Change a user\'s password
+         * @param {string} authorization Authorization token
+         * @param {ChangePasswordData} changePasswordData Change password data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        changePasswordV1: async (authorization: string, changePasswordData: ChangePasswordData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('changePasswordV1', 'authorization', authorization)
+            // verify required parameter 'changePasswordData' is not null or undefined
+            assertParamExists('changePasswordV1', 'changePasswordData', changePasswordData)
+            const localVarPath = `/api/v1/user/changePassword`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(changePasswordData, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Allows a user to confirm changing their own\'s password (from redirected page)
+         * @summary Confirm changing your own\'s password
+         * @param {ConfirmChangePasswordData} confirmChangePasswordData Confirm change password data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        confirmChangePasswordV1: async (confirmChangePasswordData: ConfirmChangePasswordData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'confirmChangePasswordData' is not null or undefined
+            assertParamExists('confirmChangePasswordV1', 'confirmChangePasswordData', confirmChangePasswordData)
+            const localVarPath = `/api/v1/user/confirmChangePassword`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(confirmChangePasswordData, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Allows a user to create a new user
          * @summary Create a new user
          * @param {string} authorization Authorization token
@@ -679,6 +1125,49 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(createUserData, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Allows a user to edit another user. Users are not allowed to edit their own information.
+         * @summary Edit a user\'s basic information
+         * @param {string} authorization Authorization token
+         * @param {EditUserData} editUserData Edit user data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editUserV1: async (authorization: string, editUserData: EditUserData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('editUserV1', 'authorization', authorization)
+            // verify required parameter 'editUserData' is not null or undefined
+            assertParamExists('editUserV1', 'editUserData', editUserData)
+            const localVarPath = `/api/v1/user/edit`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(editUserData, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -743,6 +1232,50 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Allows a user to get another user\'s information by their user ID
+         * @summary Get a user\'s information
+         * @param {string} authorization Authorization token
+         * @param {string} id User ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserInfoV1: async (authorization: string, id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('getUserInfoV1', 'authorization', authorization)
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getUserInfoV1', 'id', id)
+            const localVarPath = `/api/v1/user/info`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (id !== undefined) {
+                localVarQueryParameter['id'] = id;
+            }
 
             if (authorization != null) {
                 localVarHeaderParameter['Authorization'] = String(authorization);
@@ -886,6 +1419,47 @@ export const UserApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = UserApiAxiosParamCreator(configuration)
     return {
         /**
+         * Allows a user to ban another user
+         * @summary Ban a user
+         * @param {string} authorization Authorization token
+         * @param {BanUserData} banUserData Ban user data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async banUserV1(authorization: string, banUserData: BanUserData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BanUserV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.banUserV1(authorization, banUserData, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UserApi.banUserV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Allows a user to change a user\'s password.
+         * @summary Change a user\'s password
+         * @param {string} authorization Authorization token
+         * @param {ChangePasswordData} changePasswordData Change password data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async changePasswordV1(authorization: string, changePasswordData: ChangePasswordData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ChangePasswordV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.changePasswordV1(authorization, changePasswordData, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UserApi.changePasswordV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Allows a user to confirm changing their own\'s password (from redirected page)
+         * @summary Confirm changing your own\'s password
+         * @param {ConfirmChangePasswordData} confirmChangePasswordData Confirm change password data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async confirmChangePasswordV1(confirmChangePasswordData: ConfirmChangePasswordData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ChangePasswordV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.confirmChangePasswordV1(confirmChangePasswordData, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UserApi.confirmChangePasswordV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Allows a user to create a new user
          * @summary Create a new user
          * @param {string} authorization Authorization token
@@ -897,6 +1471,20 @@ export const UserApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createUserV1(authorization, createUserData, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserApi.createUserV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Allows a user to edit another user. Users are not allowed to edit their own information.
+         * @summary Edit a user\'s basic information
+         * @param {string} authorization Authorization token
+         * @param {EditUserData} editUserData Edit user data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async editUserV1(authorization: string, editUserData: EditUserData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EditUserV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.editUserV1(authorization, editUserData, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UserApi.editUserV1']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -923,6 +1511,20 @@ export const UserApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getMeV1(authorization, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserApi.getMeV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Allows a user to get another user\'s information by their user ID
+         * @summary Get a user\'s information
+         * @param {string} authorization Authorization token
+         * @param {string} id User ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getUserInfoV1(authorization: string, id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetUserInfoV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserInfoV1(authorization, id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UserApi.getUserInfoV1']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -976,6 +1578,38 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
     const localVarFp = UserApiFp(configuration)
     return {
         /**
+         * Allows a user to ban another user
+         * @summary Ban a user
+         * @param {string} authorization Authorization token
+         * @param {BanUserData} banUserData Ban user data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        banUserV1(authorization: string, banUserData: BanUserData, options?: any): AxiosPromise<BanUserV1200Response> {
+            return localVarFp.banUserV1(authorization, banUserData, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Allows a user to change a user\'s password.
+         * @summary Change a user\'s password
+         * @param {string} authorization Authorization token
+         * @param {ChangePasswordData} changePasswordData Change password data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        changePasswordV1(authorization: string, changePasswordData: ChangePasswordData, options?: any): AxiosPromise<ChangePasswordV1200Response> {
+            return localVarFp.changePasswordV1(authorization, changePasswordData, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Allows a user to confirm changing their own\'s password (from redirected page)
+         * @summary Confirm changing your own\'s password
+         * @param {ConfirmChangePasswordData} confirmChangePasswordData Confirm change password data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        confirmChangePasswordV1(confirmChangePasswordData: ConfirmChangePasswordData, options?: any): AxiosPromise<ChangePasswordV1200Response> {
+            return localVarFp.confirmChangePasswordV1(confirmChangePasswordData, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Allows a user to create a new user
          * @summary Create a new user
          * @param {string} authorization Authorization token
@@ -985,6 +1619,17 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          */
         createUserV1(authorization: string, createUserData: CreateUserData, options?: any): AxiosPromise<CreateUserV1200Response> {
             return localVarFp.createUserV1(authorization, createUserData, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Allows a user to edit another user. Users are not allowed to edit their own information.
+         * @summary Edit a user\'s basic information
+         * @param {string} authorization Authorization token
+         * @param {EditUserData} editUserData Edit user data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editUserV1(authorization: string, editUserData: EditUserData, options?: any): AxiosPromise<EditUserV1200Response> {
+            return localVarFp.editUserV1(authorization, editUserData, options).then((request) => request(axios, basePath));
         },
         /**
          * Allows a client (with Client-R-ID) to generate a captcha
@@ -1005,6 +1650,17 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          */
         getMeV1(authorization: string, options?: any): AxiosPromise<GetMeV1200Response> {
             return localVarFp.getMeV1(authorization, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Allows a user to get another user\'s information by their user ID
+         * @summary Get a user\'s information
+         * @param {string} authorization Authorization token
+         * @param {string} id User ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserInfoV1(authorization: string, id: string, options?: any): AxiosPromise<GetUserInfoV1200Response> {
+            return localVarFp.getUserInfoV1(authorization, id, options).then((request) => request(axios, basePath));
         },
         /**
          * Allows a user to login to the system and obtain access/refresh tokens
@@ -1048,6 +1704,44 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
  */
 export class UserApi extends BaseAPI {
     /**
+     * Allows a user to ban another user
+     * @summary Ban a user
+     * @param {string} authorization Authorization token
+     * @param {BanUserData} banUserData Ban user data
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public banUserV1(authorization: string, banUserData: BanUserData, options?: RawAxiosRequestConfig) {
+        return UserApiFp(this.configuration).banUserV1(authorization, banUserData, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows a user to change a user\'s password.
+     * @summary Change a user\'s password
+     * @param {string} authorization Authorization token
+     * @param {ChangePasswordData} changePasswordData Change password data
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public changePasswordV1(authorization: string, changePasswordData: ChangePasswordData, options?: RawAxiosRequestConfig) {
+        return UserApiFp(this.configuration).changePasswordV1(authorization, changePasswordData, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows a user to confirm changing their own\'s password (from redirected page)
+     * @summary Confirm changing your own\'s password
+     * @param {ConfirmChangePasswordData} confirmChangePasswordData Confirm change password data
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public confirmChangePasswordV1(confirmChangePasswordData: ConfirmChangePasswordData, options?: RawAxiosRequestConfig) {
+        return UserApiFp(this.configuration).confirmChangePasswordV1(confirmChangePasswordData, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Allows a user to create a new user
      * @summary Create a new user
      * @param {string} authorization Authorization token
@@ -1058,6 +1752,19 @@ export class UserApi extends BaseAPI {
      */
     public createUserV1(authorization: string, createUserData: CreateUserData, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).createUserV1(authorization, createUserData, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows a user to edit another user. Users are not allowed to edit their own information.
+     * @summary Edit a user\'s basic information
+     * @param {string} authorization Authorization token
+     * @param {EditUserData} editUserData Edit user data
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public editUserV1(authorization: string, editUserData: EditUserData, options?: RawAxiosRequestConfig) {
+        return UserApiFp(this.configuration).editUserV1(authorization, editUserData, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1082,6 +1789,19 @@ export class UserApi extends BaseAPI {
      */
     public getMeV1(authorization: string, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).getMeV1(authorization, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows a user to get another user\'s information by their user ID
+     * @summary Get a user\'s information
+     * @param {string} authorization Authorization token
+     * @param {string} id User ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public getUserInfoV1(authorization: string, id: string, options?: RawAxiosRequestConfig) {
+        return UserApiFp(this.configuration).getUserInfoV1(authorization, id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
