@@ -18,7 +18,7 @@ import DashboardContainer from '../components/containers/dashboardContainer';
 import { timeAgo } from '../utils/timeUtils';
 import { CurrentAppTranslation } from '../translations/appTranslation';
 
-const RenderUsersList = (users: SearchedUserInfo[]) => {
+const RenderUsersList = (users: SearchedUserInfo[] | undefined) => {
     if (!users || users.length === 0) {
         return (
             <Typography variant="body2" sx={{ textAlign: 'center', mt: 4 }}>
@@ -128,7 +128,7 @@ const SearchUserPage = () => {
                             }
                         }
                         onChange={(e) => setQuery(e.target.value)}
-                        placeholder="Search users"
+                        label="Search users"
                         onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                         InputProps={{
                             endAdornment: (
