@@ -80,11 +80,21 @@ const SideMenu: React.FC<SideMenuProps> = ({...props}) => {
                 >
                 </MenuItem>
                 <MenuItem 
+                    label={CurrentAppTranslation.SearchUsersText}
+                    href='/searchUser'
+                >
+                </MenuItem>
+                <MenuItem 
                   label={CurrentAppTranslation.EditUserInfoText}
-                  href='/searchUser'
+                  href='/searchUser?edit=true'
                 >
                 </MenuItem>
                 <MenuItem label={CurrentAppTranslation.ChangeUserPasswordText}></MenuItem>
+              </MenuItem>
+              <MenuItem label={CurrentAppTranslation.ManageCoursesText}>
+                <MenuItem label={CurrentAppTranslation.AddCourseText}></MenuItem>
+                <MenuItem label={CurrentAppTranslation.SearchCoursesText}></MenuItem>
+                <MenuItem label={CurrentAppTranslation.EditCourseText}></MenuItem>
               </MenuItem>
               <MenuItem label={CurrentAppTranslation.ManageExamsText}>
                 <MenuItem label={CurrentAppTranslation.AddExamText}></MenuItem>

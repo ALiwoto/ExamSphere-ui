@@ -16,6 +16,10 @@ class FaTranslation extends AppTranslationBase {
     AddUserText: string = "افزودن کاربر";
     EditUserInfoText: string = "ویرایش اطلاعات کاربر";
     ChangeUserPasswordText: string = "تغییر رمز عبور کاربر";
+    ManageCoursesText: string = "مدیریت دوره ها";
+    AddCourseText: string = "افزودن دوره";
+    SearchCoursesText: string = "جستجوی دوره ها";
+    EditCourseText: string = "ویرایش دوره";
     ManageExamsText: string = "مدیریت آزمون ها";
     AddExamText: string = "افزودن آزمون";
     EditExamText: string = "ویرایش آزمون";
@@ -29,7 +33,8 @@ class FaTranslation extends AppTranslationBase {
     UserNotFoundText: string = "این کاربر وجود ندارد...";
     CreateNewUserText: string = "ایجاد کاربر جدید";
     UserCreatedSuccessfullyText: string = "کاربر با موفقیت ایجاد شد";
-    NoResultsFoundText: string = "نتیجه ای یافت نشد";
+    NoResultsFoundText: string = "نتیجه ای یافت نشد، تلاش کنید تا جستجوی خود را تغییر دهید";
+    EnterSearchForEdit: string = "برای ویرایش کاربر جستجو کنید";
 
     //#endregion
 

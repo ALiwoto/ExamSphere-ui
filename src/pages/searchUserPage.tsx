@@ -18,11 +18,12 @@ import DashboardContainer from '../components/containers/dashboardContainer';
 import { timeAgo } from '../utils/timeUtils';
 import { CurrentAppTranslation } from '../translations/appTranslation';
 
-const RenderUsersList = (users: SearchedUserInfo[] | undefined) => {
+const RenderUsersList = (users: SearchedUserInfo[] | undefined, forEdit: boolean = false) => {
     if (!users || users.length === 0) {
         return (
             <Typography variant="body2" sx={{ textAlign: 'center', mt: 4 }}>
-                {CurrentAppTranslation.NoResultsFoundText}
+                {forEdit ? CurrentAppTranslation.EnterSearchForEdit : 
+                    CurrentAppTranslation.NoResultsFoundText}
             </Typography>
         );
     }
@@ -42,12 +43,20 @@ const RenderUsersList = (users: SearchedUserInfo[] | undefined) => {
                         }>
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
-                                <Typography variant="body2">{`${CurrentAppTranslation.user_id}: ${user.user_id}`}</Typography>
-                                <Typography variant="body2">{`${CurrentAppTranslation.email}: ${user.email}`}</Typography>
+                                <Typography variant="body2">
+                                    {`${CurrentAppTranslation.user_id}: ${user.user_id}`}
+                                </Typography>
+                                <Typography variant="body2">
+                                    {`${CurrentAppTranslation.email}: ${user.email}`}
+                                </Typography>
                             </Grid>
                             <Grid item xs={6} sx={{ textAlign: 'right' }}>
-                                <Typography variant="body2">{`${CurrentAppTranslation.full_name}: ${user.full_name}`}</Typography>
-                                <Typography variant="body2">{`${CurrentAppTranslation.created_at}: ${timeAgo(user.created_at!)}`}</Typography>
+                                <Typography variant="body2">
+                                    {`${CurrentAppTranslation.full_name}: ${user.full_name}`}
+                                </Typography>
+                                <Typography variant="body2">
+                                    {`${CurrentAppTranslation.created_at}: ${timeAgo(user.created_at!)}`}
+                                </Typography>
                             </Grid>
                         </Grid>
                     </Paper>
@@ -61,6 +70,7 @@ const SearchUserPage = () => {
     const urlSearch = new URLSearchParams(window.location.search);
     const providedQuery = urlSearch.get('query');
     const providedPage = urlSearch.get('page');
+    const forEdit = (urlSearch.get('edit') ?? "false") === "true";
 
     const [query, setQuery] = useState(providedQuery ?? '');
     const [users, setUsers] = useState<SearchedUserInfo[]>([]);
@@ -147,11 +157,7 @@ const SearchUserPage = () => {
                         }}>
                             <CircularProgress size={60} />
                         </Box>
-                    ) : (
-                        <List>
-                            {RenderUsersList(users)}
-                        </List>
-                    )}
+                    ) : RenderUsersList(users, forEdit)}
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'center', margin: '0 auto', }}>
                     <Pagination

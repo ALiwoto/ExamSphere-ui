@@ -12,8 +12,13 @@ export class AppTranslationBase {
     ChangePasswordText: string = "Change Password";
     ManageUsersText: string = "Manage Users";
     AddUserText: string = "Add User";
+    SearchUsersText: string = "Search Users";
     EditUserInfoText: string = "Edit User Info";
     ChangeUserPasswordText: string = "Change User Password";
+    ManageCoursesText: string = "Manage Courses";
+    AddCourseText: string = "Add Course";
+    SearchCoursesText: string = "Search Courses";
+    EditCourseText: string = "Edit Course";
     ManageExamsText: string = "Manage Exams";
     AddExamText: string = "Add Exam";
     EditExamText: string = "Edit Exam";
@@ -27,7 +32,8 @@ export class AppTranslationBase {
     UserNotFoundText: string = "This user doesn't seem to exist...";
     CreateNewUserText: string = "Create New User";
     UserCreatedSuccessfullyText: string = "User created successfully";
-    NoResultsFoundText: string = "No results found";
+    NoResultsFoundText: string = "No results found, try changing your search query";
+    EnterSearchForEdit: string = "Enter search query to edit the user";
 
     //#endregion
 
