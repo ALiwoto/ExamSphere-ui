@@ -88,24 +88,6 @@ const CreateUserPage: React.FC = () => {
                         value={createUserData.password ?? ''}
                         onChange={(e) => { handleInputChange(e as any) }}
                         required />
-                    <SelectMenu
-                        labelText='Role'
-                        labelId='role-select-label'
-                        name={CurrentAppTranslation.role}
-                        value={createUserData.role ?? UserRole.UserRoleStudent}
-                        onChange={handleInputChange}
-                        options={Object.values(UserRole).filter(role => apiClient.canCreateTargetRole(role))}
-                    />
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                            checked={createUserData.setup_completed ?? true}
-                            onChange={(e) => setUserInfo({ ...createUserData, setup_completed: e.target.checked })}
-                            color="primary"
-                            />
-                        }
-                        label="Send email confirmation to user"
-                    />
                     <TextField
                         style={{
                             width: '100%',
@@ -130,6 +112,24 @@ const CreateUserPage: React.FC = () => {
                         value={createUserData.user_address ?? ''}
                         onChange={(e) => { handleInputChange(e as any) }}
                         required={false} />
+                    <SelectMenu
+                        labelText='Role'
+                        labelId='role-select-label'
+                        name={CurrentAppTranslation.role}
+                        value={createUserData.role ?? UserRole.UserRoleStudent}
+                        onChange={handleInputChange}
+                        options={Object.values(UserRole).filter(role => apiClient.canCreateTargetRole(role))}
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                            checked={createUserData.setup_completed ?? true}
+                            onChange={(e) => setUserInfo({ ...createUserData, setup_completed: e.target.checked })}
+                            color="primary"
+                            />
+                        }
+                        label="Send email confirmation to user"
+                    />
                     <SubmitButton type="submit">{CurrentAppTranslation.CreateUserButtonText}</SubmitButton>
                 </CreateUserForm>
             </CreateUserContainer>
