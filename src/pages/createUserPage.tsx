@@ -8,12 +8,12 @@ import SelectMenu from '../components/menus/selectMenu';
 import apiClient from '../apiClient';
 import { CreateUserData, UserRole } from '../api';
 import { CurrentAppTranslation } from '../translations/appTranslation';
-import { TextField } from '@mui/material';
+import { Checkbox, FormControlLabel, TextField } from '@mui/material';
 import useAppSnackbar from '../components/snackbars/useAppSnackbars';
 import { extractErrorDetails } from '../utils/errorUtils';
 
 const CreateUserPage: React.FC = () => {
-    const [userInfo, setUserInfo] = useState<CreateUserData>({
+    const [createUserData, setUserInfo] = useState<CreateUserData>({
         user_id: '',
         email: '',
         password: '',
@@ -22,14 +22,14 @@ const CreateUserPage: React.FC = () => {
     const snackbar = useAppSnackbar();
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
+        setUserInfo({ ...createUserData, [e.target.name]: e.target.value });
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         try {
-            await apiClient.createNewUser(userInfo);
+            await apiClient.createNewUser(createUserData);
             snackbar.success(CurrentAppTranslation.UserCreatedSuccessfullyText);
         } catch (error: any) {
             const [errCode, errMessage] = extractErrorDetails(error);
@@ -50,7 +50,7 @@ const CreateUserPage: React.FC = () => {
                         name="user_id"
                         variant='standard'
                         label={CurrentAppTranslation.user_id}
-                        value={userInfo.user_id ?? ''}
+                        value={createUserData.user_id ?? ''}
                         onChange={(e) => { handleInputChange(e as any) }}
                         required />
                     <TextField
@@ -61,7 +61,7 @@ const CreateUserPage: React.FC = () => {
                         name="full_name"
                         variant='standard'
                         label={CurrentAppTranslation.full_name}
-                        value={userInfo.full_name ?? ''}
+                        value={createUserData.full_name ?? ''}
                         onChange={(e) => { handleInputChange(e as any) }}
                         required />
                     <TextField
@@ -73,7 +73,7 @@ const CreateUserPage: React.FC = () => {
                         variant='standard'
                         type="email"
                         label={CurrentAppTranslation.email}
-                        value={userInfo.email ?? ''}
+                        value={createUserData.email ?? ''}
                         onChange={(e) => { handleInputChange(e as any) }}
                         required />
                     <TextField
@@ -85,17 +85,51 @@ const CreateUserPage: React.FC = () => {
                         variant='standard'
                         type="password"
                         label={CurrentAppTranslation.password}
-                        value={userInfo.password ?? ''}
+                        value={createUserData.password ?? ''}
                         onChange={(e) => { handleInputChange(e as any) }}
                         required />
                     <SelectMenu
                         labelText='Role'
                         labelId='role-select-label'
                         name={CurrentAppTranslation.role}
-                        value={userInfo.role ?? UserRole.UserRoleStudent}
+                        value={createUserData.role ?? UserRole.UserRoleStudent}
                         onChange={handleInputChange}
                         options={Object.values(UserRole).filter(role => apiClient.canCreateTargetRole(role))}
                     />
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                            checked={createUserData.setup_completed ?? true}
+                            onChange={(e) => setUserInfo({ ...createUserData, setup_completed: e.target.checked })}
+                            color="primary"
+                            />
+                        }
+                        label="Send email confirmation to user"
+                    />
+                    <TextField
+                        style={{
+                            width: '100%',
+                            marginBottom: '1rem'
+                        }}
+                        name="phone_number"
+                        variant='standard'
+                        type="tel"
+                        label={CurrentAppTranslation.phone_number}
+                        value={createUserData.phone_number ?? ''}
+                        onChange={(e) => { handleInputChange(e as any) }}
+                        required={false} />
+                    <TextField
+                        style={{
+                            width: '100%',
+                            marginBottom: '1rem'
+                        }}
+                        name="user_address"
+                        variant='standard'
+                        type='text'
+                        label={CurrentAppTranslation.user_address}
+                        value={createUserData.user_address ?? ''}
+                        onChange={(e) => { handleInputChange(e as any) }}
+                        required={false} />
                     <SubmitButton type="submit">{CurrentAppTranslation.CreateUserButtonText}</SubmitButton>
                 </CreateUserForm>
             </CreateUserContainer>

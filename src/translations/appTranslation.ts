@@ -44,6 +44,8 @@ export class AppTranslationBase {
     full_name: string = "Full Name";
     email: string = "Email";
     password: string = "Password";
+    phone_number: string = "Phone Number";
+    user_address: string = "Address";
     created_at: string = "Created At";
     updated_at: string = "Updated At";
     last_login: string = "Last Login";

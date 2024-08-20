@@ -45,6 +45,8 @@ class FaTranslation extends AppTranslationBase {
     full_name: string = "نام کامل";
     email: string = "ایمیل";
     password: string = "رمز عبور";
+    phone_number: string = "تلفن همراه";
+    user_address: string = "آدرس";
     created_at: string = "ایجاد شده در";
     updated_at: string = "به روز شده در";
     last_login: string = "آخرین ورود";

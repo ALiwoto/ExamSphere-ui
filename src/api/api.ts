@@ -71,7 +71,8 @@ export const APIErrorCode = {
     ErrCodeInvalidCaptcha: 2138,
     ErrCodeQueryParameterNotProvided: 2139,
     ErrCodeTooManyPasswordChangeAttempts: 2140,
-    ErrCodeRequestExpired: 2141
+    ErrCodeRequestExpired: 2141,
+    ErrCodeInvalidEmail: 2142
 } as const;
 
 export type APIErrorCode = typeof APIErrorCode[keyof typeof APIErrorCode];
@@ -310,6 +311,38 @@ export interface ConfirmChangePasswordData {
 /**
  * 
  * @export
+ * @interface CreateNewTopicData
+ */
+export interface CreateNewTopicData {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateNewTopicData
+     */
+    'topicName'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateNewTopicResult
+ */
+export interface CreateNewTopicResult {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateNewTopicResult
+     */
+    'topicID'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateNewTopicResult
+     */
+    'topicName'?: string;
+}
+/**
+ * 
+ * @export
  * @interface CreateUserData
  */
 export interface CreateUserData {
@@ -333,10 +366,28 @@ export interface CreateUserData {
     'password'?: string;
     /**
      * 
+     * @type {string}
+     * @memberof CreateUserData
+     */
+    'phone_number'?: string;
+    /**
+     * 
      * @type {UserRole}
      * @memberof CreateUserData
      */
     'role'?: UserRole;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateUserData
+     */
+    'setup_completed'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUserData
+     */
+    'user_address'?: string;
     /**
      * 
      * @type {string}
@@ -420,6 +471,18 @@ export interface EditUserData {
      * @memberof EditUserData
      */
     'full_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditUserData
+     */
+    'phone_number'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditUserData
+     */
+    'user_address'?: string;
     /**
      * 
      * @type {string}
