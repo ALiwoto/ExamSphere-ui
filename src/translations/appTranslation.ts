@@ -8,6 +8,7 @@ export class AppTranslationBase {
     LoginText: string = "Login";
     LoadingText: string = "Loading...";
     ProfileText: string = "Profile";
+    DashboardText: string = "Dashboard";
     EditProfileText: string = "Edit Profile";
     ChangePasswordText: string = "Change Password";
     ManageUsersText: string = "Manage Users";
@@ -15,6 +16,10 @@ export class AppTranslationBase {
     SearchUsersText: string = "Search Users";
     EditUserInfoText: string = "Edit User Info";
     ChangeUserPasswordText: string = "Change User Password";
+    ManageTopicsText: string = "Manage Topics";
+    AddTopicText: string = "Add Topic";
+    SearchTopicsText: string = "Search Topics";
+    EditTopicsText: string = "Edit Topic";
     ManageCoursesText: string = "Manage Courses";
     AddCourseText: string = "Add Course";
     SearchCoursesText: string = "Search Courses";
@@ -26,12 +31,16 @@ export class AppTranslationBase {
     HelpText: string = "Help";
     LogoutText: string = "Logout";
     CreateUserButtonText: string = "Create User";
+    CreateTopicButtonText: string = "Create Topic";
     SaveText: string = "Save";
     EditText: string = "Edit";
     UserInformationText: string = "User Information";
+
+    // System messages
     UserNotFoundText: string = "This user doesn't seem to exist...";
     CreateNewUserText: string = "Create New User";
     UserCreatedSuccessfullyText: string = "User created successfully";
+    TopicCreatedSuccessfullyText: string = "Topic created successfully";
     NoResultsFoundText: string = "No results found, try changing your search query";
     EnterSearchForEdit: string = "Enter search query to edit the user";
 
@@ -40,6 +49,8 @@ export class AppTranslationBase {
 
     //#region API response fields translations
 
+    topic_name: string = "Topic Name";
+    topic_id: string = "Topic ID";
     user_id: string = "User ID";
     full_name: string = "Full Name";
     email: string = "Email";

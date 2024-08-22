@@ -21,150 +21,164 @@ const SideMenuContainer = styled.div<{ $isOpen: boolean }>`
 `;
 
 interface SideMenuProps {
-    isOpen: boolean;
-    toggleMenu: () => void;
+  isOpen: boolean;
+  toggleMenu: () => void;
 
-    children?: React.ReactNode;
+  children?: React.ReactNode;
 }
 
-const SideMenu: React.FC<SideMenuProps> = ({...props}) => {
-    if (apiClient.isOwner()) {
-        return (
-            <SideMenuContainer $isOpen={props?.isOpen ?? false}>
-              <MenuButton onClick={props?.toggleMenu}>✕</MenuButton>
-              <MenuItem label={CurrentAppTranslation.ProfileText}>
-                <MenuItem label={CurrentAppTranslation.EditProfileText}></MenuItem>
-                <MenuItem label={CurrentAppTranslation.ChangePasswordText}></MenuItem>
-              </MenuItem>
-              <MenuItem label={CurrentAppTranslation.ManageUsersText}>
-                <MenuItem 
-                    label={CurrentAppTranslation.AddUserText}
-                    href='/createUser'
-                >
-                </MenuItem>
-                <MenuItem 
-                  label={CurrentAppTranslation.EditUserInfoText}
-                  href='/searchUser'
-                >
-                  </MenuItem>
-                <MenuItem label={CurrentAppTranslation.ChangeUserPasswordText}></MenuItem>
-              </MenuItem>
-              <MenuItem label={CurrentAppTranslation.ManageExamsText}>
-                <MenuItem label={CurrentAppTranslation.AddExamText}></MenuItem>
-                <MenuItem label={CurrentAppTranslation.EditExamText}></MenuItem>
-              </MenuItem>
-              <MenuItem label={CurrentAppTranslation.SettingsText}></MenuItem>
-              <MenuItem label={CurrentAppTranslation.HelpText}></MenuItem>
-              <MenuItem label={CurrentAppTranslation.LogoutText}
-                onClick={() => {
-                    apiClient.logout();
-                    window.location.href = '/';
-                }}
-              ></MenuItem>
-            </SideMenuContainer>
-        );
-    }
+const RenderProfileMenu = () => {
+  return (
+    <MenuItem label={CurrentAppTranslation.ProfileText}>
+      <MenuItem label={CurrentAppTranslation.EditProfileText}></MenuItem>
+      <MenuItem label={CurrentAppTranslation.ChangePasswordText}></MenuItem>
+    </MenuItem>
+  )
+};
 
-    if (apiClient.isAdmin()) {
-        return (
-            <SideMenuContainer $isOpen={props?.isOpen ?? false}>
-              <MenuButton onClick={props?.toggleMenu}>✕</MenuButton>
-              <MenuItem label={CurrentAppTranslation.ProfileText}>
-                <MenuItem label={CurrentAppTranslation.EditProfileText}></MenuItem>
-                <MenuItem label={CurrentAppTranslation.ChangePasswordText}></MenuItem>
-              </MenuItem>
-              <MenuItem label={CurrentAppTranslation.ManageUsersText}>
-                <MenuItem 
-                    label={CurrentAppTranslation.AddUserText}
-                    href='/createUser'
-                >
-                </MenuItem>
-                <MenuItem 
-                    label={CurrentAppTranslation.SearchUsersText}
-                    href='/searchUser'
-                >
-                </MenuItem>
-                <MenuItem 
-                  label={CurrentAppTranslation.EditUserInfoText}
-                  href='/searchUser?edit=true'
-                >
-                </MenuItem>
-                <MenuItem label={CurrentAppTranslation.ChangeUserPasswordText}></MenuItem>
-              </MenuItem>
-              <MenuItem label={CurrentAppTranslation.ManageCoursesText}>
-                <MenuItem label={CurrentAppTranslation.AddCourseText}></MenuItem>
-                <MenuItem label={CurrentAppTranslation.SearchCoursesText}></MenuItem>
-                <MenuItem label={CurrentAppTranslation.EditCourseText}></MenuItem>
-              </MenuItem>
-              <MenuItem label={CurrentAppTranslation.ManageExamsText}>
-                <MenuItem label={CurrentAppTranslation.AddExamText}></MenuItem>
-                <MenuItem label={CurrentAppTranslation.EditExamText}></MenuItem>
-              </MenuItem>
-              <MenuItem label={CurrentAppTranslation.SettingsText}></MenuItem>
-              <MenuItem label={CurrentAppTranslation.HelpText}></MenuItem>
-              <MenuItem label={CurrentAppTranslation.LogoutText}
-                onClick={() => {
-                    apiClient.logout();
-                    window.location.href = '/';
-                }}
-              ></MenuItem>
-            </SideMenuContainer>
-        );
-    }
+const RenderManageUserMenu = () => {
+  return (
+    <MenuItem label={CurrentAppTranslation.ManageUsersText}>
+      <MenuItem
+        label={CurrentAppTranslation.AddUserText}
+        href='/createUser'
+      >
+      </MenuItem>
+      <MenuItem
+        label={CurrentAppTranslation.EditUserInfoText}
+        href='/searchUser'
+      >
+      </MenuItem>
+      <MenuItem
+        label={CurrentAppTranslation.ChangeUserPasswordText}
+        href='/changeUser'
+      >
+      </MenuItem>
+    </MenuItem>
+  )
+}
 
-    if (apiClient.isTeacher()) {
-        return (
-            <SideMenuContainer $isOpen={props?.isOpen ?? false}>
-              <MenuButton onClick={props?.toggleMenu}>✕</MenuButton>
-              <MenuItem label={CurrentAppTranslation.ProfileText}>
-                <MenuItem label={CurrentAppTranslation.EditProfileText}></MenuItem>
-                <MenuItem label={CurrentAppTranslation.ChangePasswordText}></MenuItem>
-              </MenuItem>
-              <MenuItem label={CurrentAppTranslation.ManageExamsText}>
-                <MenuItem label={CurrentAppTranslation.AddExamText}></MenuItem>
-                <MenuItem label={CurrentAppTranslation.EditExamText}></MenuItem>
-              </MenuItem>
-              <MenuItem label={CurrentAppTranslation.SettingsText}></MenuItem>
-              <MenuItem label={CurrentAppTranslation.HelpText}></MenuItem>
-              <MenuItem label={CurrentAppTranslation.LogoutText}
-                onClick={() => {
-                    apiClient.logout();
-                    window.location.href = '/';
-                }}
-              ></MenuItem>
-            </SideMenuContainer>
-        );
-    }
-    
-    if (apiClient.isStudent()) {
-        return (
-            <SideMenuContainer $isOpen={props?.isOpen ?? false}>
-              <MenuButton onClick={props?.toggleMenu}>✕</MenuButton>
-              <MenuItem label={CurrentAppTranslation.ProfileText}>
-                <MenuItem label={CurrentAppTranslation.EditProfileText}></MenuItem>
-                <MenuItem label={CurrentAppTranslation.ChangePasswordText}></MenuItem>
-              </MenuItem>
-              <MenuItem label={CurrentAppTranslation.ManageExamsText}>
-                <MenuItem label={CurrentAppTranslation.AddExamText}></MenuItem>
-                <MenuItem label={CurrentAppTranslation.EditExamText}></MenuItem>
-              </MenuItem>
-              <MenuItem label={CurrentAppTranslation.SettingsText}></MenuItem>
-              <MenuItem label={CurrentAppTranslation.HelpText}></MenuItem>
-              <MenuItem label={CurrentAppTranslation.LogoutText}
-                onClick={() => {
-                    apiClient.logout();
-                    window.location.href = '/';
-                }}
-              ></MenuItem>
-            </SideMenuContainer>
-        );
-    }
+const RenderManageTopicsMenu = () => {
+  return (
+    <MenuItem label={CurrentAppTranslation.ManageTopicsText}>
+      <MenuItem 
+        label={CurrentAppTranslation.AddTopicText}
+        href='/createTopic'
+      ></MenuItem>
+      <MenuItem 
+        label={CurrentAppTranslation.SearchTopicsText}
+        href='/searchTopic'
+      ></MenuItem>
+      <MenuItem 
+        label={CurrentAppTranslation.EditTopicsText}
+        href='/editTopic'
+      ></MenuItem>
+    </MenuItem>
+  )
+};
 
+const RenderManageCoursesMenu = () => {
+  return (
+    <MenuItem label={CurrentAppTranslation.ManageCoursesText}>
+      <MenuItem 
+        label={CurrentAppTranslation.AddCourseText}
+        href='/createCourse'
+      ></MenuItem>
+      <MenuItem 
+        label={CurrentAppTranslation.SearchCoursesText}
+        href='/searchCourse'
+      ></MenuItem>
+      <MenuItem 
+        label={CurrentAppTranslation.EditCourseText}
+        href='/editCourse'
+      ></MenuItem>
+    </MenuItem>
+  )
+};
+
+const RenderManageExamsMenu = () => {
+  return (
+    <MenuItem label={CurrentAppTranslation.ManageExamsText}>
+      <MenuItem label={CurrentAppTranslation.AddExamText}></MenuItem>
+      <MenuItem label={CurrentAppTranslation.EditExamText}></MenuItem>
+    </MenuItem>
+  )
+};
+
+const RenderCommonMenus = () => {
+  return (
+    <>
+      <MenuItem label={CurrentAppTranslation.SettingsText}></MenuItem>
+      <MenuItem label={CurrentAppTranslation.HelpText}></MenuItem>
+      <MenuItem label={CurrentAppTranslation.LogoutText}
+        onClick={() => {
+          apiClient.logout();
+          window.location.href = '/';
+        }}
+      ></MenuItem>
+    </>
+  );
+};
+
+const SideMenu: React.FC<SideMenuProps> = ({ ...props }) => {
+  if (apiClient.isOwner()) {
     return (
-        <SideMenuContainer $isOpen={props?.isOpen ?? false}>
-          <MenuButton onClick={props?.toggleMenu}>✕</MenuButton>
-        </SideMenuContainer>
+      <SideMenuContainer $isOpen={props?.isOpen ?? false}>
+        <MenuButton onClick={props?.toggleMenu}>✕</MenuButton>
+        {RenderProfileMenu()}
+        {RenderManageUserMenu()}
+        {RenderManageTopicsMenu()}
+        {RenderManageCoursesMenu()}
+        {RenderManageExamsMenu()}
+        {RenderCommonMenus()}
+      </SideMenuContainer>
     );
+  }
+
+  if (apiClient.isAdmin()) {
+    return (
+      <SideMenuContainer $isOpen={props?.isOpen ?? false}>
+        <MenuButton onClick={props?.toggleMenu}>✕</MenuButton>
+        {RenderProfileMenu()}
+        {RenderManageUserMenu()}
+        {RenderManageTopicsMenu()}
+        {RenderManageCoursesMenu()}
+        {RenderManageExamsMenu()}
+        {RenderCommonMenus()}
+      </SideMenuContainer>
+    );
+  }
+
+  if (apiClient.isTeacher()) {
+    return (
+      <SideMenuContainer $isOpen={props?.isOpen ?? false}>
+        <MenuButton onClick={props?.toggleMenu}>✕</MenuButton>
+        {RenderProfileMenu()}
+        {RenderManageUserMenu()}
+        {RenderManageCoursesMenu()}
+        {RenderManageExamsMenu()}
+        {RenderCommonMenus()}
+      </SideMenuContainer>
+    );
+  }
+
+  if (apiClient.isStudent()) {
+    return (
+      <SideMenuContainer $isOpen={props?.isOpen ?? false}>
+        <MenuButton onClick={props?.toggleMenu}>✕</MenuButton>
+        {RenderProfileMenu()}
+        {RenderManageUserMenu()}
+        {RenderManageExamsMenu()}
+        {RenderCommonMenus()}
+      </SideMenuContainer>
+    );
+  }
+
+  return (
+    <SideMenuContainer $isOpen={props?.isOpen ?? false}>
+      <MenuButton onClick={props?.toggleMenu}>✕</MenuButton>
+    </SideMenuContainer>
+  );
 };
 
 export default SideMenu;

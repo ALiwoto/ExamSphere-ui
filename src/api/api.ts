@@ -72,12 +72,145 @@ export const APIErrorCode = {
     ErrCodeQueryParameterNotProvided: 2139,
     ErrCodeTooManyPasswordChangeAttempts: 2140,
     ErrCodeRequestExpired: 2141,
-    ErrCodeInvalidEmail: 2142
+    ErrCodeInvalidEmail: 2142,
+    ErrCodeCourseAlreadyExists: 2143,
+    ErrCodeCourseNotFound: 2144,
+    ErrCodeExamNotFound: 2145,
+    ErrCodeNotParticipatedInExam: 2146,
+    ErrCodeExamNotStarted: 2147,
+    ErrCodeExamFinished: 2148,
+    ErrCodeExamQuestionNotFound: 2149,
+    ErrCodeInvalidAnswerOption: 2150,
+    ErrCodeGivenExamNotFound: 2151
 } as const;
 
 export type APIErrorCode = typeof APIErrorCode[keyof typeof APIErrorCode];
 
 
+/**
+ * 
+ * @export
+ * @interface AnswerExamQuestionV1200Response
+ */
+export interface AnswerExamQuestionV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof AnswerExamQuestionV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {AnswerQuestionResult}
+     * @memberof AnswerExamQuestionV1200Response
+     */
+    'result'?: AnswerQuestionResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof AnswerExamQuestionV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface AnswerQuestionData
+ */
+export interface AnswerQuestionData {
+    /**
+     * 
+     * @type {string}
+     * @memberof AnswerQuestionData
+     */
+    'answer_text'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AnswerQuestionData
+     */
+    'chosen_option'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof AnswerQuestionData
+     */
+    'exam_id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof AnswerQuestionData
+     */
+    'question_id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof AnswerQuestionData
+     */
+    'seconds_taken'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface AnswerQuestionResult
+ */
+export interface AnswerQuestionResult {
+    /**
+     * 
+     * @type {string}
+     * @memberof AnswerQuestionResult
+     */
+    'answered_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AnswerQuestionResult
+     */
+    'answered_by'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof AnswerQuestionResult
+     */
+    'exam_id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof AnswerQuestionResult
+     */
+    'question_id'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface AnsweredQuestionInfo
+ */
+export interface AnsweredQuestionInfo {
+    /**
+     * 
+     * @type {string}
+     * @memberof AnsweredQuestionInfo
+     */
+    'answer'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AnsweredQuestionInfo
+     */
+    'chosen_option'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof AnsweredQuestionInfo
+     */
+    'question_id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof AnsweredQuestionInfo
+     */
+    'seconds_taken'?: number;
+}
 /**
  * 
  * @export
@@ -249,6 +382,31 @@ export interface ChangePasswordData {
 /**
  * 
  * @export
+ * @interface ChangePasswordResult
+ */
+export interface ChangePasswordResult {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ChangePasswordResult
+     */
+    'email_sent'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof ChangePasswordResult
+     */
+    'lang'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ChangePasswordResult
+     */
+    'password_changed'?: boolean;
+}
+/**
+ * 
+ * @export
  * @interface ChangePasswordV1200Response
  */
 export interface ChangePasswordV1200Response {
@@ -260,14 +418,76 @@ export interface ChangePasswordV1200Response {
     'error'?: EndpointError;
     /**
      * 
+     * @type {ChangePasswordResult}
+     * @memberof ChangePasswordV1200Response
+     */
+    'result'?: ChangePasswordResult;
+    /**
+     * 
      * @type {boolean}
      * @memberof ChangePasswordV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface ConfirmAccountData
+ */
+export interface ConfirmAccountData {
+    /**
+     * 
+     * @type {string}
+     * @memberof ConfirmAccountData
+     */
+    'confirm_token'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ConfirmAccountData
+     */
+    'lt_token'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ConfirmAccountData
+     */
+    'raw_password'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ConfirmAccountData
+     */
+    'rl_token'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ConfirmAccountData
+     */
+    'user_id'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface ConfirmAccountV1200Response
+ */
+export interface ConfirmAccountV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof ConfirmAccountV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ConfirmAccountV1200Response
      */
     'result'?: boolean;
     /**
      * 
      * @type {boolean}
-     * @memberof ChangePasswordV1200Response
+     * @memberof ConfirmAccountV1200Response
      */
     'success'?: boolean;
 }
@@ -311,6 +531,229 @@ export interface ConfirmChangePasswordData {
 /**
  * 
  * @export
+ * @interface CourseParticipantInfo
+ */
+export interface CourseParticipantInfo {
+    /**
+     * 
+     * @type {string}
+     * @memberof CourseParticipantInfo
+     */
+    'full_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CourseParticipantInfo
+     */
+    'user_id'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateCourseData
+ */
+export interface CreateCourseData {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCourseData
+     */
+    'course_description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCourseData
+     */
+    'course_name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateCourseResult
+ */
+export interface CreateCourseResult {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCourseResult
+     */
+    'added_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCourseResult
+     */
+    'course_description'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateCourseResult
+     */
+    'course_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCourseResult
+     */
+    'course_name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateCourseV1200Response
+ */
+export interface CreateCourseV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof CreateCourseV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {CreateCourseResult}
+     * @memberof CreateCourseV1200Response
+     */
+    'result'?: CreateCourseResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateCourseV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface CreateExamData
+ */
+export interface CreateExamData {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateExamData
+     */
+    'course_id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateExamData
+     */
+    'duration'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateExamData
+     */
+    'exam_date'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateExamData
+     */
+    'exam_description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateExamData
+     */
+    'exam_title'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateExamData
+     */
+    'is_public'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateExamData
+     */
+    'price'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateExamResult
+ */
+export interface CreateExamResult {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateExamResult
+     */
+    'course_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateExamResult
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateExamResult
+     */
+    'created_by'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateExamResult
+     */
+    'duration'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateExamResult
+     */
+    'exam_date'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateExamResult
+     */
+    'exam_id'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateExamResult
+     */
+    'is_public'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateExamResult
+     */
+    'price'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateExamV1200Response
+ */
+export interface CreateExamV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof CreateExamV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {CreateExamResult}
+     * @memberof CreateExamV1200Response
+     */
+    'result'?: CreateExamResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateExamV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
  * @interface CreateNewTopicData
  */
 export interface CreateNewTopicData {
@@ -319,7 +762,7 @@ export interface CreateNewTopicData {
      * @type {string}
      * @memberof CreateNewTopicData
      */
-    'topicName'?: string;
+    'topic_name'?: string;
 }
 /**
  * 
@@ -332,13 +775,38 @@ export interface CreateNewTopicResult {
      * @type {number}
      * @memberof CreateNewTopicResult
      */
-    'topicID'?: number;
+    'topic_id'?: number;
     /**
      * 
      * @type {string}
      * @memberof CreateNewTopicResult
      */
-    'topicName'?: string;
+    'topic_name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateTopicV1200Response
+ */
+export interface CreateTopicV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof CreateTopicV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {CreateNewTopicResult}
+     * @memberof CreateTopicV1200Response
+     */
+    'result'?: CreateNewTopicResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateTopicV1200Response
+     */
+    'success'?: boolean;
 }
 /**
  * 
@@ -370,6 +838,12 @@ export interface CreateUserData {
      * @memberof CreateUserData
      */
     'phone_number'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUserData
+     */
+    'primary_language'?: string;
     /**
      * 
      * @type {UserRole}
@@ -609,6 +1083,67 @@ export interface EndpointResponse {
 /**
  * 
  * @export
+ * @interface ExamQuestionInfo
+ */
+export interface ExamQuestionInfo {
+    /**
+     * 
+     * @type {string}
+     * @memberof ExamQuestionInfo
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExamQuestionInfo
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExamQuestionInfo
+     */
+    'option1'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExamQuestionInfo
+     */
+    'option2'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExamQuestionInfo
+     */
+    'option3'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExamQuestionInfo
+     */
+    'option4'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ExamQuestionInfo
+     */
+    'question_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExamQuestionInfo
+     */
+    'question_title'?: string;
+    /**
+     * 
+     * @type {AnsweredQuestionInfo}
+     * @memberof ExamQuestionInfo
+     */
+    'user_answer'?: AnsweredQuestionInfo;
+}
+/**
+ * 
+ * @export
  * @interface GenerateCaptchaV1200Response
  */
 export interface GenerateCaptchaV1200Response {
@@ -628,6 +1163,467 @@ export interface GenerateCaptchaV1200Response {
      * 
      * @type {boolean}
      * @memberof GenerateCaptchaV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface GetAllUserTopicStatsResult
+ */
+export interface GetAllUserTopicStatsResult {
+    /**
+     * 
+     * @type {Array<UserTopicStatInfo>}
+     * @memberof GetAllUserTopicStatsResult
+     */
+    'stats'?: Array<UserTopicStatInfo>;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetAllUserTopicStatsResult
+     */
+    'user_id'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface GetAllUserTopicStatsV1200Response
+ */
+export interface GetAllUserTopicStatsV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof GetAllUserTopicStatsV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {GetAllUserTopicStatsResult}
+     * @memberof GetAllUserTopicStatsV1200Response
+     */
+    'result'?: GetAllUserTopicStatsResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetAllUserTopicStatsV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface GetCourseInfoResult
+ */
+export interface GetCourseInfoResult {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetCourseInfoResult
+     */
+    'added_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetCourseInfoResult
+     */
+    'course_description'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetCourseInfoResult
+     */
+    'course_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetCourseInfoResult
+     */
+    'course_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetCourseInfoResult
+     */
+    'created_at'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface GetCourseInfoV1200Response
+ */
+export interface GetCourseInfoV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof GetCourseInfoV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {GetCourseInfoResult}
+     * @memberof GetCourseInfoV1200Response
+     */
+    'result'?: GetCourseInfoResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetCourseInfoV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface GetCourseParticipantsData
+ */
+export interface GetCourseParticipantsData {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetCourseParticipantsData
+     */
+    'course_id'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface GetCourseParticipantsResult
+ */
+export interface GetCourseParticipantsResult {
+    /**
+     * 
+     * @type {Array<CourseParticipantInfo>}
+     * @memberof GetCourseParticipantsResult
+     */
+    'participants'?: Array<CourseParticipantInfo>;
+}
+/**
+ * 
+ * @export
+ * @interface GetCourseParticipantsV1200Response
+ */
+export interface GetCourseParticipantsV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof GetCourseParticipantsV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {GetCourseParticipantsResult}
+     * @memberof GetCourseParticipantsV1200Response
+     */
+    'result'?: GetCourseParticipantsResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetCourseParticipantsV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface GetCreatedCoursesData
+ */
+export interface GetCreatedCoursesData {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetCreatedCoursesData
+     */
+    'user_id'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface GetCreatedCoursesResult
+ */
+export interface GetCreatedCoursesResult {
+    /**
+     * 
+     * @type {Array<SearchedCourseInfo>}
+     * @memberof GetCreatedCoursesResult
+     */
+    'courses'?: Array<SearchedCourseInfo>;
+}
+/**
+ * 
+ * @export
+ * @interface GetCreatedCoursesV1200Response
+ */
+export interface GetCreatedCoursesV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof GetCreatedCoursesV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {GetCreatedCoursesResult}
+     * @memberof GetCreatedCoursesV1200Response
+     */
+    'result'?: GetCreatedCoursesResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetCreatedCoursesV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface GetExamInfoResult
+ */
+export interface GetExamInfoResult {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetExamInfoResult
+     */
+    'course_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetExamInfoResult
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetExamInfoResult
+     */
+    'created_by'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetExamInfoResult
+     */
+    'duration'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetExamInfoResult
+     */
+    'exam_date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetExamInfoResult
+     */
+    'exam_description'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetExamInfoResult
+     */
+    'exam_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetExamInfoResult
+     */
+    'exam_title'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetExamInfoResult
+     */
+    'finishes_in'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetExamInfoResult
+     */
+    'has_finished'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetExamInfoResult
+     */
+    'has_started'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetExamInfoResult
+     */
+    'is_public'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetExamInfoResult
+     */
+    'price'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetExamInfoResult
+     */
+    'question_count'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetExamInfoResult
+     */
+    'starts_in'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface GetExamInfoV1200Response
+ */
+export interface GetExamInfoV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof GetExamInfoV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {GetExamInfoResult}
+     * @memberof GetExamInfoV1200Response
+     */
+    'result'?: GetExamInfoResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetExamInfoV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface GetExamQuestionsData
+ */
+export interface GetExamQuestionsData {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetExamQuestionsData
+     */
+    'exam_id'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface GetExamQuestionsResult
+ */
+export interface GetExamQuestionsResult {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetExamQuestionsResult
+     */
+    'exam_id'?: number;
+    /**
+     * 
+     * @type {Array<ExamQuestionInfo>}
+     * @memberof GetExamQuestionsResult
+     */
+    'questions'?: Array<ExamQuestionInfo>;
+}
+/**
+ * 
+ * @export
+ * @interface GetExamQuestionsV1200Response
+ */
+export interface GetExamQuestionsV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof GetExamQuestionsV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {GetExamQuestionsResult}
+     * @memberof GetExamQuestionsV1200Response
+     */
+    'result'?: GetExamQuestionsResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetExamQuestionsV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface GetGivenExamData
+ */
+export interface GetGivenExamData {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetGivenExamData
+     */
+    'added_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetGivenExamData
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetGivenExamData
+     */
+    'exam_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetGivenExamData
+     */
+    'final_score'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetGivenExamData
+     */
+    'price'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetGivenExamData
+     */
+    'scored_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetGivenExamData
+     */
+    'user_id'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface GetGivenExamV1200Response
+ */
+export interface GetGivenExamV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof GetGivenExamV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {GetGivenExamData}
+     * @memberof GetGivenExamV1200Response
+     */
+    'result'?: GetGivenExamData;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetGivenExamV1200Response
      */
     'success'?: boolean;
 }
@@ -680,6 +1676,126 @@ export interface GetMeV1200Response {
      * 
      * @type {boolean}
      * @memberof GetMeV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface GetTopicInfoResult
+ */
+export interface GetTopicInfoResult {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetTopicInfoResult
+     */
+    'topic_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTopicInfoResult
+     */
+    'topic_name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface GetTopicInfoV1200Response
+ */
+export interface GetTopicInfoV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof GetTopicInfoV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {GetTopicInfoResult}
+     * @memberof GetTopicInfoV1200Response
+     */
+    'result'?: GetTopicInfoResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetTopicInfoV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface GetUserCoursesData
+ */
+export interface GetUserCoursesData {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetUserCoursesData
+     */
+    'user_id'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface GetUserCoursesResult
+ */
+export interface GetUserCoursesResult {
+    /**
+     * 
+     * @type {Array<UserParticipatedCourse>}
+     * @memberof GetUserCoursesResult
+     */
+    'courses'?: Array<UserParticipatedCourse>;
+}
+/**
+ * 
+ * @export
+ * @interface GetUserCoursesV1200Response
+ */
+export interface GetUserCoursesV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof GetUserCoursesV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {GetUserCoursesResult}
+     * @memberof GetUserCoursesV1200Response
+     */
+    'result'?: GetUserCoursesResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetUserCoursesV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface GetUserExamsHistoryV1200Response
+ */
+export interface GetUserExamsHistoryV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof GetUserExamsHistoryV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {GetUsersExamHistoryResult}
+     * @memberof GetUserExamsHistoryV1200Response
+     */
+    'result'?: GetUsersExamHistoryResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetUserExamsHistoryV1200Response
      */
     'success'?: boolean;
 }
@@ -758,6 +1874,139 @@ export interface GetUserInfoV1200Response {
      * @memberof GetUserInfoV1200Response
      */
     'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface GetUserOngoingExamsResult
+ */
+export interface GetUserOngoingExamsResult {
+    /**
+     * 
+     * @type {Array<UserOngoingExamInfo>}
+     * @memberof GetUserOngoingExamsResult
+     */
+    'exams'?: Array<UserOngoingExamInfo>;
+}
+/**
+ * 
+ * @export
+ * @interface GetUserOngoingExamsV1200Response
+ */
+export interface GetUserOngoingExamsV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof GetUserOngoingExamsV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {GetUserOngoingExamsResult}
+     * @memberof GetUserOngoingExamsV1200Response
+     */
+    'result'?: GetUserOngoingExamsResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetUserOngoingExamsV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface GetUserTopicStatData
+ */
+export interface GetUserTopicStatData {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetUserTopicStatData
+     */
+    'topic_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetUserTopicStatData
+     */
+    'user_id'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface GetUserTopicStatResult
+ */
+export interface GetUserTopicStatResult {
+    /**
+     * 
+     * @type {UserTopicStatInfo}
+     * @memberof GetUserTopicStatResult
+     */
+    'stat'?: UserTopicStatInfo;
+}
+/**
+ * 
+ * @export
+ * @interface GetUserTopicStatV1200Response
+ */
+export interface GetUserTopicStatV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof GetUserTopicStatV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {GetUserTopicStatResult}
+     * @memberof GetUserTopicStatV1200Response
+     */
+    'result'?: GetUserTopicStatResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetUserTopicStatV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface GetUsersExamHistoryData
+ */
+export interface GetUsersExamHistoryData {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetUsersExamHistoryData
+     */
+    'limit'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetUsersExamHistoryData
+     */
+    'offset'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetUsersExamHistoryData
+     */
+    'user_id'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface GetUsersExamHistoryResult
+ */
+export interface GetUsersExamHistoryResult {
+    /**
+     * 
+     * @type {Array<UserExamHistoryInfo>}
+     * @memberof GetUsersExamHistoryResult
+     */
+    'exams'?: Array<UserExamHistoryInfo>;
 }
 /**
  * 
@@ -894,6 +2143,108 @@ export interface ReAuthV1200Response {
 /**
  * 
  * @export
+ * @interface SearchCourseData
+ */
+export interface SearchCourseData {
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchCourseData
+     */
+    'course_name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface SearchCourseResult
+ */
+export interface SearchCourseResult {
+    /**
+     * 
+     * @type {Array<SearchedCourseInfo>}
+     * @memberof SearchCourseResult
+     */
+    'courses'?: Array<SearchedCourseInfo>;
+}
+/**
+ * 
+ * @export
+ * @interface SearchCourseV1200Response
+ */
+export interface SearchCourseV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof SearchCourseV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {SearchCourseResult}
+     * @memberof SearchCourseV1200Response
+     */
+    'result'?: SearchCourseResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SearchCourseV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface SearchTopicData
+ */
+export interface SearchTopicData {
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchTopicData
+     */
+    'topic_name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface SearchTopicResult
+ */
+export interface SearchTopicResult {
+    /**
+     * 
+     * @type {Array<SearchedTopicInfo>}
+     * @memberof SearchTopicResult
+     */
+    'topics'?: Array<SearchedTopicInfo>;
+}
+/**
+ * 
+ * @export
+ * @interface SearchTopicV1200Response
+ */
+export interface SearchTopicV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof SearchTopicV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {SearchTopicResult}
+     * @memberof SearchTopicV1200Response
+     */
+    'result'?: SearchTopicResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SearchTopicV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
  * @interface SearchUserData
  */
 export interface SearchUserData {
@@ -957,6 +2308,62 @@ export interface SearchUserV1200Response {
 /**
  * 
  * @export
+ * @interface SearchedCourseInfo
+ */
+export interface SearchedCourseInfo {
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchedCourseInfo
+     */
+    'added_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchedCourseInfo
+     */
+    'course_description'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof SearchedCourseInfo
+     */
+    'course_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchedCourseInfo
+     */
+    'course_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchedCourseInfo
+     */
+    'created_at'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface SearchedTopicInfo
+ */
+export interface SearchedTopicInfo {
+    /**
+     * 
+     * @type {number}
+     * @memberof SearchedTopicInfo
+     */
+    'topic_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchedTopicInfo
+     */
+    'topic_name'?: string;
+}
+/**
+ * 
+ * @export
  * @interface SearchedUserInfo
  */
 export interface SearchedUserInfo {
@@ -1006,6 +2413,156 @@ export interface SearchedUserInfo {
 
 
 /**
+ * 
+ * @export
+ * @interface SetScoreData
+ */
+export interface SetScoreData {
+    /**
+     * ExamId is the exam we are trying to give this score to.
+     * @type {number}
+     * @memberof SetScoreData
+     */
+    'exam_id'?: number;
+    /**
+     * Score is the score we are trying to give to the user.
+     * @type {string}
+     * @memberof SetScoreData
+     */
+    'score'?: string;
+    /**
+     * UserId is the person we are trying to give this score to.
+     * @type {string}
+     * @memberof SetScoreData
+     */
+    'user_id'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface SetScoreResult
+ */
+export interface SetScoreResult {
+    /**
+     * 
+     * @type {number}
+     * @memberof SetScoreResult
+     */
+    'exam_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof SetScoreResult
+     */
+    'score'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SetScoreResult
+     */
+    'scored_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SetScoreResult
+     */
+    'user_id'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface SetScoreV1200Response
+ */
+export interface SetScoreV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof SetScoreV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {SetScoreResult}
+     * @memberof SetScoreV1200Response
+     */
+    'result'?: SetScoreResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SetScoreV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface UserExamHistoryInfo
+ */
+export interface UserExamHistoryInfo {
+    /**
+     * 
+     * @type {number}
+     * @memberof UserExamHistoryInfo
+     */
+    'exam_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserExamHistoryInfo
+     */
+    'exam_title'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserExamHistoryInfo
+     */
+    'started_at'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface UserOngoingExamInfo
+ */
+export interface UserOngoingExamInfo {
+    /**
+     * 
+     * @type {number}
+     * @memberof UserOngoingExamInfo
+     */
+    'course_id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof UserOngoingExamInfo
+     */
+    'exam_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserOngoingExamInfo
+     */
+    'start_time'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface UserParticipatedCourse
+ */
+export interface UserParticipatedCourse {
+    /**
+     * 
+     * @type {number}
+     * @memberof UserParticipatedCourse
+     */
+    'course_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserParticipatedCourse
+     */
+    'course_name'?: string;
+}
+/**
  * UserRole is the role of the user.
  * @export
  * @enum {string}
@@ -1020,6 +2577,1698 @@ export const UserRole = {
 } as const;
 
 export type UserRole = typeof UserRole[keyof typeof UserRole];
+
+
+/**
+ * 
+ * @export
+ * @interface UserTopicStatInfo
+ */
+export interface UserTopicStatInfo {
+    /**
+     * 
+     * @type {number}
+     * @memberof UserTopicStatInfo
+     */
+    'current_exp'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof UserTopicStatInfo
+     */
+    'current_level'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserTopicStatInfo
+     */
+    'last_visited'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof UserTopicStatInfo
+     */
+    'topic_id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof UserTopicStatInfo
+     */
+    'total_exp'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserTopicStatInfo
+     */
+    'user_id'?: string;
+}
+
+/**
+ * CourseApi - axios parameter creator
+ * @export
+ */
+export const CourseApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Allows a user to create a new course.
+         * @summary Create a new course
+         * @param {string} authorization Authorization token
+         * @param {CreateCourseData} data Data needed to create a new course
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createCourseV1: async (authorization: string, data: CreateCourseData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('createCourseV1', 'authorization', authorization)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('createCourseV1', 'data', data)
+            const localVarPath = `/api/v1/course/create`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Allows a user to get information about a course by its id.
+         * @summary Get course information
+         * @param {number} id Course ID
+         * @param {string} authorization Authorization token
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCourseInfoV1: async (id: number, authorization: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getCourseInfoV1', 'id', id)
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('getCourseInfoV1', 'authorization', authorization)
+            const localVarPath = `/api/v1/course/info`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (id !== undefined) {
+                localVarQueryParameter['id'] = id;
+            }
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Allows a user to get all participants of a course.
+         * @summary Get course participants
+         * @param {string} authorization Authorization token
+         * @param {GetCourseParticipantsData} data Data needed to get course participants
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCourseParticipantsV1: async (authorization: string, data: GetCourseParticipantsData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('getCourseParticipantsV1', 'authorization', authorization)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('getCourseParticipantsV1', 'data', data)
+            const localVarPath = `/api/v1/course/courseParticipants`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Allows a user to get all courses created by a user.
+         * @summary Get created courses
+         * @param {string} authorization Authorization token
+         * @param {GetCreatedCoursesData} data Data needed to get created courses
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCreatedCoursesV1: async (authorization: string, data: GetCreatedCoursesData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('getCreatedCoursesV1', 'authorization', authorization)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('getCreatedCoursesV1', 'data', data)
+            const localVarPath = `/api/v1/course/createdCourses`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Allows a user to get all courses participated by a user.
+         * @summary Get user courses
+         * @param {string} authorization Authorization token
+         * @param {GetUserCoursesData} data Data needed to get user courses
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserCoursesV1: async (authorization: string, data: GetUserCoursesData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('getUserCoursesV1', 'authorization', authorization)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('getUserCoursesV1', 'data', data)
+            const localVarPath = `/api/v1/course/userCourses`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Allows a user to search for courses by their name.
+         * @summary Search for courses
+         * @param {string} authorization Authorization token
+         * @param {SearchCourseData} data Data needed to search for courses
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        searchCourseV1: async (authorization: string, data: SearchCourseData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('searchCourseV1', 'authorization', authorization)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('searchCourseV1', 'data', data)
+            const localVarPath = `/api/v1/course/search`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * CourseApi - functional programming interface
+ * @export
+ */
+export const CourseApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = CourseApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Allows a user to create a new course.
+         * @summary Create a new course
+         * @param {string} authorization Authorization token
+         * @param {CreateCourseData} data Data needed to create a new course
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createCourseV1(authorization: string, data: CreateCourseData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateCourseV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createCourseV1(authorization, data, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CourseApi.createCourseV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Allows a user to get information about a course by its id.
+         * @summary Get course information
+         * @param {number} id Course ID
+         * @param {string} authorization Authorization token
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getCourseInfoV1(id: number, authorization: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetCourseInfoV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCourseInfoV1(id, authorization, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CourseApi.getCourseInfoV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Allows a user to get all participants of a course.
+         * @summary Get course participants
+         * @param {string} authorization Authorization token
+         * @param {GetCourseParticipantsData} data Data needed to get course participants
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getCourseParticipantsV1(authorization: string, data: GetCourseParticipantsData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetCourseParticipantsV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCourseParticipantsV1(authorization, data, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CourseApi.getCourseParticipantsV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Allows a user to get all courses created by a user.
+         * @summary Get created courses
+         * @param {string} authorization Authorization token
+         * @param {GetCreatedCoursesData} data Data needed to get created courses
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getCreatedCoursesV1(authorization: string, data: GetCreatedCoursesData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetCreatedCoursesV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCreatedCoursesV1(authorization, data, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CourseApi.getCreatedCoursesV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Allows a user to get all courses participated by a user.
+         * @summary Get user courses
+         * @param {string} authorization Authorization token
+         * @param {GetUserCoursesData} data Data needed to get user courses
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getUserCoursesV1(authorization: string, data: GetUserCoursesData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetUserCoursesV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserCoursesV1(authorization, data, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CourseApi.getUserCoursesV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Allows a user to search for courses by their name.
+         * @summary Search for courses
+         * @param {string} authorization Authorization token
+         * @param {SearchCourseData} data Data needed to search for courses
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async searchCourseV1(authorization: string, data: SearchCourseData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SearchCourseV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.searchCourseV1(authorization, data, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CourseApi.searchCourseV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * CourseApi - factory interface
+ * @export
+ */
+export const CourseApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = CourseApiFp(configuration)
+    return {
+        /**
+         * Allows a user to create a new course.
+         * @summary Create a new course
+         * @param {string} authorization Authorization token
+         * @param {CreateCourseData} data Data needed to create a new course
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createCourseV1(authorization: string, data: CreateCourseData, options?: any): AxiosPromise<CreateCourseV1200Response> {
+            return localVarFp.createCourseV1(authorization, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Allows a user to get information about a course by its id.
+         * @summary Get course information
+         * @param {number} id Course ID
+         * @param {string} authorization Authorization token
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCourseInfoV1(id: number, authorization: string, options?: any): AxiosPromise<GetCourseInfoV1200Response> {
+            return localVarFp.getCourseInfoV1(id, authorization, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Allows a user to get all participants of a course.
+         * @summary Get course participants
+         * @param {string} authorization Authorization token
+         * @param {GetCourseParticipantsData} data Data needed to get course participants
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCourseParticipantsV1(authorization: string, data: GetCourseParticipantsData, options?: any): AxiosPromise<GetCourseParticipantsV1200Response> {
+            return localVarFp.getCourseParticipantsV1(authorization, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Allows a user to get all courses created by a user.
+         * @summary Get created courses
+         * @param {string} authorization Authorization token
+         * @param {GetCreatedCoursesData} data Data needed to get created courses
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCreatedCoursesV1(authorization: string, data: GetCreatedCoursesData, options?: any): AxiosPromise<GetCreatedCoursesV1200Response> {
+            return localVarFp.getCreatedCoursesV1(authorization, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Allows a user to get all courses participated by a user.
+         * @summary Get user courses
+         * @param {string} authorization Authorization token
+         * @param {GetUserCoursesData} data Data needed to get user courses
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserCoursesV1(authorization: string, data: GetUserCoursesData, options?: any): AxiosPromise<GetUserCoursesV1200Response> {
+            return localVarFp.getUserCoursesV1(authorization, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Allows a user to search for courses by their name.
+         * @summary Search for courses
+         * @param {string} authorization Authorization token
+         * @param {SearchCourseData} data Data needed to search for courses
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        searchCourseV1(authorization: string, data: SearchCourseData, options?: any): AxiosPromise<SearchCourseV1200Response> {
+            return localVarFp.searchCourseV1(authorization, data, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * CourseApi - object-oriented interface
+ * @export
+ * @class CourseApi
+ * @extends {BaseAPI}
+ */
+export class CourseApi extends BaseAPI {
+    /**
+     * Allows a user to create a new course.
+     * @summary Create a new course
+     * @param {string} authorization Authorization token
+     * @param {CreateCourseData} data Data needed to create a new course
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CourseApi
+     */
+    public createCourseV1(authorization: string, data: CreateCourseData, options?: RawAxiosRequestConfig) {
+        return CourseApiFp(this.configuration).createCourseV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows a user to get information about a course by its id.
+     * @summary Get course information
+     * @param {number} id Course ID
+     * @param {string} authorization Authorization token
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CourseApi
+     */
+    public getCourseInfoV1(id: number, authorization: string, options?: RawAxiosRequestConfig) {
+        return CourseApiFp(this.configuration).getCourseInfoV1(id, authorization, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows a user to get all participants of a course.
+     * @summary Get course participants
+     * @param {string} authorization Authorization token
+     * @param {GetCourseParticipantsData} data Data needed to get course participants
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CourseApi
+     */
+    public getCourseParticipantsV1(authorization: string, data: GetCourseParticipantsData, options?: RawAxiosRequestConfig) {
+        return CourseApiFp(this.configuration).getCourseParticipantsV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows a user to get all courses created by a user.
+     * @summary Get created courses
+     * @param {string} authorization Authorization token
+     * @param {GetCreatedCoursesData} data Data needed to get created courses
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CourseApi
+     */
+    public getCreatedCoursesV1(authorization: string, data: GetCreatedCoursesData, options?: RawAxiosRequestConfig) {
+        return CourseApiFp(this.configuration).getCreatedCoursesV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows a user to get all courses participated by a user.
+     * @summary Get user courses
+     * @param {string} authorization Authorization token
+     * @param {GetUserCoursesData} data Data needed to get user courses
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CourseApi
+     */
+    public getUserCoursesV1(authorization: string, data: GetUserCoursesData, options?: RawAxiosRequestConfig) {
+        return CourseApiFp(this.configuration).getUserCoursesV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows a user to search for courses by their name.
+     * @summary Search for courses
+     * @param {string} authorization Authorization token
+     * @param {SearchCourseData} data Data needed to search for courses
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CourseApi
+     */
+    public searchCourseV1(authorization: string, data: SearchCourseData, options?: RawAxiosRequestConfig) {
+        return CourseApiFp(this.configuration).searchCourseV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * ExamApi - axios parameter creator
+ * @export
+ */
+export const ExamApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Allows the user to answer a question of an exam.
+         * @summary Answer a question of an exam
+         * @param {string} authorization Authorization token
+         * @param {AnswerQuestionData} data Data needed to answer a question of an exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        answerExamQuestionV1: async (authorization: string, data: AnswerQuestionData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('answerExamQuestionV1', 'authorization', authorization)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('answerExamQuestionV1', 'data', data)
+            const localVarPath = `/api/v1/exam/answer`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Allows the user to create a new exam.
+         * @summary Create a new exam
+         * @param {string} authorization Authorization token
+         * @param {CreateExamData} data Data needed to create a new exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createExamV1: async (authorization: string, data: CreateExamData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('createExamV1', 'authorization', authorization)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('createExamV1', 'data', data)
+            const localVarPath = `/api/v1/exam/create`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Allows the user to get information about an exam.
+         * @summary Get information about an exam
+         * @param {number} id Exam ID
+         * @param {string} authorization Authorization token
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getExamInfoV1: async (id: number, authorization: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getExamInfoV1', 'id', id)
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('getExamInfoV1', 'authorization', authorization)
+            const localVarPath = `/api/v1/exam/info`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (id !== undefined) {
+                localVarQueryParameter['id'] = id;
+            }
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Allows the user to get questions of an exam.
+         * @summary Get questions of an exam
+         * @param {string} authorization Authorization token
+         * @param {GetExamQuestionsData} data Data needed to get questions of an exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getExamQuestionsV1: async (authorization: string, data: GetExamQuestionsData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('getExamQuestionsV1', 'authorization', authorization)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('getExamQuestionsV1', 'data', data)
+            const localVarPath = `/api/v1/exam/questions`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Allows the user to get information about an exam that a user has participated in.
+         * @summary Get information about an exam that a user has participated in
+         * @param {string} authorization Authorization token
+         * @param {GetGivenExamData} data Data needed to get information about an exam that a user has participated in
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getGivenExamV1: async (authorization: string, data: GetGivenExamData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('getGivenExamV1', 'authorization', authorization)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('getGivenExamV1', 'data', data)
+            const localVarPath = `/api/v1/exam/givenExam`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Allows the user to get history of exams of a user.
+         * @summary Get history of exams of a user
+         * @param {string} authorization Authorization token
+         * @param {GetUsersExamHistoryData} data Data needed to get history of exams of a user
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserExamsHistoryV1: async (authorization: string, data: GetUsersExamHistoryData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('getUserExamsHistoryV1', 'authorization', authorization)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('getUserExamsHistoryV1', 'data', data)
+            const localVarPath = `/api/v1/exam/userExamsHistory`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Allows the user to get ongoing exams of a user.
+         * @summary Get ongoing exams of a user
+         * @param {string} authorization Authorization token
+         * @param {string} [targetId] Target user id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserOngoingExamsV1: async (authorization: string, targetId?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('getUserOngoingExamsV1', 'authorization', authorization)
+            const localVarPath = `/api/v1/exam/userOngoingExams`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (targetId !== undefined) {
+                localVarQueryParameter['targetId'] = targetId;
+            }
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Allows the user to set score for a user in an exam.
+         * @summary Set score for a user in an exam
+         * @param {string} authorization Authorization token
+         * @param {SetScoreData} data Data needed to set score for a user in an exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        setScoreV1: async (authorization: string, data: SetScoreData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('setScoreV1', 'authorization', authorization)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('setScoreV1', 'data', data)
+            const localVarPath = `/api/v1/exam/setScore`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * ExamApi - functional programming interface
+ * @export
+ */
+export const ExamApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ExamApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Allows the user to answer a question of an exam.
+         * @summary Answer a question of an exam
+         * @param {string} authorization Authorization token
+         * @param {AnswerQuestionData} data Data needed to answer a question of an exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async answerExamQuestionV1(authorization: string, data: AnswerQuestionData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AnswerExamQuestionV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.answerExamQuestionV1(authorization, data, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ExamApi.answerExamQuestionV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Allows the user to create a new exam.
+         * @summary Create a new exam
+         * @param {string} authorization Authorization token
+         * @param {CreateExamData} data Data needed to create a new exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createExamV1(authorization: string, data: CreateExamData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateExamV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createExamV1(authorization, data, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ExamApi.createExamV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Allows the user to get information about an exam.
+         * @summary Get information about an exam
+         * @param {number} id Exam ID
+         * @param {string} authorization Authorization token
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getExamInfoV1(id: number, authorization: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetExamInfoV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getExamInfoV1(id, authorization, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ExamApi.getExamInfoV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Allows the user to get questions of an exam.
+         * @summary Get questions of an exam
+         * @param {string} authorization Authorization token
+         * @param {GetExamQuestionsData} data Data needed to get questions of an exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getExamQuestionsV1(authorization: string, data: GetExamQuestionsData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetExamQuestionsV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getExamQuestionsV1(authorization, data, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ExamApi.getExamQuestionsV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Allows the user to get information about an exam that a user has participated in.
+         * @summary Get information about an exam that a user has participated in
+         * @param {string} authorization Authorization token
+         * @param {GetGivenExamData} data Data needed to get information about an exam that a user has participated in
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getGivenExamV1(authorization: string, data: GetGivenExamData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetGivenExamV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getGivenExamV1(authorization, data, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ExamApi.getGivenExamV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Allows the user to get history of exams of a user.
+         * @summary Get history of exams of a user
+         * @param {string} authorization Authorization token
+         * @param {GetUsersExamHistoryData} data Data needed to get history of exams of a user
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getUserExamsHistoryV1(authorization: string, data: GetUsersExamHistoryData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetUserExamsHistoryV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserExamsHistoryV1(authorization, data, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ExamApi.getUserExamsHistoryV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Allows the user to get ongoing exams of a user.
+         * @summary Get ongoing exams of a user
+         * @param {string} authorization Authorization token
+         * @param {string} [targetId] Target user id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getUserOngoingExamsV1(authorization: string, targetId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetUserOngoingExamsV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserOngoingExamsV1(authorization, targetId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ExamApi.getUserOngoingExamsV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Allows the user to set score for a user in an exam.
+         * @summary Set score for a user in an exam
+         * @param {string} authorization Authorization token
+         * @param {SetScoreData} data Data needed to set score for a user in an exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async setScoreV1(authorization: string, data: SetScoreData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SetScoreV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.setScoreV1(authorization, data, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ExamApi.setScoreV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * ExamApi - factory interface
+ * @export
+ */
+export const ExamApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ExamApiFp(configuration)
+    return {
+        /**
+         * Allows the user to answer a question of an exam.
+         * @summary Answer a question of an exam
+         * @param {string} authorization Authorization token
+         * @param {AnswerQuestionData} data Data needed to answer a question of an exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        answerExamQuestionV1(authorization: string, data: AnswerQuestionData, options?: any): AxiosPromise<AnswerExamQuestionV1200Response> {
+            return localVarFp.answerExamQuestionV1(authorization, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Allows the user to create a new exam.
+         * @summary Create a new exam
+         * @param {string} authorization Authorization token
+         * @param {CreateExamData} data Data needed to create a new exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createExamV1(authorization: string, data: CreateExamData, options?: any): AxiosPromise<CreateExamV1200Response> {
+            return localVarFp.createExamV1(authorization, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Allows the user to get information about an exam.
+         * @summary Get information about an exam
+         * @param {number} id Exam ID
+         * @param {string} authorization Authorization token
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getExamInfoV1(id: number, authorization: string, options?: any): AxiosPromise<GetExamInfoV1200Response> {
+            return localVarFp.getExamInfoV1(id, authorization, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Allows the user to get questions of an exam.
+         * @summary Get questions of an exam
+         * @param {string} authorization Authorization token
+         * @param {GetExamQuestionsData} data Data needed to get questions of an exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getExamQuestionsV1(authorization: string, data: GetExamQuestionsData, options?: any): AxiosPromise<GetExamQuestionsV1200Response> {
+            return localVarFp.getExamQuestionsV1(authorization, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Allows the user to get information about an exam that a user has participated in.
+         * @summary Get information about an exam that a user has participated in
+         * @param {string} authorization Authorization token
+         * @param {GetGivenExamData} data Data needed to get information about an exam that a user has participated in
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getGivenExamV1(authorization: string, data: GetGivenExamData, options?: any): AxiosPromise<GetGivenExamV1200Response> {
+            return localVarFp.getGivenExamV1(authorization, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Allows the user to get history of exams of a user.
+         * @summary Get history of exams of a user
+         * @param {string} authorization Authorization token
+         * @param {GetUsersExamHistoryData} data Data needed to get history of exams of a user
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserExamsHistoryV1(authorization: string, data: GetUsersExamHistoryData, options?: any): AxiosPromise<GetUserExamsHistoryV1200Response> {
+            return localVarFp.getUserExamsHistoryV1(authorization, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Allows the user to get ongoing exams of a user.
+         * @summary Get ongoing exams of a user
+         * @param {string} authorization Authorization token
+         * @param {string} [targetId] Target user id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserOngoingExamsV1(authorization: string, targetId?: string, options?: any): AxiosPromise<GetUserOngoingExamsV1200Response> {
+            return localVarFp.getUserOngoingExamsV1(authorization, targetId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Allows the user to set score for a user in an exam.
+         * @summary Set score for a user in an exam
+         * @param {string} authorization Authorization token
+         * @param {SetScoreData} data Data needed to set score for a user in an exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        setScoreV1(authorization: string, data: SetScoreData, options?: any): AxiosPromise<SetScoreV1200Response> {
+            return localVarFp.setScoreV1(authorization, data, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * ExamApi - object-oriented interface
+ * @export
+ * @class ExamApi
+ * @extends {BaseAPI}
+ */
+export class ExamApi extends BaseAPI {
+    /**
+     * Allows the user to answer a question of an exam.
+     * @summary Answer a question of an exam
+     * @param {string} authorization Authorization token
+     * @param {AnswerQuestionData} data Data needed to answer a question of an exam
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExamApi
+     */
+    public answerExamQuestionV1(authorization: string, data: AnswerQuestionData, options?: RawAxiosRequestConfig) {
+        return ExamApiFp(this.configuration).answerExamQuestionV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows the user to create a new exam.
+     * @summary Create a new exam
+     * @param {string} authorization Authorization token
+     * @param {CreateExamData} data Data needed to create a new exam
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExamApi
+     */
+    public createExamV1(authorization: string, data: CreateExamData, options?: RawAxiosRequestConfig) {
+        return ExamApiFp(this.configuration).createExamV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows the user to get information about an exam.
+     * @summary Get information about an exam
+     * @param {number} id Exam ID
+     * @param {string} authorization Authorization token
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExamApi
+     */
+    public getExamInfoV1(id: number, authorization: string, options?: RawAxiosRequestConfig) {
+        return ExamApiFp(this.configuration).getExamInfoV1(id, authorization, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows the user to get questions of an exam.
+     * @summary Get questions of an exam
+     * @param {string} authorization Authorization token
+     * @param {GetExamQuestionsData} data Data needed to get questions of an exam
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExamApi
+     */
+    public getExamQuestionsV1(authorization: string, data: GetExamQuestionsData, options?: RawAxiosRequestConfig) {
+        return ExamApiFp(this.configuration).getExamQuestionsV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows the user to get information about an exam that a user has participated in.
+     * @summary Get information about an exam that a user has participated in
+     * @param {string} authorization Authorization token
+     * @param {GetGivenExamData} data Data needed to get information about an exam that a user has participated in
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExamApi
+     */
+    public getGivenExamV1(authorization: string, data: GetGivenExamData, options?: RawAxiosRequestConfig) {
+        return ExamApiFp(this.configuration).getGivenExamV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows the user to get history of exams of a user.
+     * @summary Get history of exams of a user
+     * @param {string} authorization Authorization token
+     * @param {GetUsersExamHistoryData} data Data needed to get history of exams of a user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExamApi
+     */
+    public getUserExamsHistoryV1(authorization: string, data: GetUsersExamHistoryData, options?: RawAxiosRequestConfig) {
+        return ExamApiFp(this.configuration).getUserExamsHistoryV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows the user to get ongoing exams of a user.
+     * @summary Get ongoing exams of a user
+     * @param {string} authorization Authorization token
+     * @param {string} [targetId] Target user id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExamApi
+     */
+    public getUserOngoingExamsV1(authorization: string, targetId?: string, options?: RawAxiosRequestConfig) {
+        return ExamApiFp(this.configuration).getUserOngoingExamsV1(authorization, targetId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows the user to set score for a user in an exam.
+     * @summary Set score for a user in an exam
+     * @param {string} authorization Authorization token
+     * @param {SetScoreData} data Data needed to set score for a user in an exam
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExamApi
+     */
+    public setScoreV1(authorization: string, data: SetScoreData, options?: RawAxiosRequestConfig) {
+        return ExamApiFp(this.configuration).setScoreV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * TopicApi - axios parameter creator
+ * @export
+ */
+export const TopicApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Create a new topic
+         * @summary Create a new topic
+         * @param {string} authorization Authorization token
+         * @param {CreateNewTopicData} data Data needed to create a new topic
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createTopicV1: async (authorization: string, data: CreateNewTopicData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('createTopicV1', 'authorization', authorization)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('createTopicV1', 'data', data)
+            const localVarPath = `/api/v1/topic/create`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Get all user topic stats
+         * @summary Get all user topic stats
+         * @param {string} authorization Authorization token
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllUserTopicStatsV1: async (authorization: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('getAllUserTopicStatsV1', 'authorization', authorization)
+            const localVarPath = `/api/v1/topic/allUserTopicStats`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Get topic info
+         * @summary Get topic info
+         * @param {number} id Topic ID
+         * @param {string} authorization Authorization token
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTopicInfoV1: async (id: number, authorization: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getTopicInfoV1', 'id', id)
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('getTopicInfoV1', 'authorization', authorization)
+            const localVarPath = `/api/v1/topic/info`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (id !== undefined) {
+                localVarQueryParameter['id'] = id;
+            }
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Get user topic stat
+         * @summary Get user topic stat
+         * @param {string} authorization Authorization token
+         * @param {GetUserTopicStatData} data Data needed to get user topic stat
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserTopicStatV1: async (authorization: string, data: GetUserTopicStatData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('getUserTopicStatV1', 'authorization', authorization)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('getUserTopicStatV1', 'data', data)
+            const localVarPath = `/api/v1/topic/userTopicStat`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Search for topics
+         * @summary Search for topics
+         * @param {string} authorization Authorization token
+         * @param {SearchTopicData} data Data needed to search for topics
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        searchTopicV1: async (authorization: string, data: SearchTopicData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('searchTopicV1', 'authorization', authorization)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('searchTopicV1', 'data', data)
+            const localVarPath = `/api/v1/topic/search`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * TopicApi - functional programming interface
+ * @export
+ */
+export const TopicApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = TopicApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Create a new topic
+         * @summary Create a new topic
+         * @param {string} authorization Authorization token
+         * @param {CreateNewTopicData} data Data needed to create a new topic
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createTopicV1(authorization: string, data: CreateNewTopicData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateTopicV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createTopicV1(authorization, data, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TopicApi.createTopicV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Get all user topic stats
+         * @summary Get all user topic stats
+         * @param {string} authorization Authorization token
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAllUserTopicStatsV1(authorization: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetAllUserTopicStatsV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllUserTopicStatsV1(authorization, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TopicApi.getAllUserTopicStatsV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Get topic info
+         * @summary Get topic info
+         * @param {number} id Topic ID
+         * @param {string} authorization Authorization token
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getTopicInfoV1(id: number, authorization: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetTopicInfoV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getTopicInfoV1(id, authorization, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TopicApi.getTopicInfoV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Get user topic stat
+         * @summary Get user topic stat
+         * @param {string} authorization Authorization token
+         * @param {GetUserTopicStatData} data Data needed to get user topic stat
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getUserTopicStatV1(authorization: string, data: GetUserTopicStatData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetUserTopicStatV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserTopicStatV1(authorization, data, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TopicApi.getUserTopicStatV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Search for topics
+         * @summary Search for topics
+         * @param {string} authorization Authorization token
+         * @param {SearchTopicData} data Data needed to search for topics
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async searchTopicV1(authorization: string, data: SearchTopicData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SearchTopicV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.searchTopicV1(authorization, data, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TopicApi.searchTopicV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * TopicApi - factory interface
+ * @export
+ */
+export const TopicApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = TopicApiFp(configuration)
+    return {
+        /**
+         * Create a new topic
+         * @summary Create a new topic
+         * @param {string} authorization Authorization token
+         * @param {CreateNewTopicData} data Data needed to create a new topic
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createTopicV1(authorization: string, data: CreateNewTopicData, options?: any): AxiosPromise<CreateTopicV1200Response> {
+            return localVarFp.createTopicV1(authorization, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Get all user topic stats
+         * @summary Get all user topic stats
+         * @param {string} authorization Authorization token
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllUserTopicStatsV1(authorization: string, options?: any): AxiosPromise<GetAllUserTopicStatsV1200Response> {
+            return localVarFp.getAllUserTopicStatsV1(authorization, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Get topic info
+         * @summary Get topic info
+         * @param {number} id Topic ID
+         * @param {string} authorization Authorization token
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTopicInfoV1(id: number, authorization: string, options?: any): AxiosPromise<GetTopicInfoV1200Response> {
+            return localVarFp.getTopicInfoV1(id, authorization, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Get user topic stat
+         * @summary Get user topic stat
+         * @param {string} authorization Authorization token
+         * @param {GetUserTopicStatData} data Data needed to get user topic stat
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserTopicStatV1(authorization: string, data: GetUserTopicStatData, options?: any): AxiosPromise<GetUserTopicStatV1200Response> {
+            return localVarFp.getUserTopicStatV1(authorization, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Search for topics
+         * @summary Search for topics
+         * @param {string} authorization Authorization token
+         * @param {SearchTopicData} data Data needed to search for topics
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        searchTopicV1(authorization: string, data: SearchTopicData, options?: any): AxiosPromise<SearchTopicV1200Response> {
+            return localVarFp.searchTopicV1(authorization, data, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * TopicApi - object-oriented interface
+ * @export
+ * @class TopicApi
+ * @extends {BaseAPI}
+ */
+export class TopicApi extends BaseAPI {
+    /**
+     * Create a new topic
+     * @summary Create a new topic
+     * @param {string} authorization Authorization token
+     * @param {CreateNewTopicData} data Data needed to create a new topic
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TopicApi
+     */
+    public createTopicV1(authorization: string, data: CreateNewTopicData, options?: RawAxiosRequestConfig) {
+        return TopicApiFp(this.configuration).createTopicV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Get all user topic stats
+     * @summary Get all user topic stats
+     * @param {string} authorization Authorization token
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TopicApi
+     */
+    public getAllUserTopicStatsV1(authorization: string, options?: RawAxiosRequestConfig) {
+        return TopicApiFp(this.configuration).getAllUserTopicStatsV1(authorization, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Get topic info
+     * @summary Get topic info
+     * @param {number} id Topic ID
+     * @param {string} authorization Authorization token
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TopicApi
+     */
+    public getTopicInfoV1(id: number, authorization: string, options?: RawAxiosRequestConfig) {
+        return TopicApiFp(this.configuration).getTopicInfoV1(id, authorization, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Get user topic stat
+     * @summary Get user topic stat
+     * @param {string} authorization Authorization token
+     * @param {GetUserTopicStatData} data Data needed to get user topic stat
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TopicApi
+     */
+    public getUserTopicStatV1(authorization: string, data: GetUserTopicStatData, options?: RawAxiosRequestConfig) {
+        return TopicApiFp(this.configuration).getUserTopicStatV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Search for topics
+     * @summary Search for topics
+     * @param {string} authorization Authorization token
+     * @param {SearchTopicData} data Data needed to search for topics
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TopicApi
+     */
+    public searchTopicV1(authorization: string, data: SearchTopicData, options?: RawAxiosRequestConfig) {
+        return TopicApiFp(this.configuration).searchTopicV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
+    }
+}
 
 
 
@@ -1109,6 +4358,42 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(changePasswordData, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Allows a user to confirm their account
+         * @summary Confirm account
+         * @param {ConfirmAccountData} confirmAccountData Confirm account data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        confirmAccountV1: async (confirmAccountData: ConfirmAccountData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'confirmAccountData' is not null or undefined
+            assertParamExists('confirmAccountV1', 'confirmAccountData', confirmAccountData)
+            const localVarPath = `/api/v1/user/confirmAccount`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(confirmAccountData, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1510,13 +4795,26 @@ export const UserApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Allows a user to confirm their account
+         * @summary Confirm account
+         * @param {ConfirmAccountData} confirmAccountData Confirm account data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async confirmAccountV1(confirmAccountData: ConfirmAccountData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConfirmAccountV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.confirmAccountV1(confirmAccountData, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UserApi.confirmAccountV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Allows a user to confirm changing their own\'s password (from redirected page)
          * @summary Confirm changing your own\'s password
          * @param {ConfirmChangePasswordData} confirmChangePasswordData Confirm change password data
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async confirmChangePasswordV1(confirmChangePasswordData: ConfirmChangePasswordData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ChangePasswordV1200Response>> {
+        async confirmChangePasswordV1(confirmChangePasswordData: ConfirmChangePasswordData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConfirmAccountV1200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.confirmChangePasswordV1(confirmChangePasswordData, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserApi.confirmChangePasswordV1']?.[localVarOperationServerIndex]?.url;
@@ -1663,13 +4961,23 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
             return localVarFp.changePasswordV1(authorization, changePasswordData, options).then((request) => request(axios, basePath));
         },
         /**
+         * Allows a user to confirm their account
+         * @summary Confirm account
+         * @param {ConfirmAccountData} confirmAccountData Confirm account data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        confirmAccountV1(confirmAccountData: ConfirmAccountData, options?: any): AxiosPromise<ConfirmAccountV1200Response> {
+            return localVarFp.confirmAccountV1(confirmAccountData, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Allows a user to confirm changing their own\'s password (from redirected page)
          * @summary Confirm changing your own\'s password
          * @param {ConfirmChangePasswordData} confirmChangePasswordData Confirm change password data
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        confirmChangePasswordV1(confirmChangePasswordData: ConfirmChangePasswordData, options?: any): AxiosPromise<ChangePasswordV1200Response> {
+        confirmChangePasswordV1(confirmChangePasswordData: ConfirmChangePasswordData, options?: any): AxiosPromise<ConfirmAccountV1200Response> {
             return localVarFp.confirmChangePasswordV1(confirmChangePasswordData, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1790,6 +5098,18 @@ export class UserApi extends BaseAPI {
      */
     public changePasswordV1(authorization: string, changePasswordData: ChangePasswordData, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).changePasswordV1(authorization, changePasswordData, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows a user to confirm their account
+     * @summary Confirm account
+     * @param {ConfirmAccountData} confirmAccountData Confirm account data
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public confirmAccountV1(confirmAccountData: ConfirmAccountData, options?: RawAxiosRequestConfig) {
+        return UserApiFp(this.configuration).confirmAccountV1(confirmAccountData, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

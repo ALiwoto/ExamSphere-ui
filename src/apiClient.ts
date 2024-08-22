@@ -15,6 +15,11 @@ import {
     GetUserInfoResult,
     EditUserData,
     EditUserResult,
+    TopicApi,
+    CreateNewTopicData,
+    CreateNewTopicResult,
+    SearchTopicData,
+    SearchTopicResult,
 } from './api';
 
 class ExamSphereAPIClient extends UserApi {
@@ -35,11 +40,15 @@ class ExamSphereAPIClient extends UserApi {
     /** The currently logged-in user's role. */
     public role?: UserRole;
 
+    private topicApi: TopicApi;
+
     constructor() {
         super();
         this.guessBasePath();
         this.clientRId = this.generateClientRId();
         this.readTokens();
+
+        this.topicApi = new TopicApi(this.configuration);
     }
 
     /**
@@ -62,6 +71,7 @@ class ExamSphereAPIClient extends UserApi {
     public guessBasePath(): void {
         // try to find out the base path
         let correctBasePath = "https://aliwoto.is-a.dev:8080";
+        // let correctBasePath = "http://localhost:8080";
         const envBasePath = process.env.EXAM_SPHERE_API_URL;
         if (envBasePath) {
             correctBasePath = envBasePath;
@@ -264,6 +274,36 @@ class ExamSphereAPIClient extends UserApi {
         return searchUserResult;
     }
 
+    public async createNewTopic(data: CreateNewTopicData): Promise<CreateNewTopicResult> {
+        if (!this.isLoggedIn()) {
+            throw new Error("Not logged in");
+        }
+
+        let createTopicResult = (await this.topicApi.createTopicV1(`Bearer ${this.accessToken}`, data))?.data.result;
+        if (!createTopicResult) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to create topic");
+        }
+
+        return createTopicResult;
+    }
+
+    public async searchTopic(data: SearchTopicData): Promise<SearchTopicResult> {
+        if (!this.isLoggedIn()) {
+            throw new Error("Not logged in");
+        }
+
+        let searchTopicResult = (await this.topicApi.searchTopicV1(`Bearer ${this.accessToken}`, data))?.data.result;
+        if (!searchTopicResult) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to search topic");
+        }
+
+        return searchTopicResult;
+    }
+
     /**
      * Returns true if we are considered as "logged in" by the API client,
      * This method only checks if the access token is present, it doesn't
@@ -305,6 +345,14 @@ class ExamSphereAPIClient extends UserApi {
 
     public canSearchUser(): boolean {
         return this.isOwner() || this.isAdmin();
+    }
+
+    public canCreateTopics(): boolean {
+        return this.isOwner() || this.isAdmin();
+    }
+
+    public canSearchTopics(): boolean {
+        return this.isLoggedIn();
     }
 
     public canCreateTargetRole(targetRole: UserRole): boolean {

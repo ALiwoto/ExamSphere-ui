@@ -8,6 +8,8 @@ import Dashboard from './pages/dashboardPage';
 import SearchUserPage from './pages/searchUserPage';
 import UserInfoPage from './pages/userInfoPage';
 import { Box, CircularProgress, Typography } from '@mui/material';
+import CreateTopicPage from './pages/createTopicPage';
+import SearchTopicPage from './pages/searchTopicPage';
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(apiClient.isLoggedIn());
@@ -33,52 +35,60 @@ const App: React.FC = () => {
   }, []);
 
   if (isLoading) {
-      return (
-          <Box
-              sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: '100vh',
-                  backgroundColor: '#f0f0f0',
-                  textAlign: 'center',
-                  padding: 2,
-              }}
-          >
-              <CircularProgress size={80} thickness={4} />
-              <Typography variant="h6" sx={{ mt: 3 }}>
-                  {CurrentAppTranslation.LoadingText}
-              </Typography>
-              <Typography variant="body2" sx={{ mt: 1, color: 'text.secondary' }}>
-                  Please wait while we load the content for you.
-              </Typography>
-          </Box>
-      );
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100vh',
+          backgroundColor: '#f0f0f0',
+          textAlign: 'center',
+          padding: 2,
+        }}
+      >
+        <CircularProgress size={80} thickness={4} />
+        <Typography variant="h6" sx={{ mt: 3 }}>
+          {CurrentAppTranslation.LoadingText}
+        </Typography>
+        <Typography variant="body2" sx={{ mt: 1, color: 'text.secondary' }}>
+          Please wait while we load the content for you.
+        </Typography>
+      </Box>
+    );
   }
 
   return (
     <Router>
       <Routes>
-        <Route 
-          path="/login" 
-          element={isLoggedIn ? <Navigate to="/dashboard" /> : <Login />} 
+        <Route
+          path="/login"
+          element={isLoggedIn ? <Navigate to="/dashboard" /> : <Login />}
         />
         <Route
           path="/dashboard"
           element={isLoggedIn ? <Dashboard /> : <Navigate to="/login" />}
         />
-        <Route 
-          path="/createUser" 
-          element={apiClient.canCreateNewUsers() ? <CreateUserPage/> : <Navigate to="/dashboard" />}
+        <Route
+          path="/createUser"
+          element={apiClient.canCreateNewUsers() ? <CreateUserPage /> : <Navigate to="/dashboard" />}
         />
-        <Route 
-          path="/searchUser" 
-          element={apiClient.canSearchUser() ? <SearchUserPage/> : <Navigate to="/dashboard" />}
+        <Route
+          path="/searchUser"
+          element={apiClient.canSearchUser() ? <SearchUserPage /> : <Navigate to="/dashboard" />}
         />
-        <Route 
-          path="/userInfo" 
-          element={apiClient.canSearchUser() ? <UserInfoPage/> : <Navigate to="/dashboard" />}
+        <Route
+          path="/userInfo"
+          element={apiClient.canSearchUser() ? <UserInfoPage /> : <Navigate to="/dashboard" />}
+        />
+        <Route
+          path="/createTopic"
+          element={apiClient.canCreateTopics() ? <CreateTopicPage /> : <Navigate to="/dashboard" />}
+        />
+        <Route
+          path="/searchTopic"
+          element={apiClient.canSearchTopics() ? <SearchTopicPage /> : <Navigate to="/dashboard" />}
         />
         <Route path="*" element={<Navigate to={isLoggedIn ? "/dashboard" : "/login"} />} />
       </Routes>

@@ -113,9 +113,9 @@ const CreateUserPage: React.FC = () => {
                         onChange={(e) => { handleInputChange(e as any) }}
                         required={false} />
                     <SelectMenu
-                        labelText='Role'
+                        labelText={CurrentAppTranslation.role}
                         labelId='role-select-label'
-                        name={CurrentAppTranslation.role}
+                        name='role'
                         value={createUserData.role ?? UserRole.UserRoleStudent}
                         onChange={handleInputChange}
                         options={Object.values(UserRole).filter(role => apiClient.canCreateTargetRole(role))}
