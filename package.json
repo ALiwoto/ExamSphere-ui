@@ -7,6 +7,7 @@
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^5.16.7",
     "@mui/material": "^5.16.7",
+    "@mui/x-date-pickers": "^7.14.0",
     "@openapitools/openapi-generator-cli": "^2.13.4",
     "@testing-library/jest-dom": "^6.4.8",
     "@testing-library/react": "^16.0.0",
@@ -16,6 +17,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "axios": "^1.7.4",
+    "moment-jalaali": "^0.10.1",
     "notistack": "^3.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -56,7 +58,8 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/plugin-transform-private-property-in-object": "^7.24.7",
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@types/moment-jalaali": "^0.7.9"
   }
 }

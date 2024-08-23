@@ -14,6 +14,7 @@ import ConfirmAccountRedirectPage from './pages/confirmAccountRedirectPage';
 import CreateCoursePage from './pages/createCoursePage';
 import CourseInfoPage from './pages/courseInfoPage';
 import SearchCoursePage from './pages/searchCoursePage';
+import CreateExamPage from './pages/createExamPage';
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(apiClient.isLoggedIn());
@@ -112,7 +113,7 @@ const App: React.FC = () => {
         />
         <Route
           path="/createExam"
-          element={apiClient.canCreateTopics() ? <CreateCoursePage /> : <Navigate to="/dashboard" />}
+          element={apiClient.canCreateTopics() ? <CreateExamPage /> : <Navigate to="/dashboard" />}
         />
         <Route
           path="/examInfo"

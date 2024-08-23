@@ -42,9 +42,11 @@ export class AppTranslationBase {
     ConfirmAccountText: string = "Confirm Account";
     CreateNewUserText: string = "Create New User";
     CreateNewTopicText: string = "Create New Topic";
+    CreateNewExamText: string = "Create New Exam";
     CreateTopicText: string = "Create Topic";
     CreateNewCourseText: string = "Create New Course";
     CreateCourseText: string = "Create Course";
+    CreateExamText: string = "Create Exam";
     DeleteTopicButtonText: string = "Delete Topic";
     CancelButtonText: string = "Cancel";
 
@@ -69,6 +71,12 @@ export class AppTranslationBase {
 
     //#region API response fields translations
 
+    is_public: string = "Is Public";
+    exam_date: string = "Exam Date";
+    duration: string = "Duration (minutes)";
+    price: string = "Price";
+    exam_description: string = "Exam Description";
+    exam_title: string = "Exam Title";
     course_description: string = "Course Description";
     course_id: string = "Course ID";
     course_name: string = "Course Name";

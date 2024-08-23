@@ -1,33 +1,48 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SubmitButton from '../components/buttons/submitButton';
 import DashboardContainer from '../components/containers/dashboardContainer';
 import TitleLabel from '../components/labels/titleLabel';
 import CreateUserForm from '../components/forms/createUserForm';
 import CreateUserContainer from '../components/containers/createUserContainer';
 import apiClient from '../apiClient';
-import { CreateCourseData } from '../api';
+import { CreateExamData } from '../api';
 import { CurrentAppTranslation } from '../translations/appTranslation';
 import useAppSnackbar from '../components/snackbars/useAppSnackbars';
 import { extractErrorDetails } from '../utils/errorUtils';
 import RenderAllFields from '../components/rendering/RenderAllFields';
+import ModernDateTimePicker from '../components/date/ModernDatePicker';
 
 
 const CreateExamPage: React.FC = () => {
-    const [createCourseData, setCourseData] = useState<CreateCourseData>({
-        course_name: '',
-        course_description: '',
+    const [createExamData, setCreateExamData] = useState<CreateExamData>({
+        exam_title: '',
+        exam_description: '',
+        price: '0',
+        course_id: 0,
+        duration: 60,
+        exam_date: 0,
+        is_public: false,
     });
     const snackbar = useAppSnackbar();
 
+    useEffect(() => {
+        if (window.location.pathname === '/createExam') {
+            document.title = CurrentAppTranslation.CreateExamText;
+        }
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        setCourseData({ ...createCourseData, [e.target.name]: e.target.value });
+        setCreateExamData({
+            ...createExamData,
+            [e.target.name]: e.target.value,
+        });
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         try {
-            await apiClient.createCourse(createCourseData);
+            await apiClient.createExam(createExamData);
             snackbar.success(CurrentAppTranslation.TopicCreatedSuccessfullyText);
         } catch (error: any) {
             const [errCode, errMessage] = extractErrorDetails(error);
@@ -39,8 +54,9 @@ const CreateExamPage: React.FC = () => {
         <DashboardContainer>
             <CreateUserContainer>
                 <CreateUserForm onSubmit={handleSubmit}>
-                    <TitleLabel>{CurrentAppTranslation.CreateNewTopicText}</TitleLabel>
-                    {RenderAllFields(createCourseData, handleInputChange)}
+                    <TitleLabel>{CurrentAppTranslation.CreateNewExamText}</TitleLabel>
+                    {RenderAllFields(createExamData, handleInputChange)}
+                    <ModernDateTimePicker />
                     <SubmitButton type="submit">{CurrentAppTranslation.CreateCourseButtonText}</SubmitButton>
                 </CreateUserForm>
             </CreateUserContainer>

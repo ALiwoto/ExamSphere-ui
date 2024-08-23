@@ -51,7 +51,7 @@ const RenderManageUserMenu = () => {
       </MenuItem>
       <MenuItem
         label={CurrentAppTranslation.ChangeUserPasswordText}
-        href='/changeUser'
+        href='/changeUserPassword'
       >
       </MenuItem>
     </MenuItem>
@@ -61,11 +61,11 @@ const RenderManageUserMenu = () => {
 const RenderManageTopicsMenu = () => {
   return (
     <MenuItem label={CurrentAppTranslation.ManageTopicsText}>
-      <MenuItem 
+      <MenuItem
         label={CurrentAppTranslation.AddTopicText}
         href='/createTopic'
       ></MenuItem>
-      <MenuItem 
+      <MenuItem
         label={CurrentAppTranslation.SearchTopicsText}
         href='/searchTopic'
       ></MenuItem>
@@ -76,17 +76,17 @@ const RenderManageTopicsMenu = () => {
 const RenderManageCoursesMenu = () => {
   return (
     <MenuItem label={CurrentAppTranslation.ManageCoursesText}>
-      <MenuItem 
+      <MenuItem
         label={CurrentAppTranslation.AddCourseText}
         href='/createCourse'
       ></MenuItem>
-      <MenuItem 
+      <MenuItem
         label={CurrentAppTranslation.SearchCoursesText}
         href='/searchCourse'
       ></MenuItem>
-      <MenuItem 
+      <MenuItem
         label={CurrentAppTranslation.EditCourseText}
-        href='/editCourse'
+        href='/searchCourse'
       ></MenuItem>
     </MenuItem>
   )
@@ -95,8 +95,14 @@ const RenderManageCoursesMenu = () => {
 const RenderManageExamsMenu = () => {
   return (
     <MenuItem label={CurrentAppTranslation.ManageExamsText}>
-      <MenuItem label={CurrentAppTranslation.AddExamText}></MenuItem>
-      <MenuItem label={CurrentAppTranslation.EditExamText}></MenuItem>
+      <MenuItem
+        label={CurrentAppTranslation.AddExamText}
+        href='/createExam'
+      ></MenuItem>
+      <MenuItem 
+        label={CurrentAppTranslation.EditExamText}
+        href='/searchExam'
+        ></MenuItem>
     </MenuItem>
   )
 };

@@ -29,6 +29,9 @@ import {
     EditCourseData,
     SearchCourseData,
     SearchCourseResult,
+    CreateExamData,
+    CreateExamResult,
+    ExamApi,
 } from './api';
 import { canParseAsNumber } from './utils/textUtils';
 
@@ -52,6 +55,7 @@ class ExamSphereAPIClient extends UserApi {
 
     private topicApi: TopicApi;
     private courseApi: CourseApi;
+    private examApi: ExamApi;
 
     constructor() {
         super();
@@ -61,6 +65,7 @@ class ExamSphereAPIClient extends UserApi {
 
         this.topicApi = new TopicApi(this.configuration);
         this.courseApi = new CourseApi(this.configuration);
+        this.examApi = new ExamApi(this.configuration);
     }
 
     /**
@@ -420,6 +425,21 @@ class ExamSphereAPIClient extends UserApi {
         }
 
         return createCourseResult;
+    }
+
+    public async createExam(data: CreateExamData): Promise<CreateExamResult> {
+        if (!this.isLoggedIn()) {
+            throw new Error("Not logged in");
+        }
+
+        let createExamResult = (await this.examApi.createExamV1(`Bearer ${this.accessToken}`, data))?.data.result;
+        if (!createExamResult) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to create exam");
+        }
+
+        return createExamResult;
     }
 
     /**

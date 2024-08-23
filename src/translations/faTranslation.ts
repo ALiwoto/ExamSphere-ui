@@ -43,9 +43,11 @@ class FaTranslation extends AppTranslationBase {
     ConfirmAccountText: string = "تایید حساب کاربری";
     CreateNewUserText: string = "ایجاد کاربر جدید";
     CreateNewTopicText: string = "ایجاد موضوع جدید";
+    CreateNewExamText: string = "ایجاد آزمون جدید";
     CreateTopicText: string = "ایجاد موضوع";
     CreateNewCourseText: string = "ایجاد دوره جدید";
     CreateCourseText: string = "ایجاد دوره";
+    CreateExamText: string = "ایجاد آزمون";
     DeleteTopicButtonText: string = "حذف موضوع";
     CreateCourseButtonText: string = "ایجاد دوره";
     CancelButtonText: string = "لغو";
@@ -71,6 +73,12 @@ class FaTranslation extends AppTranslationBase {
 
     //#region API response fields translations
 
+    is_public: string = "عمومی";
+    exam_date: string = "تاریخ آزمون";
+    duration: string = "مدت زمان (دقیقه)";
+    price: string = "هزینه";
+    exam_description: string = "توضیحات آزمون";
+    exam_title: string = "عنوان آزمون";
     course_description: string = "توضیحات دوره";
     course_id: string = "شناسه دوره";
     course_name: string = "نام دوره";
