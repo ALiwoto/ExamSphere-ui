@@ -587,6 +587,12 @@ export interface CreateCourseResult {
      * @memberof CreateCourseResult
      */
     'created_at'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateCourseResult
+     */
+    'topic_id'?: number;
 }
 /**
  * 
@@ -967,6 +973,12 @@ export interface EditCourseData {
      * @memberof EditCourseData
      */
     'course_name'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditCourseData
+     */
+    'topic_id'?: number;
 }
 /**
  * 
@@ -1349,6 +1361,12 @@ export interface GetCourseInfoResult {
      * @memberof GetCourseInfoResult
      */
     'created_at'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetCourseInfoResult
+     */
+    'topic_id'?: number;
 }
 /**
  * 
@@ -2456,6 +2474,12 @@ export interface SearchedCourseInfo {
      * @memberof SearchedCourseInfo
      */
     'created_at'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof SearchedCourseInfo
+     */
+    'topic_id'?: number;
 }
 /**
  * 
@@ -3004,7 +3028,7 @@ export const CourseApiAxiosParamCreator = function (configuration?: Configuratio
             };
         },
         /**
-         * Allows a user to search for courses by their name.
+         * Allows a user to search for courses by their name. Pass empty string to get all courses.
          * @summary Search for courses
          * @param {string} authorization Authorization token
          * @param {SearchCourseData} data Data needed to search for courses
@@ -3141,7 +3165,7 @@ export const CourseApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Allows a user to search for courses by their name.
+         * Allows a user to search for courses by their name. Pass empty string to get all courses.
          * @summary Search for courses
          * @param {string} authorization Authorization token
          * @param {SearchCourseData} data Data needed to search for courses
@@ -3231,7 +3255,7 @@ export const CourseApiFactory = function (configuration?: Configuration, basePat
             return localVarFp.getUserCoursesV1(authorization, data, options).then((request) => request(axios, basePath));
         },
         /**
-         * Allows a user to search for courses by their name.
+         * Allows a user to search for courses by their name. Pass empty string to get all courses.
          * @summary Search for courses
          * @param {string} authorization Authorization token
          * @param {SearchCourseData} data Data needed to search for courses
@@ -3330,7 +3354,7 @@ export class CourseApi extends BaseAPI {
     }
 
     /**
-     * Allows a user to search for courses by their name.
+     * Allows a user to search for courses by their name. Pass empty string to get all courses.
      * @summary Search for courses
      * @param {string} authorization Authorization token
      * @param {SearchCourseData} data Data needed to search for courses

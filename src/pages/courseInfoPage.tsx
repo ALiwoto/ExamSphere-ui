@@ -10,16 +10,17 @@ import { extractErrorDetails } from '../utils/errorUtils';
 const CourseInfoPage = () => {
     const [courseData, setCourseData] = useState<EditCourseData>({
         course_id: 0,
+        topic_id: 0,
         course_name: '',
         course_description: '',
     });
     const [isEditing, setIsEditing] = useState(false);
-    const [isUserNotFound, setIsUserNotFound] = useState(false);
+    const [isCourseNotFound, setIsCourseNotFound] = useState(false);
     const snackbar = useAppSnackbar();
 
 
     const fetchCourseInfo = async () => {
-        // the user id is passed like /userInfo?userId=123
+        // the user id is passed like /courseInfo?userId=123
         const urlSearch = new URLSearchParams(window.location.search);
         const targetCourseId = parseInt(urlSearch.get('courseId') ?? '');
         if (!targetCourseId || isNaN(targetCourseId)) {
@@ -31,13 +32,14 @@ const CourseInfoPage = () => {
             const result = await apiClient.getCourseInfo(targetCourseId);
             setCourseData({
                 course_id: result.course_id,
+                topic_id: result.topic_id,
                 course_name: result.course_name,
                 course_description: result.course_description,
             });
         } catch (error: any) {
             const [errCode, errMessage] = extractErrorDetails(error);
             snackbar.error(`Failed (${errCode}): ${errMessage}`);
-            setIsUserNotFound(true);
+            setIsCourseNotFound(true);
             return;
         }
     };
@@ -80,7 +82,7 @@ const CourseInfoPage = () => {
         );
     }
 
-    if (isUserNotFound) {
+    if (isCourseNotFound) {
         return (
             <DashboardContainer>
                 <Typography>{CurrentAppTranslation.CourseNotFoundText}</Typography>

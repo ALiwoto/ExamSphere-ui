@@ -253,12 +253,22 @@ class ExamSphereAPIClient extends UserApi {
         return createUserResult;
     }
 
-    public async editCourse(newCourseData: EditCourseData): Promise<EditCourseResult> {
+    public async editCourse(courseData: EditCourseData): Promise<EditCourseResult> {
         if (!this.isLoggedIn()) {
             throw new Error("Not logged in");
         }
 
-        let editCourseResult = (await this.courseApi.editCourseV1(`Bearer ${this.accessToken}`, newCourseData))?.data.result;
+        courseData.course_id = parseInt(courseData.course_id as any);
+        if (isNaN(courseData.course_id)) {
+            throw new Error("Invalid course ID");
+        }
+
+        courseData.topic_id = parseInt(courseData.topic_id as any);
+        if (isNaN(courseData.topic_id)) {
+            throw new Error("Invalid topic ID");
+        }
+
+        let editCourseResult = (await this.courseApi.editCourseV1(`Bearer ${this.accessToken}`, courseData))?.data.result;
         if (!editCourseResult) {
             // we shouldn't reach here, because if there is an error somewhere,
             // it should have already been thrown by the API client
