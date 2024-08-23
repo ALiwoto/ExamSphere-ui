@@ -1,0 +1,38 @@
+.hint-textarea-container {
+    position: relative;
+    width: 300px;
+  }
+  
+  .hint-textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 10px;
+    font-size: 16px;
+    line-height: 1.5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+  }
+  
+  .hint-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 10px;
+    font-size: 16px;
+    line-height: 1.5;
+    pointer-events: none;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow: hidden;
+  }
+  
+  .hint-input {
+    visibility: hidden;
+  }
+  
+  .hint-text {
+    color: #999;
+  }

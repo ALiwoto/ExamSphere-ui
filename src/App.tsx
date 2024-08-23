@@ -4,13 +4,16 @@ import { CurrentAppTranslation } from './translations/appTranslation';
 import apiClient from './apiClient';
 import Login from './pages/loginPage';
 import CreateUserPage from './pages/createUserPage';
-import Dashboard from './pages/dashboardPage';
+import DashboardPage from './pages/dashboardPage';
 import SearchUserPage from './pages/searchUserPage';
 import UserInfoPage from './pages/userInfoPage';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import CreateTopicPage from './pages/createTopicPage';
 import SearchTopicPage from './pages/searchTopicPage';
 import ConfirmAccountRedirectPage from './pages/confirmAccountRedirectPage';
+import CreateCoursePage from './pages/createCoursePage';
+import CourseInfoPage from './pages/courseInfoPage';
+import SearchCoursePage from './pages/searchCoursePage';
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(apiClient.isLoggedIn());
@@ -73,7 +76,7 @@ const App: React.FC = () => {
         />
         <Route
           path="/dashboard"
-          element={isLoggedIn ? <Dashboard /> : <Navigate to="/login" />}
+          element={isLoggedIn ? <DashboardPage /> : <Navigate to="/login" />}
         />
         <Route
           path="/createUser"
@@ -93,6 +96,30 @@ const App: React.FC = () => {
         />
         <Route
           path="/searchTopic"
+          element={apiClient.canSearchTopics() ? <SearchTopicPage /> : <Navigate to="/dashboard" />}
+        />
+        <Route
+          path="/createCourse"
+          element={apiClient.canCreateTopics() ? <CreateCoursePage /> : <Navigate to="/dashboard" />}
+        />
+        <Route
+          path="/courseInfo"
+          element={apiClient.canCreateTopics() ? <CourseInfoPage /> : <Navigate to="/dashboard" />}
+        />
+        <Route
+          path="/searchCourse"
+          element={apiClient.canSearchTopics() ? <SearchCoursePage /> : <Navigate to="/dashboard" />}
+        />
+        <Route
+          path="/createExam"
+          element={apiClient.canCreateTopics() ? <CreateCoursePage /> : <Navigate to="/dashboard" />}
+        />
+        <Route
+          path="/examInfo"
+          element={apiClient.canCreateTopics() ? <CreateCoursePage /> : <Navigate to="/dashboard" />}
+        />
+        <Route
+          path="/searchExam"
           element={apiClient.canSearchTopics() ? <SearchTopicPage /> : <Navigate to="/dashboard" />}
         />
         <Route path="*" element={<Navigate to={isLoggedIn ? "/dashboard" : "/login"} />} />

@@ -201,6 +201,10 @@ const SearchTopicPage = () => {
         if (query) {
             handleSearch();
         }
+
+        if (window.location.pathname === '/searchTopic') {
+            document.title = CurrentAppTranslation.SearchTopicsText;
+        }
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (

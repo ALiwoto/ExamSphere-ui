@@ -21,7 +21,16 @@ import {
     SearchTopicData,
     SearchTopicResult,
     ConfirmAccountData,
+    CourseApi,
+    CreateCourseData,
+    CreateCourseResult,
+    GetCourseInfoResult,
+    EditCourseResult,
+    EditCourseData,
+    SearchCourseData,
+    SearchCourseResult,
 } from './api';
+import { canParseAsNumber } from './utils/textUtils';
 
 class ExamSphereAPIClient extends UserApi {
     /** The Client's RID parameter. Automatically generated on startup. */
@@ -42,6 +51,7 @@ class ExamSphereAPIClient extends UserApi {
     public role?: UserRole;
 
     private topicApi: TopicApi;
+    private courseApi: CourseApi;
 
     constructor() {
         super();
@@ -50,6 +60,7 @@ class ExamSphereAPIClient extends UserApi {
         this.readTokens();
 
         this.topicApi = new TopicApi(this.configuration);
+        this.courseApi = new CourseApi(this.configuration);
     }
 
     /**
@@ -201,13 +212,30 @@ class ExamSphereAPIClient extends UserApi {
         return userInfo
     }
 
+    public async getCourseInfo(courseId: number): Promise<GetCourseInfoResult> {
+        if (!this.isLoggedIn()) {
+            throw new Error("Not logged in");
+        }
+
+        let courseInfo = (await this.courseApi.getCourseInfoV1(`Bearer ${this.accessToken}`, courseId))?.data.result;
+        if (!courseInfo) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to get course info");
+        }
+
+        return courseInfo;
+    }
+
     /**
      * Checks if a certain field from a user can be edited or not.
      * @param fieldName The field name that we want to check.
      * @returns True if the field can be edited, false otherwise.
      */
     public canUserFieldBeEdited(fieldName: string): boolean {
-        return fieldName !== "user_id" && fieldName !== "role";
+        return fieldName !== "user_id" && 
+            fieldName !== "role" &&
+            fieldName !== "course_id";
     }
 
     public async editUser(newUserData: EditUserData): Promise<EditUserResult> {
@@ -223,6 +251,21 @@ class ExamSphereAPIClient extends UserApi {
         }
 
         return createUserResult;
+    }
+
+    public async editCourse(newCourseData: EditCourseData): Promise<EditCourseResult> {
+        if (!this.isLoggedIn()) {
+            throw new Error("Not logged in");
+        }
+
+        let editCourseResult = (await this.courseApi.editCourseV1(`Bearer ${this.accessToken}`, newCourseData))?.data.result;
+        if (!editCourseResult) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to edit course");
+        }
+
+        return editCourseResult;
     }
 
     public async confirmAccount(confirmData: ConfirmAccountData): Promise<boolean> {
@@ -286,6 +329,21 @@ class ExamSphereAPIClient extends UserApi {
         return searchUserResult;
     }
 
+    public async searchCourse(searchCourseData: SearchCourseData): Promise<SearchCourseResult> {
+        if (!this.isLoggedIn()) {
+            throw new Error("Not logged in");
+        }
+
+        let searchCourseResult = (await this.courseApi.searchCourseV1(`Bearer ${this.accessToken}`, searchCourseData))?.data.result;
+        if (!searchCourseResult) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to search course");
+        }
+
+        return searchCourseResult;
+    }
+
     public async createNewTopic(data: CreateNewTopicData): Promise<CreateNewTopicResult> {
         if (!this.isLoggedIn()) {
             throw new Error("Not logged in");
@@ -331,6 +389,29 @@ class ExamSphereAPIClient extends UserApi {
         return deleteTopicResult;
     }
 
+    public async createCourse(data: CreateCourseData): Promise<CreateCourseResult> {
+        if (!this.isLoggedIn()) {
+            throw new Error("Not logged in");
+        }
+
+        if (typeof data.topic_id !== 'number') {
+            if (canParseAsNumber(data.topic_id)) {
+                data.topic_id = parseInt(data.topic_id as any);
+            } else {
+                throw new Error("Invalid topic ID");
+            }
+        }
+
+        let createCourseResult = (await this.courseApi.createCourseV1(`Bearer ${this.accessToken}`, data))?.data.result;
+        if (!createCourseResult) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to create course");
+        }
+
+        return createCourseResult;
+    }
+
     /**
      * Returns true if we are considered as "logged in" by the API client,
      * This method only checks if the access token is present, it doesn't
@@ -344,6 +425,10 @@ class ExamSphereAPIClient extends UserApi {
             (this.accessToken?.length > 0 ?? false) &&
             this.refreshToken !== undefined &&
             (this.refreshToken?.length > 0 ?? false);
+    }
+
+    public isFieldEnum(fieldName: string): boolean {
+        return fieldName === "role";
     }
 
     /**

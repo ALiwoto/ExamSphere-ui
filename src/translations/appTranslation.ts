@@ -32,13 +32,19 @@ export class AppTranslationBase {
     LogoutText: string = "Logout";
     CreateUserButtonText: string = "Create User";
     CreateTopicButtonText: string = "Create Topic";
+    CreateCourseButtonText: string = "Create Course";
     SaveText: string = "Save";
     ConfirmText: string = "Confirm";
     EditText: string = "Edit";
     UserInformationText: string = "User Information";
-    ConfirmYourAccountText = "Confirm Your Account";
+    CourseInformationText: string = "Course Information";
+    ConfirmYourAccountText: string = "Confirm Your Account";
+    ConfirmAccountText: string = "Confirm Account";
     CreateNewUserText: string = "Create New User";
     CreateNewTopicText: string = "Create New Topic";
+    CreateTopicText: string = "Create Topic";
+    CreateNewCourseText: string = "Create New Course";
+    CreateCourseText: string = "Create Course";
     DeleteTopicButtonText: string = "Delete Topic";
     CancelButtonText: string = "Cancel";
 
@@ -50,8 +56,10 @@ export class AppTranslationBase {
     PasswordsDoNotMatchText: string = "Passwords do not match!";
     FailedToConfirmAccountCreationText: string = "Failed to confirm account creation";
     UserNotFoundText: string = "This user doesn't seem to exist...";
+    CourseNotFoundText: string = "This course doesn't seem to exist...";
     UserCreatedSuccessfullyText: string = "User created successfully";
     TopicCreatedSuccessfullyText: string = "Topic created successfully";
+    CourseCreatedSuccessfullyText: string = "Course created successfully";
     NoResultsFoundText: string = "No results found, try changing your search query";
     SearchSomethingForTopicsText: string = "Search a query or enter empty to list all topics";
     EnterSearchForEdit: string = "Enter search query to edit the user";
@@ -61,6 +69,9 @@ export class AppTranslationBase {
 
     //#region API response fields translations
 
+    course_description: string = "Course Description";
+    course_id: string = "Course ID";
+    course_name: string = "Course Name";
     topic_name: string = "Topic Name";
     topic_id: string = "Topic ID";
     user_id: string = "User ID";

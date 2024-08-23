@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CircularProgress, Container, Paper, Box, Typography, Grid, TextField, Button } from '@mui/material';
 import apiClient from '../apiClient';
 import { ConfirmAccountData } from '../api';
@@ -34,6 +34,12 @@ const ConfirmAccountRedirectPage = () => {
     const [isConfirmed, setIsConfirmed] = useState(false);
 
     const snackbar = useAppSnackbar();
+
+    useEffect(() => {
+        if (window.location.pathname === '/confirmAccountRedirect') {
+            document.title = CurrentAppTranslation.ConfirmAccountText;
+        }
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleChange = (e: any) => {
         setRequiredData({ ...requiredData, [e.target.name]: e.target.value });

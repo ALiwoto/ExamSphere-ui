@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import apiClient from '../apiClient';
 import DashboardContainer from '../components/containers/dashboardContainer';
+import { CurrentAppTranslation } from '../translations/appTranslation';
 
 const MainContent = styled.div`
   display: flex;
@@ -32,7 +33,7 @@ const ListItem = styled.li`
   margin-bottom: 5px;
 `;
 
-const Dashboard: React.FC = () => {
+const DashboardPage: React.FC = () => {
     const fetchUserInfo = async () => {
         try {
             await apiClient.getCurrentUserInfo();
@@ -42,9 +43,13 @@ const Dashboard: React.FC = () => {
             window.location.href = '/login';
         }
     };
-    
+
     useEffect(() => {
         fetchUserInfo();
+
+        if (window.location.pathname === '/dashboard') {
+            document.title = CurrentAppTranslation.DashboardText;
+        }
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
@@ -78,4 +83,4 @@ const Dashboard: React.FC = () => {
     )
 };
 
-export default Dashboard;
+export default DashboardPage;

@@ -1,31 +1,20 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 
 export default function HintTextField() {
     const hint = React.useRef('');
     const [inputValue, setInputValue] = React.useState('');
     const [displayHint, setDisplayHint] = React.useState('');
+    const textFieldRef = React.useRef(null);
 
     return (
         <Box sx={{ position: 'relative', width: 300 }}>
-            <Typography
-                sx={{
-                    position: 'absolute',
-                    opacity: 0.5,
-                    left: 14,
-                    top: 16,
-                    overflow: 'hidden',
-                    width: 'calc(100% - 28px)',
-                    whiteSpace: 'pre-wrap',
-                    wordWrap: 'break-word',
-                }}
-            >
-                {inputValue + displayHint}
-            </Typography>
             <TextField
-                multiline
-                fullWidth
+                ref={textFieldRef}
+                minRows={1}
+                multiline={true}
+                fullWidth={true}
                 value={inputValue}
                 onChange={(e) => {
                     const newValue = e.target.value;
@@ -52,6 +41,32 @@ export default function HintTextField() {
                 }}
                 label="Movie"
             />
+            <div
+                style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                }}
+            >
+                <div
+                    style={{
+                        position: 'absolute',
+                        top: 16,
+                        left: 14,
+                        right: 14,
+                        opacity: 0.5,
+                        whiteSpace: 'pre-wrap',
+                        wordWrap: 'break-word',
+                        fontFamily: 'inherit',
+                        fontSize: 'inherit',
+                        lineHeight: 'inherit',
+                    }}
+                >
+                    {inputValue + displayHint}
+                </div>
+            </div>
         </Box>
     );
 }

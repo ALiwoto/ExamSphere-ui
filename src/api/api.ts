@@ -84,7 +84,8 @@ export const APIErrorCode = {
     ErrCodeGivenExamNotFound: 2151,
     ErrCodeAccountAlreadyConfirmed: 2152,
     ErrCodeEmailAlreadyExists: 2153,
-    ErrCodeTopicNameExists: 2154
+    ErrCodeTopicNameExists: 2154,
+    ErrCodeTopicNotFound: 2155
 } as const;
 
 export type APIErrorCode = typeof APIErrorCode[keyof typeof APIErrorCode];
@@ -543,6 +544,12 @@ export interface CreateCourseData {
      * @memberof CreateCourseData
      */
     'course_name'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateCourseData
+     */
+    'topic_id'?: number;
 }
 /**
  * 
@@ -574,6 +581,12 @@ export interface CreateCourseResult {
      * @memberof CreateCourseResult
      */
     'course_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCourseResult
+     */
+    'created_at'?: string;
 }
 /**
  * 
@@ -927,6 +940,93 @@ export interface DeleteTopicV1200Response {
      * 
      * @type {boolean}
      * @memberof DeleteTopicV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface EditCourseData
+ */
+export interface EditCourseData {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditCourseData
+     */
+    'course_description'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditCourseData
+     */
+    'course_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditCourseData
+     */
+    'course_name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface EditCourseResult
+ */
+export interface EditCourseResult {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditCourseResult
+     */
+    'added_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditCourseResult
+     */
+    'course_description'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditCourseResult
+     */
+    'course_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditCourseResult
+     */
+    'course_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditCourseResult
+     */
+    'created_at'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface EditCourseV1200Response
+ */
+export interface EditCourseV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof EditCourseV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {EditCourseResult}
+     * @memberof EditCourseV1200Response
+     */
+    'result'?: EditCourseResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditCourseV1200Response
      */
     'success'?: boolean;
 }
@@ -2155,6 +2255,18 @@ export interface SearchCourseData {
      * @memberof SearchCourseData
      */
     'course_name'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof SearchCourseData
+     */
+    'limit'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof SearchCourseData
+     */
+    'offset'?: number;
 }
 /**
  * 
@@ -2676,6 +2788,49 @@ export const CourseApiAxiosParamCreator = function (configuration?: Configuratio
             };
         },
         /**
+         * Allows a user to edit a course.
+         * @summary Edit a course
+         * @param {string} authorization Authorization token
+         * @param {EditCourseData} data Data needed to edit a course
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editCourseV1: async (authorization: string, data: EditCourseData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('editCourseV1', 'authorization', authorization)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('editCourseV1', 'data', data)
+            const localVarPath = `/api/v1/course/edit`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Allows a user to get information about a course by its id.
          * @summary Get course information
          * @param {string} authorization Authorization token
@@ -2916,6 +3071,20 @@ export const CourseApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Allows a user to edit a course.
+         * @summary Edit a course
+         * @param {string} authorization Authorization token
+         * @param {EditCourseData} data Data needed to edit a course
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async editCourseV1(authorization: string, data: EditCourseData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EditCourseV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.editCourseV1(authorization, data, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CourseApi.editCourseV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Allows a user to get information about a course by its id.
          * @summary Get course information
          * @param {string} authorization Authorization token
@@ -3007,6 +3176,17 @@ export const CourseApiFactory = function (configuration?: Configuration, basePat
             return localVarFp.createCourseV1(authorization, data, options).then((request) => request(axios, basePath));
         },
         /**
+         * Allows a user to edit a course.
+         * @summary Edit a course
+         * @param {string} authorization Authorization token
+         * @param {EditCourseData} data Data needed to edit a course
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editCourseV1(authorization: string, data: EditCourseData, options?: any): AxiosPromise<EditCourseV1200Response> {
+            return localVarFp.editCourseV1(authorization, data, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Allows a user to get information about a course by its id.
          * @summary Get course information
          * @param {string} authorization Authorization token
@@ -3082,6 +3262,19 @@ export class CourseApi extends BaseAPI {
      */
     public createCourseV1(authorization: string, data: CreateCourseData, options?: RawAxiosRequestConfig) {
         return CourseApiFp(this.configuration).createCourseV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows a user to edit a course.
+     * @summary Edit a course
+     * @param {string} authorization Authorization token
+     * @param {EditCourseData} data Data needed to edit a course
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CourseApi
+     */
+    public editCourseV1(authorization: string, data: EditCourseData, options?: RawAxiosRequestConfig) {
+        return CourseApiFp(this.configuration).editCourseV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

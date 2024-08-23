@@ -12,14 +12,14 @@ import { Box } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import Pagination from '@mui/material/Pagination';
 import IconButton from '@mui/material/IconButton';
-import { SearchedUserInfo } from '../api';
+import { SearchedCourseInfo } from '../api';
 import apiClient from '../apiClient';
 import DashboardContainer from '../components/containers/dashboardContainer';
 import { timeAgo } from '../utils/timeUtils';
 import { CurrentAppTranslation } from '../translations/appTranslation';
 
-const RenderUsersList = (users: SearchedUserInfo[] | undefined, forEdit: boolean = false) => {
-    if (!users || users.length === 0) {
+const RenderCoursesList = (courses: SearchedCourseInfo[] | undefined, forEdit: boolean = false) => {
+    if (!courses || courses.length === 0) {
         return (
             <Typography variant="body2" sx={{ textAlign: 'center', mt: 4 }}>
                 {forEdit ? CurrentAppTranslation.EnterSearchForEdit : 
@@ -30,32 +30,32 @@ const RenderUsersList = (users: SearchedUserInfo[] | undefined, forEdit: boolean
 
     return (
         <List>
-            {users.map((user) => (
-                <ListItem key={user.user_id} sx={{ mb: 2 }}>
+            {courses.map((course) => (
+                <ListItem key={course.course_id} sx={{ mb: 2 }}>
                     <Paper
                         elevation={3}
                         sx={{ width: '100%', p: 2, borderRadius: 2 }}
                         onClick={
                             () => {
-                                // Redirect to user info page, make sure to query encode it
-                                window.location.href = `/userInfo?userId=${encodeURIComponent(user.user_id!)}`;
+                                // Redirect to course info page, make sure to query encode it
+                                window.location.href = `/courseInfo?courseId=${encodeURIComponent(course.course_id!)}`;
                             }
                         }>
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
                                 <Typography variant="body2">
-                                    {`${CurrentAppTranslation.user_id}: ${user.user_id}`}
+                                    {`${CurrentAppTranslation.course_id}: ${course.course_id}`}
                                 </Typography>
                                 <Typography variant="body2">
-                                    {`${CurrentAppTranslation.email}: ${user.email}`}
+                                    {`${CurrentAppTranslation.course_name}: ${course.course_name}`}
                                 </Typography>
                             </Grid>
                             <Grid item xs={6} sx={{ textAlign: 'right' }}>
                                 <Typography variant="body2">
-                                    {`${CurrentAppTranslation.full_name}: ${user.full_name}`}
+                                    {`${CurrentAppTranslation.course_description}: ${course.course_description}`}
                                 </Typography>
                                 <Typography variant="body2">
-                                    {`${CurrentAppTranslation.created_at}: ${timeAgo(user.created_at!)}`}
+                                    {`${CurrentAppTranslation.created_at}: ${timeAgo(course.created_at!)}`}
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -66,14 +66,14 @@ const RenderUsersList = (users: SearchedUserInfo[] | undefined, forEdit: boolean
     )
 }
 
-const SearchUserPage = () => {
+const SearchCoursePage = () => {
     const urlSearch = new URLSearchParams(window.location.search);
     const providedQuery = urlSearch.get('query');
     const providedPage = urlSearch.get('page');
     const forEdit = (urlSearch.get('edit') ?? "false") === "true";
 
     const [query, setQuery] = useState(providedQuery ?? '');
-    const [users, setUsers] = useState<SearchedUserInfo[]>([]);
+    const [courses, setCourses] = useState<SearchedCourseInfo[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState<number>(providedPage ? parseInt(providedPage) - 1 : 0);
     const [totalPages, setTotalPages] = useState(page + 1);
@@ -81,23 +81,19 @@ const SearchUserPage = () => {
 
     const handleSearch = async (newPage = 0) => {
         window.history.pushState(
-            `searchUser_query_${query}`,
-            "Search User",
-            `/searchUser?query=${encodeURIComponent(query)}&page=${newPage + 1}`,
+            `searchCourse_query_${query}`,
+            "Search Course",
+            `${window.location.pathname}?query=${encodeURIComponent(query)}&page=${newPage + 1}`,
         );
 
-        if (query === '') {
-            return;
-        }
-
         setIsLoading(true);
-        const results = await apiClient.searchUser({
-            query: query,
+        const results = await apiClient.searchCourse({
+            course_name: query,
             offset: newPage * limit,
             limit: limit,
         })
 
-        if (!results || !results.users) {
+        if (!results || !results.courses) {
             setIsLoading(false);
             return;
         }
@@ -105,11 +101,11 @@ const SearchUserPage = () => {
         // we need to do setTotalPages dynamically, e.g. if the limit is reached,
         // we should add one more page. if the amount of results returned is less than
         // the limit, we shouldn't increment the total pages.
-        const newTotalPages = results.users.length < limit ? (newPage + 1) : newPage + 2;
+        const newTotalPages = results.courses.length < limit ? (newPage + 1) : newPage + 2;
         setTotalPages(newTotalPages);
 
         setPage(newPage);
-        setUsers(results.users!);
+        setCourses(results.courses!);
         setIsLoading(false);
     };
 
@@ -120,8 +116,8 @@ const SearchUserPage = () => {
             handleSearch(page);
         }
 
-        if (window.location.pathname === '/searchUser') {
-            document.title = CurrentAppTranslation.SearchUsersText;
+        if (window.location.pathname === '/searchCourse') {
+            document.title = CurrentAppTranslation.SearchCoursesText;
         }
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -142,7 +138,7 @@ const SearchUserPage = () => {
                             }
                         }
                         onChange={(e) => setQuery(e.target.value)}
-                        label={CurrentAppTranslation.SearchUsersText}
+                        label={CurrentAppTranslation.SearchCoursesText}
                         onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                         InputProps={{
                             endAdornment: (
@@ -161,7 +157,7 @@ const SearchUserPage = () => {
                         }}>
                             <CircularProgress size={60} />
                         </Box>
-                    ) : RenderUsersList(users, forEdit)}
+                    ) : RenderCoursesList(courses, forEdit)}
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'center', margin: '0 auto', }}>
                     <Pagination
@@ -172,4 +168,4 @@ const SearchUserPage = () => {
     );
 };
 
-export default SearchUserPage;
+export default SearchCoursePage;

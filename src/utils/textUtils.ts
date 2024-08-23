@@ -15,4 +15,12 @@ export function getTextInputTypeFromFieldName(fieldName: string): React.HTMLInpu
     }
 
     return "text";
+};
+
+export function canParseAsNumber(value: any): boolean {
+    try {
+        return !isNaN(Number(value));
+    } catch {
+        return false;
+    }
 }

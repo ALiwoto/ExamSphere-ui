@@ -15,6 +15,7 @@ class FaTranslation extends AppTranslationBase {
     ChangePasswordText: string = "تغییر رمز عبور";
     ManageUsersText: string = "مدیریت کاربران";
     AddUserText: string = "افزودن کاربر";
+    SearchUsersText: string = "جستجوی کاربران";
     EditUserInfoText: string = "ویرایش اطلاعات کاربر";
     ChangeUserPasswordText: string = "تغییر رمز عبور کاربر";
     ManageTopicsText: string = "مدیریت موضوعات";
@@ -37,10 +38,16 @@ class FaTranslation extends AppTranslationBase {
     ConfirmText: string = "تایید";
     EditText: string = "ویرایش";
     UserInformationText: string = "اطلاعات کاربر";
-    ConfirmYourAccountText = "حساب کاربری خود را تایید کنید";
+    CourseInformationText: string = "اطلاعات دوره";
+    ConfirmYourAccountText: string = "حساب کاربری خود را تایید کنید";
+    ConfirmAccountText: string = "تایید حساب کاربری";
     CreateNewUserText: string = "ایجاد کاربر جدید";
     CreateNewTopicText: string = "ایجاد موضوع جدید";
+    CreateTopicText: string = "ایجاد موضوع";
+    CreateNewCourseText: string = "ایجاد دوره جدید";
+    CreateCourseText: string = "ایجاد دوره";
     DeleteTopicButtonText: string = "حذف موضوع";
+    CreateCourseButtonText: string = "ایجاد دوره";
     CancelButtonText: string = "لغو";
 
     // System messages
@@ -51,8 +58,10 @@ class FaTranslation extends AppTranslationBase {
     PasswordsDoNotMatchText: string = "رمز عبور ها یکسان نیستند!";
     FailedToConfirmAccountCreationText: string = "تایید ایجاد حساب کاربری ناموفق بود";
     UserNotFoundText: string = "این کاربر وجود ندارد...";
+    CourseNotFoundText: string = "این دوره وجود ندارد...";
     UserCreatedSuccessfullyText: string = "کاربر با موفقیت ایجاد شد";
     TopicCreatedSuccessfullyText: string = "موضوع با موفقیت ایجاد شد";
+    CourseCreatedSuccessfullyText: string = "دوره با موفقیت ایجاد شد";
     NoResultsFoundText: string = "نتیجه ای یافت نشد، تلاش کنید تا جستجوی خود را تغییر دهید";
     SearchSomethingForTopicsText: string = "برای جستجو یک کلمه وارد کنید یا خالی بگذارید تا همه موضوعات لیست شوند";
     EnterSearchForEdit: string = "برای ویرایش کاربر جستجو کنید";
@@ -62,6 +71,9 @@ class FaTranslation extends AppTranslationBase {
 
     //#region API response fields translations
 
+    course_description: string = "توضیحات دوره";
+    course_id: string = "شناسه دوره";
+    course_name: string = "نام دوره";
     topic_name: string = "نام موضوع";
     topic_id: string = "شناسه موضوع";
     user_id: string = "شناسه کاربری";
