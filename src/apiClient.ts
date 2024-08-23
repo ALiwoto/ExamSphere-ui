@@ -20,6 +20,7 @@ import {
     CreateNewTopicResult,
     SearchTopicData,
     SearchTopicResult,
+    ConfirmAccountData,
 } from './api';
 
 class ExamSphereAPIClient extends UserApi {
@@ -222,6 +223,17 @@ class ExamSphereAPIClient extends UserApi {
         }
 
         return createUserResult;
+    }
+
+    public async confirmAccount(confirmData: ConfirmAccountData): Promise<boolean> {
+        let confirmResult = (await this.confirmAccountV1(confirmData))?.data.result;
+        if (confirmResult === undefined) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to confirm account");
+        }
+
+        return confirmResult;
     }
 
     /**

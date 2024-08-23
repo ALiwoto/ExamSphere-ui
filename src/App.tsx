@@ -10,6 +10,7 @@ import UserInfoPage from './pages/userInfoPage';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import CreateTopicPage from './pages/createTopicPage';
 import SearchTopicPage from './pages/searchTopicPage';
+import ConfirmAccountRedirectPage from './pages/confirmAccountRedirectPage';
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(apiClient.isLoggedIn());
@@ -62,6 +63,10 @@ const App: React.FC = () => {
   return (
     <Router>
       <Routes>
+        <Route
+          path="/confirmAccountRedirect"
+          element={<ConfirmAccountRedirectPage />}
+        />
         <Route
           path="/login"
           element={isLoggedIn ? <Navigate to="/dashboard" /> : <Login />}

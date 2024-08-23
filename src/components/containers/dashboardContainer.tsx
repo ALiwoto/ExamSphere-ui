@@ -9,6 +9,7 @@ import { CurrentAppTranslation } from "../../translations/appTranslation";
 interface DashboardContainerProps {
     children?: React.ReactNode;
     style?: React.CSSProperties;
+    disableSlideMenu?: boolean;
 }
 
 const DashboardContainer: React.FC<DashboardContainerProps> = ({ ...props }) => {
@@ -33,10 +34,13 @@ const DashboardContainer: React.FC<DashboardContainerProps> = ({ ...props }) => 
                 <TitleLabel>{CurrentAppTranslation.ExamSphereTitleText}</TitleLabel>
                 <MenuButton onClick={toggleMenu}>☰</MenuButton>
             </HeaderLabel>
-            <SideMenu isOpen={isSideMenuOpen}
-                toggleMenu={toggleMenu}
-            >
-            </SideMenu>
+            {
+                ((props.disableSlideMenu !== true) && 
+                <SideMenu isOpen={isSideMenuOpen}
+                    toggleMenu={toggleMenu}
+                >
+                </SideMenu>)
+            }
             {props.children}
         </div>
     );

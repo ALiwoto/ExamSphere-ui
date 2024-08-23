@@ -34,12 +34,16 @@ class FaTranslation extends AppTranslationBase {
     CreateUserButtonText: string = "ایجاد کاربر";
     CreateTopicButtonText: string = "ایجاد موضوع";
     SaveText: string = "ذخیره";
+    ConfirmText: string = "تایید";
     EditText: string = "ویرایش";
     UserInformationText: string = "اطلاعات کاربر";
+    ConfirmYourAccountText = "حساب کاربری خود را تایید کنید";
 
 
     // System messages
-
+    ConfirmationSuccessText: string = "تایید با موفقیت انجام شد!";
+    PasswordsDoNotMatchText: string = "رمز عبور ها یکسان نیستند!";
+    FailedToConfirmAccountCreationText: string = "تایید ایجاد حساب کاربری ناموفق بود";
     UserNotFoundText: string = "این کاربر وجود ندارد...";
     CreateNewUserText: string = "ایجاد کاربر جدید";
     UserCreatedSuccessfullyText: string = "کاربر با موفقیت ایجاد شد";
@@ -55,6 +59,8 @@ class FaTranslation extends AppTranslationBase {
     topic_name: string = "نام موضوع";
     topic_id: string = "شناسه موضوع";
     user_id: string = "شناسه کاربری";
+    new_password: string = "رمز عبور جدید";
+    repeat_password: string = "تکرار رمز عبور";
     full_name: string = "نام کامل";
     email: string = "ایمیل";
     password: string = "رمز عبور";

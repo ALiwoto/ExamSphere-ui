@@ -33,10 +33,15 @@ export class AppTranslationBase {
     CreateUserButtonText: string = "Create User";
     CreateTopicButtonText: string = "Create Topic";
     SaveText: string = "Save";
+    ConfirmText: string = "Confirm";
     EditText: string = "Edit";
     UserInformationText: string = "User Information";
+    ConfirmYourAccountText = "Confirm Your Account";
 
     // System messages
+    ConfirmationSuccessText: string = "Confirmation was successful!";
+    PasswordsDoNotMatchText: string = "Passwords do not match!";
+    FailedToConfirmAccountCreationText: string = "Failed to confirm account creation";
     UserNotFoundText: string = "This user doesn't seem to exist...";
     CreateNewUserText: string = "Create New User";
     UserCreatedSuccessfullyText: string = "User created successfully";
@@ -52,6 +57,8 @@ export class AppTranslationBase {
     topic_name: string = "Topic Name";
     topic_id: string = "Topic ID";
     user_id: string = "User ID";
+    new_password: string = "New Password";
+    repeat_password: string = "Repeat Password";
     full_name: string = "Full Name";
     email: string = "Email";
     password: string = "Password";
