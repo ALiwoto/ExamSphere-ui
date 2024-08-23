@@ -316,6 +316,21 @@ class ExamSphereAPIClient extends UserApi {
         return searchTopicResult;
     }
 
+    public async deleteTopic(topicId: number): Promise<boolean> {
+        if (!this.isLoggedIn()) {
+            throw new Error("Not logged in");
+        }
+
+        let deleteTopicResult = (await this.topicApi.deleteTopicV1(`Bearer ${this.accessToken}`, topicId))?.data.result;
+        if (!deleteTopicResult) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to delete topic");
+        }
+
+        return deleteTopicResult;
+    }
+
     /**
      * Returns true if we are considered as "logged in" by the API client,
      * This method only checks if the access token is present, it doesn't

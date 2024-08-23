@@ -37,16 +37,23 @@ export class AppTranslationBase {
     EditText: string = "Edit";
     UserInformationText: string = "User Information";
     ConfirmYourAccountText = "Confirm Your Account";
+    CreateNewUserText: string = "Create New User";
+    CreateNewTopicText: string = "Create New Topic";
+    DeleteTopicButtonText: string = "Delete Topic";
+    CancelButtonText: string = "Cancel";
 
     // System messages
+    AreYouSureDeleteTopicText: string = "Are you sure you want to delete this topic?";
+    DeleteTopicDescriptionText: string = "This action cannot be undone! All courses and exams related to this topic will be deleted as well.";
+    TopicDeletedSuccessfullyText: string = "Topic deleted successfully!";
     ConfirmationSuccessText: string = "Confirmation was successful!";
     PasswordsDoNotMatchText: string = "Passwords do not match!";
     FailedToConfirmAccountCreationText: string = "Failed to confirm account creation";
     UserNotFoundText: string = "This user doesn't seem to exist...";
-    CreateNewUserText: string = "Create New User";
     UserCreatedSuccessfullyText: string = "User created successfully";
     TopicCreatedSuccessfullyText: string = "Topic created successfully";
     NoResultsFoundText: string = "No results found, try changing your search query";
+    SearchSomethingForTopicsText: string = "Search a query or enter empty to list all topics";
     EnterSearchForEdit: string = "Enter search query to edit the user";
 
     //#endregion

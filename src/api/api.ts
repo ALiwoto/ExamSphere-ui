@@ -42,7 +42,7 @@ export const APIErrorCode = {
     ErrCodeInvalidFileData: 2109,
     ErrCodeInvalidPhoneNumber: 2110,
     ErrCodePhoneNumberAlreadyImported: 2111,
-    ErrCodeInvalidUsername: 2112,
+    ErrCodeInvalidUserID: 2112,
     ErrCodeNoPhonesDonated: 2113,
     ErrCodeAgentNotConnected: 2114,
     ErrCodeInvalidPagination: 2115,
@@ -81,7 +81,10 @@ export const APIErrorCode = {
     ErrCodeExamFinished: 2148,
     ErrCodeExamQuestionNotFound: 2149,
     ErrCodeInvalidAnswerOption: 2150,
-    ErrCodeGivenExamNotFound: 2151
+    ErrCodeGivenExamNotFound: 2151,
+    ErrCodeAccountAlreadyConfirmed: 2152,
+    ErrCodeEmailAlreadyExists: 2153,
+    ErrCodeTopicNameExists: 2154
 } as const;
 
 export type APIErrorCode = typeof APIErrorCode[keyof typeof APIErrorCode];
@@ -465,31 +468,6 @@ export interface ConfirmAccountData {
      * @memberof ConfirmAccountData
      */
     'user_id'?: string;
-}
-/**
- * 
- * @export
- * @interface ConfirmAccountV1200Response
- */
-export interface ConfirmAccountV1200Response {
-    /**
-     * 
-     * @type {EndpointError}
-     * @memberof ConfirmAccountV1200Response
-     */
-    'error'?: EndpointError;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ConfirmAccountV1200Response
-     */
-    'result'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ConfirmAccountV1200Response
-     */
-    'success'?: boolean;
 }
 /**
  * 
@@ -924,6 +902,31 @@ export interface CreateUserV1200Response {
      * 
      * @type {boolean}
      * @memberof CreateUserV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface DeleteTopicV1200Response
+ */
+export interface DeleteTopicV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof DeleteTopicV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof DeleteTopicV1200Response
+     */
+    'result'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof DeleteTopicV1200Response
      */
     'success'?: boolean;
 }
@@ -2675,16 +2678,16 @@ export const CourseApiAxiosParamCreator = function (configuration?: Configuratio
         /**
          * Allows a user to get information about a course by its id.
          * @summary Get course information
-         * @param {number} id Course ID
          * @param {string} authorization Authorization token
+         * @param {number} id Course ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCourseInfoV1: async (id: number, authorization: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('getCourseInfoV1', 'id', id)
+        getCourseInfoV1: async (authorization: string, id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'authorization' is not null or undefined
             assertParamExists('getCourseInfoV1', 'authorization', authorization)
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getCourseInfoV1', 'id', id)
             const localVarPath = `/api/v1/course/info`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2915,13 +2918,13 @@ export const CourseApiFp = function(configuration?: Configuration) {
         /**
          * Allows a user to get information about a course by its id.
          * @summary Get course information
-         * @param {number} id Course ID
          * @param {string} authorization Authorization token
+         * @param {number} id Course ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCourseInfoV1(id: number, authorization: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetCourseInfoV1200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getCourseInfoV1(id, authorization, options);
+        async getCourseInfoV1(authorization: string, id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetCourseInfoV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCourseInfoV1(authorization, id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['CourseApi.getCourseInfoV1']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -3006,13 +3009,13 @@ export const CourseApiFactory = function (configuration?: Configuration, basePat
         /**
          * Allows a user to get information about a course by its id.
          * @summary Get course information
-         * @param {number} id Course ID
          * @param {string} authorization Authorization token
+         * @param {number} id Course ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCourseInfoV1(id: number, authorization: string, options?: any): AxiosPromise<GetCourseInfoV1200Response> {
-            return localVarFp.getCourseInfoV1(id, authorization, options).then((request) => request(axios, basePath));
+        getCourseInfoV1(authorization: string, id: number, options?: any): AxiosPromise<GetCourseInfoV1200Response> {
+            return localVarFp.getCourseInfoV1(authorization, id, options).then((request) => request(axios, basePath));
         },
         /**
          * Allows a user to get all participants of a course.
@@ -3084,14 +3087,14 @@ export class CourseApi extends BaseAPI {
     /**
      * Allows a user to get information about a course by its id.
      * @summary Get course information
-     * @param {number} id Course ID
      * @param {string} authorization Authorization token
+     * @param {number} id Course ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CourseApi
      */
-    public getCourseInfoV1(id: number, authorization: string, options?: RawAxiosRequestConfig) {
-        return CourseApiFp(this.configuration).getCourseInfoV1(id, authorization, options).then((request) => request(this.axios, this.basePath));
+    public getCourseInfoV1(authorization: string, id: number, options?: RawAxiosRequestConfig) {
+        return CourseApiFp(this.configuration).getCourseInfoV1(authorization, id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3244,16 +3247,16 @@ export const ExamApiAxiosParamCreator = function (configuration?: Configuration)
         /**
          * Allows the user to get information about an exam.
          * @summary Get information about an exam
-         * @param {number} id Exam ID
          * @param {string} authorization Authorization token
+         * @param {number} id Exam ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getExamInfoV1: async (id: number, authorization: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('getExamInfoV1', 'id', id)
+        getExamInfoV1: async (authorization: string, id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'authorization' is not null or undefined
             assertParamExists('getExamInfoV1', 'authorization', authorization)
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getExamInfoV1', 'id', id)
             const localVarPath = `/api/v1/exam/info`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3540,13 +3543,13 @@ export const ExamApiFp = function(configuration?: Configuration) {
         /**
          * Allows the user to get information about an exam.
          * @summary Get information about an exam
-         * @param {number} id Exam ID
          * @param {string} authorization Authorization token
+         * @param {number} id Exam ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getExamInfoV1(id: number, authorization: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetExamInfoV1200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getExamInfoV1(id, authorization, options);
+        async getExamInfoV1(authorization: string, id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetExamInfoV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getExamInfoV1(authorization, id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ExamApi.getExamInfoV1']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -3656,13 +3659,13 @@ export const ExamApiFactory = function (configuration?: Configuration, basePath?
         /**
          * Allows the user to get information about an exam.
          * @summary Get information about an exam
-         * @param {number} id Exam ID
          * @param {string} authorization Authorization token
+         * @param {number} id Exam ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getExamInfoV1(id: number, authorization: string, options?: any): AxiosPromise<GetExamInfoV1200Response> {
-            return localVarFp.getExamInfoV1(id, authorization, options).then((request) => request(axios, basePath));
+        getExamInfoV1(authorization: string, id: number, options?: any): AxiosPromise<GetExamInfoV1200Response> {
+            return localVarFp.getExamInfoV1(authorization, id, options).then((request) => request(axios, basePath));
         },
         /**
          * Allows the user to get questions of an exam.
@@ -3758,14 +3761,14 @@ export class ExamApi extends BaseAPI {
     /**
      * Allows the user to get information about an exam.
      * @summary Get information about an exam
-     * @param {number} id Exam ID
      * @param {string} authorization Authorization token
+     * @param {number} id Exam ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ExamApi
      */
-    public getExamInfoV1(id: number, authorization: string, options?: RawAxiosRequestConfig) {
-        return ExamApiFp(this.configuration).getExamInfoV1(id, authorization, options).then((request) => request(this.axios, this.basePath));
+    public getExamInfoV1(authorization: string, id: number, options?: RawAxiosRequestConfig) {
+        return ExamApiFp(this.configuration).getExamInfoV1(authorization, id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3886,6 +3889,50 @@ export const TopicApiAxiosParamCreator = function (configuration?: Configuration
             };
         },
         /**
+         * Allows moderators to delete a topic. All courses and exams related to the topic will be deleted as well.
+         * @summary Delete a topic
+         * @param {string} authorization Authorization token
+         * @param {number} id Topic ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteTopicV1: async (authorization: string, id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('deleteTopicV1', 'authorization', authorization)
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deleteTopicV1', 'id', id)
+            const localVarPath = `/api/v1/topic/delete`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (id !== undefined) {
+                localVarQueryParameter['id'] = id;
+            }
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Get all user topic stats
          * @summary Get all user topic stats
          * @param {string} authorization Authorization token
@@ -3925,16 +3972,16 @@ export const TopicApiAxiosParamCreator = function (configuration?: Configuration
         /**
          * Get topic info
          * @summary Get topic info
-         * @param {number} id Topic ID
          * @param {string} authorization Authorization token
+         * @param {number} id Topic ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTopicInfoV1: async (id: number, authorization: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('getTopicInfoV1', 'id', id)
+        getTopicInfoV1: async (authorization: string, id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'authorization' is not null or undefined
             assertParamExists('getTopicInfoV1', 'authorization', authorization)
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getTopicInfoV1', 'id', id)
             const localVarPath = `/api/v1/topic/info`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -4077,6 +4124,20 @@ export const TopicApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Allows moderators to delete a topic. All courses and exams related to the topic will be deleted as well.
+         * @summary Delete a topic
+         * @param {string} authorization Authorization token
+         * @param {number} id Topic ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteTopicV1(authorization: string, id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteTopicV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteTopicV1(authorization, id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TopicApi.deleteTopicV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Get all user topic stats
          * @summary Get all user topic stats
          * @param {string} authorization Authorization token
@@ -4092,13 +4153,13 @@ export const TopicApiFp = function(configuration?: Configuration) {
         /**
          * Get topic info
          * @summary Get topic info
-         * @param {number} id Topic ID
          * @param {string} authorization Authorization token
+         * @param {number} id Topic ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getTopicInfoV1(id: number, authorization: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetTopicInfoV1200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getTopicInfoV1(id, authorization, options);
+        async getTopicInfoV1(authorization: string, id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetTopicInfoV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getTopicInfoV1(authorization, id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['TopicApi.getTopicInfoV1']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -4153,6 +4214,17 @@ export const TopicApiFactory = function (configuration?: Configuration, basePath
             return localVarFp.createTopicV1(authorization, data, options).then((request) => request(axios, basePath));
         },
         /**
+         * Allows moderators to delete a topic. All courses and exams related to the topic will be deleted as well.
+         * @summary Delete a topic
+         * @param {string} authorization Authorization token
+         * @param {number} id Topic ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteTopicV1(authorization: string, id: number, options?: any): AxiosPromise<DeleteTopicV1200Response> {
+            return localVarFp.deleteTopicV1(authorization, id, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Get all user topic stats
          * @summary Get all user topic stats
          * @param {string} authorization Authorization token
@@ -4165,13 +4237,13 @@ export const TopicApiFactory = function (configuration?: Configuration, basePath
         /**
          * Get topic info
          * @summary Get topic info
-         * @param {number} id Topic ID
          * @param {string} authorization Authorization token
+         * @param {number} id Topic ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTopicInfoV1(id: number, authorization: string, options?: any): AxiosPromise<GetTopicInfoV1200Response> {
-            return localVarFp.getTopicInfoV1(id, authorization, options).then((request) => request(axios, basePath));
+        getTopicInfoV1(authorization: string, id: number, options?: any): AxiosPromise<GetTopicInfoV1200Response> {
+            return localVarFp.getTopicInfoV1(authorization, id, options).then((request) => request(axios, basePath));
         },
         /**
          * Get user topic stat
@@ -4219,6 +4291,19 @@ export class TopicApi extends BaseAPI {
     }
 
     /**
+     * Allows moderators to delete a topic. All courses and exams related to the topic will be deleted as well.
+     * @summary Delete a topic
+     * @param {string} authorization Authorization token
+     * @param {number} id Topic ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TopicApi
+     */
+    public deleteTopicV1(authorization: string, id: number, options?: RawAxiosRequestConfig) {
+        return TopicApiFp(this.configuration).deleteTopicV1(authorization, id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Get all user topic stats
      * @summary Get all user topic stats
      * @param {string} authorization Authorization token
@@ -4233,14 +4318,14 @@ export class TopicApi extends BaseAPI {
     /**
      * Get topic info
      * @summary Get topic info
-     * @param {number} id Topic ID
      * @param {string} authorization Authorization token
+     * @param {number} id Topic ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TopicApi
      */
-    public getTopicInfoV1(id: number, authorization: string, options?: RawAxiosRequestConfig) {
-        return TopicApiFp(this.configuration).getTopicInfoV1(id, authorization, options).then((request) => request(this.axios, this.basePath));
+    public getTopicInfoV1(authorization: string, id: number, options?: RawAxiosRequestConfig) {
+        return TopicApiFp(this.configuration).getTopicInfoV1(authorization, id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4801,7 +4886,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async confirmAccountV1(confirmAccountData: ConfirmAccountData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConfirmAccountV1200Response>> {
+        async confirmAccountV1(confirmAccountData: ConfirmAccountData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteTopicV1200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.confirmAccountV1(confirmAccountData, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserApi.confirmAccountV1']?.[localVarOperationServerIndex]?.url;
@@ -4814,7 +4899,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async confirmChangePasswordV1(confirmChangePasswordData: ConfirmChangePasswordData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConfirmAccountV1200Response>> {
+        async confirmChangePasswordV1(confirmChangePasswordData: ConfirmChangePasswordData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteTopicV1200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.confirmChangePasswordV1(confirmChangePasswordData, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserApi.confirmChangePasswordV1']?.[localVarOperationServerIndex]?.url;
@@ -4967,7 +5052,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        confirmAccountV1(confirmAccountData: ConfirmAccountData, options?: any): AxiosPromise<ConfirmAccountV1200Response> {
+        confirmAccountV1(confirmAccountData: ConfirmAccountData, options?: any): AxiosPromise<DeleteTopicV1200Response> {
             return localVarFp.confirmAccountV1(confirmAccountData, options).then((request) => request(axios, basePath));
         },
         /**
@@ -4977,7 +5062,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        confirmChangePasswordV1(confirmChangePasswordData: ConfirmChangePasswordData, options?: any): AxiosPromise<ConfirmAccountV1200Response> {
+        confirmChangePasswordV1(confirmChangePasswordData: ConfirmChangePasswordData, options?: any): AxiosPromise<DeleteTopicV1200Response> {
             return localVarFp.confirmChangePasswordV1(confirmChangePasswordData, options).then((request) => request(axios, basePath));
         },
         /**

@@ -69,10 +69,6 @@ const RenderManageTopicsMenu = () => {
         label={CurrentAppTranslation.SearchTopicsText}
         href='/searchTopic'
       ></MenuItem>
-      <MenuItem 
-        label={CurrentAppTranslation.EditTopicsText}
-        href='/editTopic'
-      ></MenuItem>
     </MenuItem>
   )
 };

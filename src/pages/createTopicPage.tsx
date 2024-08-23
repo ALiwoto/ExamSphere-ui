@@ -37,7 +37,7 @@ const CreateTopicPage: React.FC = () => {
         <DashboardContainer>
             <CreateUserContainer>
                 <CreateUserForm onSubmit={handleSubmit}>
-                    <TitleLabel>{CurrentAppTranslation.CreateNewUserText}</TitleLabel>
+                    <TitleLabel>{CurrentAppTranslation.CreateNewTopicText}</TitleLabel>
                     <TextField
                         style={{
                             width: '100%',
@@ -49,7 +49,7 @@ const CreateTopicPage: React.FC = () => {
                         value={createTopicData.topic_name ?? ''}
                         onChange={(e) => { handleInputChange(e as any) }}
                         required />
-                    <SubmitButton type="submit">{CurrentAppTranslation.CreateUserButtonText}</SubmitButton>
+                    <SubmitButton type="submit">{CurrentAppTranslation.CreateTopicButtonText}</SubmitButton>
                 </CreateUserForm>
             </CreateUserContainer>
         </DashboardContainer>

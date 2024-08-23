@@ -38,17 +38,23 @@ class FaTranslation extends AppTranslationBase {
     EditText: string = "ویرایش";
     UserInformationText: string = "اطلاعات کاربر";
     ConfirmYourAccountText = "حساب کاربری خود را تایید کنید";
-
+    CreateNewUserText: string = "ایجاد کاربر جدید";
+    CreateNewTopicText: string = "ایجاد موضوع جدید";
+    DeleteTopicButtonText: string = "حذف موضوع";
+    CancelButtonText: string = "لغو";
 
     // System messages
+    AreYouSureDeleteTopicText: string = "آیا مطمئن هستید که می خواهید این موضوع را حذف کنید؟";
+    DeleteTopicDescriptionText: string = "این عملیات قابل بازگشت نیست! تمام دوره ها و آزمون های مرتبط با این موضوع نیز حذف خواهند شد.";
+    TopicDeletedSuccessfullyText: string = "موضوع با موفقیت حذف شد!";
     ConfirmationSuccessText: string = "تایید با موفقیت انجام شد!";
     PasswordsDoNotMatchText: string = "رمز عبور ها یکسان نیستند!";
     FailedToConfirmAccountCreationText: string = "تایید ایجاد حساب کاربری ناموفق بود";
     UserNotFoundText: string = "این کاربر وجود ندارد...";
-    CreateNewUserText: string = "ایجاد کاربر جدید";
     UserCreatedSuccessfullyText: string = "کاربر با موفقیت ایجاد شد";
     TopicCreatedSuccessfullyText: string = "موضوع با موفقیت ایجاد شد";
     NoResultsFoundText: string = "نتیجه ای یافت نشد، تلاش کنید تا جستجوی خود را تغییر دهید";
+    SearchSomethingForTopicsText: string = "برای جستجو یک کلمه وارد کنید یا خالی بگذارید تا همه موضوعات لیست شوند";
     EnterSearchForEdit: string = "برای ویرایش کاربر جستجو کنید";
 
     //#endregion
