@@ -15,6 +15,7 @@ import LoginForm from '../components/forms/loginForm';
 import { extractErrorDetails } from '../utils/errorUtils';
 import useAppSnackbar from '../components/snackbars/useAppSnackbars';
 import { CurrentAppTranslation } from '../translations/appTranslation';
+import HintTextField from '../components/inputs/HintTextField';
 /********************************************/
 
 const CaptchaContainer = styled.div`
@@ -98,6 +99,7 @@ const Login = () => {
                 }}>
                     <h2>{CurrentAppTranslation.WelcomeToPlatformText}</h2>
                 </div>
+                <HintTextField />
                 <LoginInput
                     type="text"
                     placeholder="Username"
