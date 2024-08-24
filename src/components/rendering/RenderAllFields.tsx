@@ -5,6 +5,7 @@ import { Box, Checkbox, FormControlLabel, Grid, TextField, Typography } from '@m
 import SelectMenu from '../../components/menus/selectMenu';
 import ModernDateTimePicker from '../date/ModernDatePicker';
 import { getDateFromServerTimestamp } from '../../utils/timeUtils';
+import { getTextInputTypeFromFieldName } from '../../utils/textUtils';
 
 interface RenderAllFieldsProps {
     data: any;
@@ -174,7 +175,7 @@ const RenderAllFields = (props: RenderAllFieldsProps) => {
                     name={field}
                     variant='standard'
                     disabled={!isEditing}
-                    type={'text'}
+                    type={getTextInputTypeFromFieldName(field)}
                     label={CurrentAppTranslation[field as keyof (typeof CurrentAppTranslation)]}
                     value={data[field] ?? ''}
                     onChange={(e) => { handleInputChange(e as any) }}

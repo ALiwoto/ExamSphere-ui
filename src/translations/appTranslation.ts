@@ -56,6 +56,7 @@ export class AppTranslationBase {
     CreateTopicButtonText: string = "Create Topic";
     CreateCourseButtonText: string = "Create Course";
     SaveText: string = "Save";
+    ParticipateText: string = "Participate";
     ConfirmText: string = "Confirm";
     EditText: string = "Edit";
     UserInformationText: string = "User Information";
@@ -64,6 +65,7 @@ export class AppTranslationBase {
     ExamInfoText: string = "Exam Info";
     UserInfoText: string = "User Info";
     ConfirmYourAccountText: string = "Confirm Your Account";
+    ConfirmChangingYourPasswordText: string = "Confirm Changing Your Password";
     ConfirmAccountText: string = "Confirm Account";
     CreateNewUserText: string = "Create New User";
     CreateNewTopicText: string = "Create New Topic";
@@ -77,7 +79,12 @@ export class AppTranslationBase {
     SendEmailToUseText: string = "Send email confirmation to user";
 
     // System messages
+    ExamParticipationSuccessText: string = "Successfully participated in the exam!";
     LanguageChangedSuccessfullyText: string = "Language changed successfully!";
+    EmailForPassWilLBeSentText: string = "An email will be sent to you for password change.";
+    UserUpdatedSuccessfullyText: string = "User updated successfully!";
+    PasswordChangedSuccessfullyText: string = "Password changed successfully!";
+    EmailSentForPasswordChangeText: string = "Email sent for password change!";
     AreYouSureDeleteTopicText: string = "Are you sure you want to delete this topic?";
     DeleteTopicDescriptionText: string = "This action cannot be undone! All courses and exams related to this topic will be deleted as well.";
     TopicDeletedSuccessfullyText: string = "Topic deleted successfully!";
@@ -119,6 +126,7 @@ export class AppTranslationBase {
     repeat_password: string = "Repeat Password";
     full_name: string = "Full Name";
     email: string = "Email";
+    lang: string = "Language";
     password: string = "Password";
     phone_number: string = "Phone Number";
     user_address: string = "Address";
@@ -128,6 +136,9 @@ export class AppTranslationBase {
     role: string = "Role";
     user: string = "User";
     admin: string = "Admin";
+    owner: string = "Owner";
+    student: string = "Student";
+    teacher: string = "Teacher";
 
     //#endregion
 
@@ -139,6 +150,10 @@ export class AppTranslationBase {
 }
 
 export var CurrentAppTranslation = new AppTranslationBase();
+
+export function getTr(text: any): string {
+    return CurrentAppTranslation[`${text}` as keyof typeof CurrentAppTranslation];
+}
 
 export function setAppTranslation(translation: AppTranslationBase) {
     CurrentAppTranslation = translation;

@@ -1651,6 +1651,12 @@ export interface GetCreatedCoursesV1200Response {
 export interface GetExamInfoResult {
     /**
      * 
+     * @type {boolean}
+     * @memberof GetExamInfoResult
+     */
+    'can_participate'?: boolean;
+    /**
+     * 
      * @type {number}
      * @memberof GetExamInfoResult
      */
@@ -1709,6 +1715,12 @@ export interface GetExamInfoResult {
      * @memberof GetExamInfoResult
      */
     'has_finished'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetExamInfoResult
+     */
+    'has_participated'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -2381,6 +2393,111 @@ export interface LoginV1200Response {
      * 
      * @type {boolean}
      * @memberof LoginV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface ParticipateExamData
+ */
+export interface ParticipateExamData {
+    /**
+     * ExamId is the exam the user is trying to participate in.
+     * @type {number}
+     * @memberof ParticipateExamData
+     */
+    'exam_id'?: number;
+    /**
+     * Price is the price of the exam that user has already paid.
+     * @type {string}
+     * @memberof ParticipateExamData
+     */
+    'price'?: string;
+    /**
+     * UserId is the user who is trying to participate in the exam. If the user is trying to participate in the exam themselves, this field should be set to their own user id.
+     * @type {string}
+     * @memberof ParticipateExamData
+     */
+    'user_id'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface ParticipateExamResult
+ */
+export interface ParticipateExamResult {
+    /**
+     * 
+     * @type {string}
+     * @memberof ParticipateExamResult
+     */
+    'added_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ParticipateExamResult
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ParticipateExamResult
+     */
+    'exam_id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ParticipateExamResult
+     */
+    'finishes_in'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ParticipateExamResult
+     */
+    'price'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ParticipateExamResult
+     */
+    'question_count'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ParticipateExamResult
+     */
+    'starts_in'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ParticipateExamResult
+     */
+    'user_id'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface ParticipateExamV1200Response
+ */
+export interface ParticipateExamV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof ParticipateExamV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {ParticipateExamResult}
+     * @memberof ParticipateExamV1200Response
+     */
+    'result'?: ParticipateExamResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ParticipateExamV1200Response
      */
     'success'?: boolean;
 }
@@ -3998,6 +4115,49 @@ export const ExamApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
+         * Allows the user to participate in an exam.
+         * @summary Participate in an exam
+         * @param {string} authorization Authorization token
+         * @param {ParticipateExamData} data Data needed to participate in an exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        participateExamV1: async (authorization: string, data: ParticipateExamData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('participateExamV1', 'authorization', authorization)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('participateExamV1', 'data', data)
+            const localVarPath = `/api/v1/exam/participate`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Allows the user to search exams.
          * @summary Search exams
          * @param {string} authorization Authorization token
@@ -4206,6 +4366,20 @@ export const ExamApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Allows the user to participate in an exam.
+         * @summary Participate in an exam
+         * @param {string} authorization Authorization token
+         * @param {ParticipateExamData} data Data needed to participate in an exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async participateExamV1(authorization: string, data: ParticipateExamData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ParticipateExamV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.participateExamV1(authorization, data, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ExamApi.participateExamV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Allows the user to search exams.
          * @summary Search exams
          * @param {string} authorization Authorization token
@@ -4330,6 +4504,17 @@ export const ExamApiFactory = function (configuration?: Configuration, basePath?
          */
         getUserOngoingExamsV1(authorization: string, targetId?: string, options?: any): AxiosPromise<GetUserOngoingExamsV1200Response> {
             return localVarFp.getUserOngoingExamsV1(authorization, targetId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Allows the user to participate in an exam.
+         * @summary Participate in an exam
+         * @param {string} authorization Authorization token
+         * @param {ParticipateExamData} data Data needed to participate in an exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        participateExamV1(authorization: string, data: ParticipateExamData, options?: any): AxiosPromise<ParticipateExamV1200Response> {
+            return localVarFp.participateExamV1(authorization, data, options).then((request) => request(axios, basePath));
         },
         /**
          * Allows the user to search exams.
@@ -4465,6 +4650,19 @@ export class ExamApi extends BaseAPI {
      */
     public getUserOngoingExamsV1(authorization: string, targetId?: string, options?: RawAxiosRequestConfig) {
         return ExamApiFp(this.configuration).getUserOngoingExamsV1(authorization, targetId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows the user to participate in an exam.
+     * @summary Participate in an exam
+     * @param {string} authorization Authorization token
+     * @param {ParticipateExamData} data Data needed to participate in an exam
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExamApi
+     */
+    public participateExamV1(authorization: string, data: ParticipateExamData, options?: RawAxiosRequestConfig) {
+        return ExamApiFp(this.configuration).participateExamV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

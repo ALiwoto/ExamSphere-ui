@@ -51,7 +51,7 @@ const RenderManageUserMenu = () => {
             </MenuItem>
             <MenuItem
                 label={CurrentAppTranslation.ChangeUserPasswordText}
-                href='/changeUserPassword'
+                href='/changePassword'
             >
             </MenuItem>
         </MenuItem>

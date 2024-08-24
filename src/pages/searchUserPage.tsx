@@ -14,16 +14,20 @@ import Pagination from '@mui/material/Pagination';
 import IconButton from '@mui/material/IconButton';
 import { SearchedUserInfo } from '../api';
 import apiClient from '../apiClient';
-import {DashboardContainer} from '../components/containers/dashboardContainer';
+import { DashboardContainer } from '../components/containers/dashboardContainer';
 import { timeAgo } from '../utils/timeUtils';
-import { CurrentAppTranslation } from '../translations/appTranslation';
+import { CurrentAppTranslation, getTr } from '../translations/appTranslation';
 import { autoSetWindowTitle } from '../utils/commonUtils';
+import { extractErrorDetails } from '../utils/errorUtils';
+import useAppSnackbar from '../components/snackbars/useAppSnackbars';
+
+const PageLimit = 10;
 
 const RenderUsersList = (users: SearchedUserInfo[] | undefined, forEdit: boolean = false) => {
     if (!users || users.length === 0) {
         return (
             <Typography variant="body2" sx={{ textAlign: 'center', mt: 4 }}>
-                {forEdit ? CurrentAppTranslation.EnterSearchForEdit : 
+                {forEdit ? CurrentAppTranslation.EnterSearchForEdit :
                     CurrentAppTranslation.NoResultsFoundText}
             </Typography>
         );
@@ -50,6 +54,9 @@ const RenderUsersList = (users: SearchedUserInfo[] | undefined, forEdit: boolean
                                 <Typography variant="body2">
                                     {`${CurrentAppTranslation.email}: ${user.email}`}
                                 </Typography>
+                                <Typography variant="body2">
+                                    {`${CurrentAppTranslation.role}: ${getTr(user.role)}`}
+                                </Typography>
                             </Grid>
                             <Grid item xs={6} sx={{ textAlign: 'right' }}>
                                 <Typography variant="body2">
@@ -67,7 +74,7 @@ const RenderUsersList = (users: SearchedUserInfo[] | undefined, forEdit: boolean
     )
 }
 
-export var forceUpdateSearchUserPage = () => {};
+export var forceUpdateSearchUserPage = () => { };
 
 const SearchUserPage = () => {
     const urlSearch = new URLSearchParams(window.location.search);
@@ -81,7 +88,7 @@ const SearchUserPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState<number>(providedPage ? parseInt(providedPage) - 1 : 0);
     const [totalPages, setTotalPages] = useState(page + 1);
-    const limit = 10;
+    const snackbar = useAppSnackbar();
 
     forceUpdateSearchUserPage = () => forceUpdate();
 
@@ -92,31 +99,34 @@ const SearchUserPage = () => {
             `/searchUser?query=${encodeURIComponent(query)}&page=${newPage + 1}`,
         );
 
-        if (query === '') {
-            return;
-        }
-
         setIsLoading(true);
-        const results = await apiClient.searchUser({
-            query: query,
-            offset: newPage * limit,
-            limit: limit,
-        })
+        try {
+            const results = await apiClient.searchUser({
+                query: query,
+                offset: newPage * PageLimit,
+                limit: PageLimit,
+            })
 
-        if (!results || !results.users) {
+            if (!results || !results.users) {
+                setIsLoading(false);
+                return;
+            }
+
+            // we need to do setTotalPages dynamically, e.g. if the limit is reached,
+            // we should add one more page. if the amount of results returned is less than
+            // the limit, we shouldn't increment the total pages.
+            const newTotalPages = results.users.length < PageLimit ? (newPage + 1) : newPage + 2;
+            setTotalPages(newTotalPages);
+
+            setPage(newPage);
+            setUsers(results.users!);
+            setIsLoading(false);
+        } catch (error: any) {
+            const [errCode, errMessage] = extractErrorDetails(error);
+            snackbar.error(`Failed (${errCode}): ${errMessage}`);
             setIsLoading(false);
             return;
         }
-
-        // we need to do setTotalPages dynamically, e.g. if the limit is reached,
-        // we should add one more page. if the amount of results returned is less than
-        // the limit, we shouldn't increment the total pages.
-        const newTotalPages = results.users.length < limit ? (newPage + 1) : newPage + 2;
-        setTotalPages(newTotalPages);
-
-        setPage(newPage);
-        setUsers(results.users!);
-        setIsLoading(false);
     };
 
     useEffect(() => {

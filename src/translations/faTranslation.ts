@@ -53,6 +53,7 @@ class FaTranslation extends AppTranslationBase {
     CreateUserButtonText: string = "ایجاد کاربر";
     CreateTopicButtonText: string = "ایجاد موضوع";
     SaveText: string = "ذخیره";
+    ParticipateText: string = "شرکت در آزمون";
     ConfirmText: string = "تایید";
     EditText: string = "ویرایش";
     UserInformationText: string = "اطلاعات کاربر";
@@ -61,6 +62,7 @@ class FaTranslation extends AppTranslationBase {
     ExamInfoText: string = "اطلاعات آزمون";
     UserInfoText: string = "اطلاعات کاربر";
     ConfirmYourAccountText: string = "حساب کاربری خود را تایید کنید";
+    ConfirmChangingYourPasswordText: string = "تغییر رمز عبور خود را تایید کنید";
     ConfirmAccountText: string = "تایید حساب کاربری";
     CreateNewUserText: string = "ایجاد کاربر جدید";
     CreateNewTopicText: string = "ایجاد موضوع جدید";
@@ -75,7 +77,12 @@ class FaTranslation extends AppTranslationBase {
     SendEmailToUseText: string = "ارسال ایمیل تایید به کاربر";
 
     // System messages
+    ExamParticipationSuccessText: string = "عملیات شرکت در آزمون با موفقیت انجام شد!";
     LanguageChangedSuccessfullyText: string = "زبان با موفقیت تغییر یافت";
+    PasswordChangedSuccessfullyText: string = "رمز عبور با موفقیت تغییر یافت";
+    EmailForPassWilLBeSentText: string = "ایمیلی برای تغییر رمز عبور به شما ارسال خواهد شد";
+    UserUpdatedSuccessfullyText: string = "کاربر با موفقیت ویرایش شد";
+    EmailSentForPasswordChangeText: string = "ایمیلی برای تغییر رمز عبور ارسال شد";
     AreYouSureDeleteTopicText: string = "آیا مطمئن هستید که می خواهید این موضوع را حذف کنید؟";
     DeleteTopicDescriptionText: string = "این عملیات قابل بازگشت نیست! تمام دوره ها و آزمون های مرتبط با این موضوع نیز حذف خواهند شد.";
     TopicDeletedSuccessfullyText: string = "موضوع با موفقیت حذف شد!";
@@ -117,6 +124,7 @@ class FaTranslation extends AppTranslationBase {
     repeat_password: string = "تکرار رمز عبور";
     full_name: string = "نام کامل";
     email: string = "ایمیل";
+    lang: string = "زبان";
     password: string = "رمز عبور";
     phone_number: string = "تلفن همراه";
     user_address: string = "آدرس";
@@ -126,6 +134,9 @@ class FaTranslation extends AppTranslationBase {
     role: string = "نقش";
     user: string = "کاربر";
     admin: string = "مدیر";
+    owner: string = "مالک";
+    student: string = "دانشجو";
+    teacher: string = "استاد";
 
     //#endregion
 

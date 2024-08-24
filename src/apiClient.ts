@@ -38,6 +38,11 @@ import {
     GetExamInfoResult,
     SearchExamData,
     SearchExamResult,
+    ParticipateExamData,
+    ParticipateExamResult,
+    ChangePasswordData,
+    ChangePasswordResult,
+    ConfirmChangePasswordData,
 } from './api';
 import { canParseAsNumber } from './utils/textUtils';
 import { SupportedTranslations } from './translations/translationSwitcher';
@@ -114,6 +119,11 @@ class ExamSphereAPIClient extends UserApi {
         this.basePath = correctBasePath.replace(/\/+$/, '');
         this.configuration ??= new APIConfiguration();
         this.configuration.basePath = this.basePath;
+    }
+
+    
+    public getCurrentUserId(): string | null {
+        return this.currentUserInfo?.user_id ?? null;
     }
 
     /**
@@ -316,6 +326,21 @@ class ExamSphereAPIClient extends UserApi {
         return createUserResult;
     }
 
+    public async changePassword(changePassData: ChangePasswordData): Promise<ChangePasswordResult> {
+        if (!this.isLoggedIn()) {
+            throw new Error("Not logged in");
+        }
+
+        let changePassResult = (await this.changePasswordV1(`Bearer ${this.accessToken}`, changePassData))?.data.result;
+        if (!changePassResult) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to change password");
+        }
+
+        return changePassResult;
+    }
+
     public async editCourse(courseData: EditCourseData): Promise<EditCourseResult> {
         if (!this.isLoggedIn()) {
             throw new Error("Not logged in");
@@ -361,6 +386,21 @@ class ExamSphereAPIClient extends UserApi {
         return editExamResult;
     }
 
+    public async participateExam(data: ParticipateExamData): Promise<ParticipateExamResult> {
+        if (!this.isLoggedIn()) {
+            throw new Error("Not logged in");
+        }
+
+        let participateExamResult = (await this.examApi.participateExamV1(`Bearer ${this.accessToken}`, data))?.data.result;
+        if (!participateExamResult) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to participate exam");
+        }
+
+        return participateExamResult;
+    }
+
     public async confirmAccount(confirmData: ConfirmAccountData): Promise<boolean> {
         let confirmResult = (await this.confirmAccountV1(confirmData))?.data.result;
         if (confirmResult === undefined) {
@@ -370,6 +410,17 @@ class ExamSphereAPIClient extends UserApi {
         }
 
         return confirmResult;
+    }
+
+    public async confirmChangePassword(confirmData: ConfirmChangePasswordData): Promise<boolean> {
+        let confirmResult = (await this.confirmChangePasswordV1(confirmData))?.data.result;
+        if (confirmResult === undefined) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to confirm change password");
+        }
+
+        return confirmResult
     }
 
     /**
@@ -587,6 +638,10 @@ class ExamSphereAPIClient extends UserApi {
     }
 
     public canCreateNewUsers(): boolean {
+        return this.isOwner() || this.isAdmin();
+    }
+
+    public canChangeOthersPassword(): boolean {
         return this.isOwner() || this.isAdmin();
     }
 

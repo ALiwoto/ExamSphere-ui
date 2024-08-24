@@ -1,8 +1,8 @@
 import { useState, useEffect, useReducer } from 'react';
 import { CircularProgress, Container, Paper, Box, Typography, Grid, Button } from '@mui/material';
 import apiClient from '../apiClient';
-import { EditExamData } from '../api';
-import {DashboardContainer} from '../components/containers/dashboardContainer';
+import { EditExamData, GetExamInfoResult } from '../api';
+import { DashboardContainer } from '../components/containers/dashboardContainer';
 import { CurrentAppTranslation } from '../translations/appTranslation';
 import useAppSnackbar from '../components/snackbars/useAppSnackbars';
 import { extractErrorDetails } from '../utils/errorUtils';
@@ -10,7 +10,7 @@ import { autoSetWindowTitle, getFieldOf } from '../utils/commonUtils';
 import { getDateFromServerTimestamp, getUTCUnixTimestamp } from '../utils/timeUtils';
 import RenderAllFields from '../components/rendering/RenderAllFields';
 
-export var forceUpdateExamInfoPage = () => {};
+export var forceUpdateExamInfoPage = () => { };
 
 const ExamInfoPage = () => {
     const [examData, setExamData] = useState<EditExamData>({
@@ -23,6 +23,7 @@ const ExamInfoPage = () => {
         exam_date: 0,
         is_public: false,
     });
+    const [examInfo, setExamInfo] = useState<GetExamInfoResult | null>(null);
     const [, forceUpdate] = useReducer(x => x + 1, 0);
     const [isEditing, setIsEditing] = useState(false);
     const [isUserNotFound, setIsUserNotFound] = useState(false);
@@ -56,6 +57,7 @@ const ExamInfoPage = () => {
                 exam_date: getUTCUnixTimestamp(getDateFromServerTimestamp(result.exam_date)!),
                 is_public: result.is_public,
             });
+            setExamInfo(result);
         } catch (error: any) {
             const [errCode, errMessage] = extractErrorDetails(error);
             snackbar.error(`Failed to get exam info (${errCode}): ${errMessage}`);
@@ -74,10 +76,8 @@ const ExamInfoPage = () => {
         window.history.pushState(
             `examInfo_examId_${examData.exam_id}`,
             "Exam Info",
-            `${window.location.pathname}?examId=${
-                encodeURIComponent(examData.exam_id!)
-            }&edit=${
-                isEditing ? '0' : '1'
+            `${window.location.pathname}?examId=${encodeURIComponent(examData.exam_id!)
+            }&edit=${isEditing ? '0' : '1'
             }`,
         );
         setIsEditing(!isEditing);
@@ -111,14 +111,12 @@ const ExamInfoPage = () => {
 
             setExamData(updatedUserData);
             setIsEditing(false);
-            
+
             window.history.pushState(
                 `examInfo_examId_${examData.exam_id}`,
                 "Exam Info",
-                `${window.location.pathname}?examId=${
-                    encodeURIComponent(examData.exam_id!)
-                }&edit=${
-                    isEditing ? '0' : '1'
+                `${window.location.pathname}?examId=${encodeURIComponent(examData.exam_id!)
+                }&edit=${isEditing ? '0' : '1'
                 }`,
             );
         } catch (error: any) {
@@ -127,6 +125,26 @@ const ExamInfoPage = () => {
             return;
         }
 
+    };
+
+    const handleParticipate = async () => {
+        try {
+            const result = await apiClient.participateExam({
+                exam_id: examData.exam_id,
+                price: examData.price,
+                user_id: apiClient.getCurrentUserId()!,
+            });
+            snackbar.success(CurrentAppTranslation.ExamParticipationSuccessText);
+            setExamInfo({
+                ...examInfo!,
+                has_participated: true,
+                question_count: result.question_count,
+            });
+        } catch (error: any) {
+            const [errCode, errMessage] = extractErrorDetails(error);
+            snackbar.error(`Failed (${errCode}) - ${errMessage}`);
+            return;
+        }
     };
 
     if (!examData) {
@@ -152,6 +170,15 @@ const ExamInfoPage = () => {
                 <Paper elevation={3} sx={{ p: 3, mt: 4 }}>
                     <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
                         <Typography variant="h4">{CurrentAppTranslation.ExamInformationText}</Typography>
+                        <Button variant="contained" onClick={isEditing ? handleSave : handleEdit}>
+                            {isEditing ? CurrentAppTranslation.SaveText : CurrentAppTranslation.EditText}
+                        </Button>
+                        {examInfo?.can_participate && <Button variant="contained" onClick={handleParticipate}>
+                            {CurrentAppTranslation.ParticipateText}
+                        </Button>}
+                        <Button variant="contained" onClick={isEditing ? handleSave : handleEdit}>
+                            {isEditing ? CurrentAppTranslation.SaveText : CurrentAppTranslation.EditText}
+                        </Button>
                         <Button variant="contained" onClick={isEditing ? handleSave : handleEdit}>
                             {isEditing ? CurrentAppTranslation.SaveText : CurrentAppTranslation.EditText}
                         </Button>

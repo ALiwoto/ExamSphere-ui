@@ -18,6 +18,8 @@ import CreateExamPage from './pages/createExamPage';
 import { switchAppTranslation } from './translations/translationSwitcher';
 import ExamInfoPage from './pages/examInfoPage';
 import SearchExamPage from './pages/searchExamPage';
+import ChangePasswordPage from './pages/changePasswordPage';
+import PassChangeRedirectPage from './pages/passChangeRedirectPage';
 
 const App: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(apiClient.isLoggedIn());
@@ -74,6 +76,14 @@ const App: React.FC = () => {
                 <Route
                     path="/confirmAccountRedirect"
                     element={<ConfirmAccountRedirectPage />}
+                />
+                <Route
+                    path="/passChangeRedirect"
+                    element={<PassChangeRedirectPage />}
+                />
+                <Route
+                    path="/changePassword"
+                    element={isLoggedIn ? <ChangePasswordPage /> : <Navigate to="/login" />}
                 />
                 <Route
                     path="/login"

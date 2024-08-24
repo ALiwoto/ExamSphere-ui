@@ -18,6 +18,8 @@ import { forceUpdateSearchCoursePage } from './pages/searchCoursePage';
 import { forceUpdateSearchTopicPage } from './pages/searchTopicPage';
 import { forceUpdateSearchUserPage } from './pages/searchUserPage';
 import { forceUpdateUserInfoPage } from './pages/userInfoPage';
+import { forceUpdateSearchExamPage } from './pages/searchExamPage';
+import { forceUpdateChangePasswordPage } from './pages/changePasswordPage';
 
 /**
  * This function forces a re-render of all the pages in the app.
@@ -26,6 +28,7 @@ import { forceUpdateUserInfoPage } from './pages/userInfoPage';
  */
 const forceUpdateWholePage = () => {
     try {
+        forceUpdateChangePasswordPage();
         forceUpdateDashboardContainer();
         forceUpdateConfirmAccountRedirectPage();
         forceUpdateCourseInfoPage();
@@ -40,6 +43,7 @@ const forceUpdateWholePage = () => {
         forceUpdateSearchTopicPage();
         forceUpdateSearchUserPage();
         forceUpdateUserInfoPage();
+        forceUpdateSearchExamPage();
     } catch (error: any) {
         console.log(`forceUpdateWholePage: failed to force update: ${error}`);
     }

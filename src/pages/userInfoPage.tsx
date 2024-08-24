@@ -1,13 +1,14 @@
 import { useState, useEffect, useReducer } from 'react';
-import { CircularProgress, Container, Paper, Box, Typography, Avatar, Grid, TextField, Button } from '@mui/material';
+import { CircularProgress, Container, Paper, Box, Typography, Avatar, Grid, Button } from '@mui/material';
 import apiClient from '../apiClient';
 import { EditUserData } from '../api';
-import {DashboardContainer} from '../components/containers/dashboardContainer';
+import { DashboardContainer } from '../components/containers/dashboardContainer';
 import { CurrentAppTranslation } from '../translations/appTranslation';
 import useAppSnackbar from '../components/snackbars/useAppSnackbars';
 import { extractErrorDetails } from '../utils/errorUtils';
+import RenderAllFields from '../components/rendering/RenderAllFields';
 
-export var forceUpdateUserInfoPage = () => {};
+export var forceUpdateUserInfoPage = () => { };
 
 const UserInfoPage = () => {
     const [userData, setUserData] = useState<EditUserData>({
@@ -15,16 +16,13 @@ const UserInfoPage = () => {
         full_name: '',
         email: '',
     });
+    // const [targetUserInfo, setTargetUserInfo] = useState<GetUserInfoResult | null>(null);
     const [, forceUpdate] = useReducer(x => x + 1, 0);
     const [isEditing, setIsEditing] = useState(false);
     const [isUserNotFound, setIsUserNotFound] = useState(false);
     const snackbar = useAppSnackbar();
 
     forceUpdateUserInfoPage = () => forceUpdate();
-
-    useEffect(() => {
-        fetchUserInfo();
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const fetchUserInfo = async () => {
         // the user id is passed like /userInfo?userId=123
@@ -42,6 +40,7 @@ const UserInfoPage = () => {
                 full_name: result.full_name,
                 email: result.email,
             });
+            // setTargetUserInfo(result);
         } catch (error: any) {
             const [errCode, errMessage] = extractErrorDetails(error);
             snackbar.error(`Failed to get user info (${errCode}): ${errMessage}`);
@@ -49,6 +48,10 @@ const UserInfoPage = () => {
             return;
         }
     };
+
+    useEffect(() => {
+        fetchUserInfo();
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleEdit = () => setIsEditing(!isEditing);
 
@@ -68,13 +71,27 @@ const UserInfoPage = () => {
 
             setUserData(updatedUserData);
             setIsEditing(false);
+            snackbar.success(CurrentAppTranslation.UserUpdatedSuccessfullyText);
         } catch (error: any) {
             const [errCode, errMessage] = extractErrorDetails(error);
             snackbar.error(`Failed (${errCode}) - ${errMessage}`);
             return;
         }
-
     };
+
+    const getFormFields = () => {
+        return (
+            <Grid container spacing={2}>
+                {RenderAllFields({
+                    data: userData,
+                    handleInputChange: handleChange,
+                    isEditing: isEditing,
+                    disablePast: true,
+                    noEditFields: ['user_id'],
+                })}
+            </Grid>
+        );
+    }
 
     if (!userData) {
         // maybe return better stuff here in future?
@@ -104,31 +121,7 @@ const UserInfoPage = () => {
                         </Button>
                     </Box>
                     <Avatar sx={{ width: 100, height: 100, mb: 2 }} />
-                    <Grid container spacing={2}>
-                        {Object.keys(userData).map((field) => (
-                            <Grid item xs={12} key={field} style={{
-                                direction: `${CurrentAppTranslation.direction}`,
-                                justifyContent: `${CurrentAppTranslation.justifyContent}`,
-                            }}>
-                                {isEditing && apiClient.canUserFieldBeEdited(field) ? (
-                                    <TextField
-                                        fullWidth
-                                        name={field}
-                                        label={CurrentAppTranslation[field as keyof (typeof CurrentAppTranslation)]}
-                                        value={userData[field as keyof (typeof userData)]}
-                                        onChange={handleChange}
-                                    />
-                                ) : (
-                                    <Typography>
-                                        <strong>
-                                            {`${CurrentAppTranslation[field as keyof (typeof CurrentAppTranslation)]}: `}
-                                        </strong>
-                                        {userData[field as keyof (typeof userData)]}
-                                    </Typography>
-                                )}
-                            </Grid>
-                        ))}
-                    </Grid>
+                    {getFormFields()}
                 </Paper>
             </Container>
         </DashboardContainer>

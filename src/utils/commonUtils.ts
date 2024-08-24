@@ -1,6 +1,11 @@
 import { CurrentAppTranslation } from "../translations/appTranslation";
 
 
+export function hexDecode(hexString: string): string {
+    const bytes = new Uint8Array(hexString.match(/.{1,2}/g)!.map(byte => parseInt(byte, 16)));
+    return new TextDecoder().decode(bytes);
+}
+
 export function getFieldOf(obj: any, fieldName: string): any {
     return obj[fieldName] ?? undefined;
 }
