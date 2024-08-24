@@ -27,3 +27,14 @@ export const timeAgo = (date: string | number | Date): string => {
     return `${interval} ${unit}${suffix} ago`;
 };
 
+export const getUTCUnixTimestamp = (date: Date): number => {
+    // Create a new Date object set to the UTC time
+    const utcDate = new Date(date.toUTCString());
+    
+    // Get the UNIX timestamp (in milliseconds)
+    const unixTimestamp = utcDate.getTime();
+    
+    // Return the UNIX timestamp in seconds
+    return Math.floor(unixTimestamp / 1000);
+  }
+

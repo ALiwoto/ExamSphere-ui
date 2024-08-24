@@ -17,6 +17,7 @@ import apiClient from '../apiClient';
 import DashboardContainer from '../components/containers/dashboardContainer';
 import { timeAgo } from '../utils/timeUtils';
 import { CurrentAppTranslation } from '../translations/appTranslation';
+import { autoSetWindowTitle } from '../utils/commonUtils';
 
 const RenderUsersList = (users: SearchedUserInfo[] | undefined, forEdit: boolean = false) => {
     if (!users || users.length === 0) {
@@ -120,9 +121,7 @@ const SearchUserPage = () => {
             handleSearch(page);
         }
 
-        if (window.location.pathname === '/searchUser') {
-            document.title = CurrentAppTranslation.SearchUsersText;
-        }
+        autoSetWindowTitle();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (

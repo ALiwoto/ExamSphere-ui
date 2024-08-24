@@ -8,6 +8,7 @@ import { CurrentAppTranslation } from '../translations/appTranslation';
 import useAppSnackbar from '../components/snackbars/useAppSnackbars';
 import { extractErrorDetails } from '../utils/errorUtils';
 import { getTextInputTypeFromFieldName } from '../utils/textUtils';
+import { autoSetWindowTitle } from '../utils/commonUtils';
 
 interface ConfirmationRequiredFields {
     user_id: string;
@@ -36,9 +37,7 @@ const ConfirmAccountRedirectPage = () => {
     const snackbar = useAppSnackbar();
 
     useEffect(() => {
-        if (window.location.pathname === '/confirmAccountRedirect') {
-            document.title = CurrentAppTranslation.ConfirmAccountText;
-        }
+        autoSetWindowTitle();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleChange = (e: any) => {

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import apiClient from '../apiClient';
 import DashboardContainer from '../components/containers/dashboardContainer';
-import { CurrentAppTranslation } from '../translations/appTranslation';
+import { autoSetWindowTitle } from '../utils/commonUtils';
 
 const MainContent = styled.div`
   display: flex;
@@ -46,10 +46,7 @@ const DashboardPage: React.FC = () => {
 
     useEffect(() => {
         fetchUserInfo();
-
-        if (window.location.pathname === '/dashboard') {
-            document.title = CurrentAppTranslation.DashboardText;
-        }
+        autoSetWindowTitle();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (

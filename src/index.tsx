@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import AppSnackBarProvider from './components/snackbars/AppSnackBarProvider';
+import AppLayout from './AppLayout';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -11,7 +12,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <AppSnackBarProvider>
+      <AppLayout>
       <App />
+      </AppLayout>
     </AppSnackBarProvider>
   </React.StrictMode>
 );

@@ -1045,6 +1045,153 @@ export interface EditCourseV1200Response {
 /**
  * 
  * @export
+ * @interface EditExamData
+ */
+export interface EditExamData {
+    /**
+     * 
+     * @type {number}
+     * @memberof EditExamData
+     */
+    'course_id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditExamData
+     */
+    'duration'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditExamData
+     */
+    'exam_date'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditExamData
+     */
+    'exam_description'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditExamData
+     */
+    'exam_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditExamData
+     */
+    'exam_title'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditExamData
+     */
+    'is_public'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditExamData
+     */
+    'price'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface EditExamResult
+ */
+export interface EditExamResult {
+    /**
+     * 
+     * @type {number}
+     * @memberof EditExamResult
+     */
+    'course_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditExamResult
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditExamResult
+     */
+    'created_by'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditExamResult
+     */
+    'duration'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditExamResult
+     */
+    'exam_date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditExamResult
+     */
+    'exam_description'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditExamResult
+     */
+    'exam_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditExamResult
+     */
+    'exam_title'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditExamResult
+     */
+    'is_public'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditExamResult
+     */
+    'price'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface EditExamV1200Response
+ */
+export interface EditExamV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof EditExamV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {EditExamResult}
+     * @memberof EditExamV1200Response
+     */
+    'result'?: EditExamResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditExamV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
  * @interface EditUserData
  */
 export interface EditUserData {
@@ -3462,6 +3609,49 @@ export const ExamApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
+         * Allows the user to edit an exam.
+         * @summary Edit an exam
+         * @param {string} authorization Authorization token
+         * @param {EditExamData} data Data needed to edit an exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editExamV1: async (authorization: string, data: EditExamData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('editExamV1', 'authorization', authorization)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('editExamV1', 'data', data)
+            const localVarPath = `/api/v1/exam/edit`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Allows the user to get information about an exam.
          * @summary Get information about an exam
          * @param {string} authorization Authorization token
@@ -3758,6 +3948,20 @@ export const ExamApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Allows the user to edit an exam.
+         * @summary Edit an exam
+         * @param {string} authorization Authorization token
+         * @param {EditExamData} data Data needed to edit an exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async editExamV1(authorization: string, data: EditExamData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EditExamV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.editExamV1(authorization, data, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ExamApi.editExamV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Allows the user to get information about an exam.
          * @summary Get information about an exam
          * @param {string} authorization Authorization token
@@ -3874,6 +4078,17 @@ export const ExamApiFactory = function (configuration?: Configuration, basePath?
             return localVarFp.createExamV1(authorization, data, options).then((request) => request(axios, basePath));
         },
         /**
+         * Allows the user to edit an exam.
+         * @summary Edit an exam
+         * @param {string} authorization Authorization token
+         * @param {EditExamData} data Data needed to edit an exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editExamV1(authorization: string, data: EditExamData, options?: any): AxiosPromise<EditExamV1200Response> {
+            return localVarFp.editExamV1(authorization, data, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Allows the user to get information about an exam.
          * @summary Get information about an exam
          * @param {string} authorization Authorization token
@@ -3973,6 +4188,19 @@ export class ExamApi extends BaseAPI {
      */
     public createExamV1(authorization: string, data: CreateExamData, options?: RawAxiosRequestConfig) {
         return ExamApiFp(this.configuration).createExamV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows the user to edit an exam.
+     * @summary Edit an exam
+     * @param {string} authorization Authorization token
+     * @param {EditExamData} data Data needed to edit an exam
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExamApi
+     */
+    public editExamV1(authorization: string, data: EditExamData, options?: RawAxiosRequestConfig) {
+        return ExamApiFp(this.configuration).editExamV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

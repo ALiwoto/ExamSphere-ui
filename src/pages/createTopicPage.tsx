@@ -10,6 +10,7 @@ import { CurrentAppTranslation } from '../translations/appTranslation';
 import { TextField } from '@mui/material';
 import useAppSnackbar from '../components/snackbars/useAppSnackbars';
 import { extractErrorDetails } from '../utils/errorUtils';
+import { autoSetWindowTitle } from '../utils/commonUtils';
 
 const CreateTopicPage: React.FC = () => {
     const [createTopicData, setUserInfo] = useState<CreateNewTopicData>({
@@ -34,9 +35,7 @@ const CreateTopicPage: React.FC = () => {
     };
 
     useEffect(() => {
-        if (window.location.pathname === '/createTopic') {
-            document.title = CurrentAppTranslation.CreateTopicText;
-        }
+        autoSetWindowTitle();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (

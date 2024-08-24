@@ -26,6 +26,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import useAppSnackbar from '../components/snackbars/useAppSnackbars';
 import { extractErrorDetails } from '../utils/errorUtils';
+import { autoSetWindowTitle } from '../utils/commonUtils';
 
 interface DeleteDialogueProps {
     target_topic_id: number;
@@ -202,9 +203,7 @@ const SearchTopicPage = () => {
             handleSearch();
         }
 
-        if (window.location.pathname === '/searchTopic') {
-            document.title = CurrentAppTranslation.SearchTopicsText;
-        }
+        autoSetWindowTitle();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (

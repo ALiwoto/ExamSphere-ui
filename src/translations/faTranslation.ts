@@ -1,14 +1,26 @@
+import { AppCalendarType } from "../utils/AppCalendarTypes";
 import { AppTranslationBase } from "./appTranslation";
 
 
 class FaTranslation extends AppTranslationBase {
+    ShortLang: string = "fa";
+
+    //#region Style Attributes
+    direction: "ltr" | "rtl" = "rtl";
+    textAlign: string = "right";
+    float: string = "right";
+
+    //#endregion
 
     //#region common UI translations
 
-    ExamSphereTitleText: string = "---کره ی آزمون---";
-    WelcomeToPlatformText: string = "به کره ی آزمون خوش آمدید!";
+    ExamSphereTitleText: string = "---پلتفرم آزمون های آنلاین---";
+    WelcomeToPlatformText: string = "به پلتفرم آزمون های آنلاین خوش آمدید!";
+    YesText: string = "بله";
+    NoText: string = "خیر";
     LoginText: string = "ورود";
     LoadingText: string = "در حال بارگذاری...";
+    PleaseWaitText: string = "لطفا منتظر بمانید تا صفحه برای شما بارگذاری شود...";
     ProfileText: string = "پروفایل";
     DashboardText: string = "داشبورد";
     EditProfileText: string = "ویرایش پروفایل";
@@ -16,15 +28,18 @@ class FaTranslation extends AppTranslationBase {
     ManageUsersText: string = "مدیریت کاربران";
     AddUserText: string = "افزودن کاربر";
     SearchUsersText: string = "جستجوی کاربران";
+    SearchUserText: string = "جستجوی کاربران";
     EditUserInfoText: string = "ویرایش اطلاعات کاربر";
     ChangeUserPasswordText: string = "تغییر رمز عبور کاربر";
     ManageTopicsText: string = "مدیریت موضوعات";
     AddTopicText: string = "افزودن موضوع";
     SearchTopicsText: string = "جستجوی موضوعات";
+    SearchTopicText: string = "جستجوی موضوعات";
     EditTopicsText: string = "ویرایش موضوع";
     ManageCoursesText: string = "مدیریت دوره ها";
     AddCourseText: string = "افزودن دوره";
     SearchCoursesText: string = "جستجوی دوره ها";
+    SearchCourseText: string = "جستجوی دوره";
     EditCourseText: string = "ویرایش دوره";
     ManageExamsText: string = "مدیریت آزمون ها";
     AddExamText: string = "افزودن آزمون";
@@ -39,6 +54,8 @@ class FaTranslation extends AppTranslationBase {
     EditText: string = "ویرایش";
     UserInformationText: string = "اطلاعات کاربر";
     CourseInformationText: string = "اطلاعات دوره";
+    ExamInfoText: string = "اطلاعات آزمون";
+    UserInfoText: string = "اطلاعات کاربر";
     ConfirmYourAccountText: string = "حساب کاربری خود را تایید کنید";
     ConfirmAccountText: string = "تایید حساب کاربری";
     CreateNewUserText: string = "ایجاد کاربر جدید";
@@ -51,6 +68,7 @@ class FaTranslation extends AppTranslationBase {
     DeleteTopicButtonText: string = "حذف موضوع";
     CreateCourseButtonText: string = "ایجاد دوره";
     CancelButtonText: string = "لغو";
+    SendEmailToUseText: string = "ارسال ایمیل تایید به کاربر";
 
     // System messages
     AreYouSureDeleteTopicText: string = "آیا مطمئن هستید که می خواهید این موضوع را حذف کنید؟";
@@ -63,16 +81,19 @@ class FaTranslation extends AppTranslationBase {
     CourseNotFoundText: string = "این دوره وجود ندارد...";
     UserCreatedSuccessfullyText: string = "کاربر با موفقیت ایجاد شد";
     TopicCreatedSuccessfullyText: string = "موضوع با موفقیت ایجاد شد";
+    ExamCreatedSuccessfullyText: string = "آزمون با موفقیت ایجاد شد";
     CourseCreatedSuccessfullyText: string = "دوره با موفقیت ایجاد شد";
     NoResultsFoundText: string = "نتیجه ای یافت نشد، تلاش کنید تا جستجوی خود را تغییر دهید";
     SearchSomethingForTopicsText: string = "برای جستجو یک کلمه وارد کنید یا خالی بگذارید تا همه موضوعات لیست شوند";
     EnterSearchForEdit: string = "برای ویرایش کاربر جستجو کنید";
+    CopyrightText: string = "ALiwoto. تمامی حقوق محفوظ است.";
 
     //#endregion
 
 
     //#region API response fields translations
 
+    setup_completed: string = "ارسال ایمیل تایید به کاربر";
     is_public: string = "عمومی";
     exam_date: string = "تاریخ آزمون";
     duration: string = "مدت زمان (دقیقه)";
@@ -84,6 +105,7 @@ class FaTranslation extends AppTranslationBase {
     course_name: string = "نام دوره";
     topic_name: string = "نام موضوع";
     topic_id: string = "شناسه موضوع";
+    exam_id: string = "شناسه آزمون";
     user_id: string = "شناسه کاربری";
     new_password: string = "رمز عبور جدید";
     repeat_password: string = "تکرار رمز عبور";
@@ -101,6 +123,10 @@ class FaTranslation extends AppTranslationBase {
 
     //#endregion
 
+    //#region System Behaviors
+    CalendarType: AppCalendarType = "jalali";
+
+    //#endregion
 };
 
 export default FaTranslation;

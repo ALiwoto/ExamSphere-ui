@@ -25,7 +25,7 @@ const DashboardContainer: React.FC<DashboardContainerProps> = ({ ...props }) => 
                 padding: '20px',
                 overflowX: 'hidden',
                 position: 'relative',
-                height:'100vh',
+                minHeight:'100vh',
                 backgroundColor:'#f5f5f5',
                 ...props.style
             }

@@ -14,6 +14,7 @@ interface SelectMenuProps {
     name: string;
     labelId?: string;
     labelText: string;
+    disabled?: boolean;
 }
 
 const SelectMenu: React.FC<SelectMenuProps> = ({ ...props }) => {
@@ -32,6 +33,7 @@ const SelectMenu: React.FC<SelectMenuProps> = ({ ...props }) => {
                     label={props.labelText}
                     name={props.name}
                     onChange={(e) => props.onChange(e as any)}
+                    disabled={props.disabled}
                 >
                     {props.options.map((option, index) => (
                         <MenuItem key={index} value={option}>{option}</MenuItem>

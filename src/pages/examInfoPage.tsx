@@ -1,41 +1,53 @@
 import { useState, useEffect } from 'react';
-import { CircularProgress, Container, Paper, Box, Typography, Avatar, Grid, TextField, Button } from '@mui/material';
+import { CircularProgress, Container, Paper, Box, Typography, Grid, Button } from '@mui/material';
 import apiClient from '../apiClient';
-import { EditUserData } from '../api';
+import { EditExamData } from '../api';
 import DashboardContainer from '../components/containers/dashboardContainer';
 import { CurrentAppTranslation } from '../translations/appTranslation';
 import useAppSnackbar from '../components/snackbars/useAppSnackbars';
 import { extractErrorDetails } from '../utils/errorUtils';
+import { getFieldOf } from '../utils/commonUtils';
+import { getUTCUnixTimestamp } from '../utils/timeUtils';
+import RenderAllFields from '../components/rendering/RenderAllFields';
 
-const CourseInfoPage = () => {
-    const [userData, setUserData] = useState<EditUserData>({
-        user_id: '',
-        full_name: '',
-        email: '',
+const ExamInfoPage = () => {
+    const [examData, setExamData] = useState<EditExamData>({
+        exam_id: 0,
+        course_id: 0,
+        exam_title: '',
+        exam_description: '',
+        price: '0T',
+        duration: 60,
+        exam_date: 0,
+        is_public: false,
     });
     const [isEditing, setIsEditing] = useState(false);
     const [isUserNotFound, setIsUserNotFound] = useState(false);
     const snackbar = useAppSnackbar();
 
-    useEffect(() => {
-        fetchUserInfo();
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-    const fetchUserInfo = async () => {
-        // the user id is passed like /userInfo?userId=123
+    const fetchExamInfo = async () => {
+        // the exam id is passed like /examInfo?examId=123
         const urlSearch = new URLSearchParams(window.location.search);
-        const targetUserId = urlSearch.get('userId');
-        if (!targetUserId) {
-            window.location.href = '/searchUser';
+        const targetExamId = parseInt(urlSearch.get('examId') ?? '');
+        const isEditingQuery = urlSearch.get('edit');
+        if (!targetExamId || isNaN(targetExamId)) {
+            window.location.href = '/searchExam';
             return;
         }
 
+        setIsEditing(isEditingQuery === '1' || isEditingQuery === 'true');
+
         try {
-            const result = await apiClient.getUserInfo(targetUserId);
-            setUserData({
-                user_id: result.user_id,
-                full_name: result.full_name,
-                email: result.email,
+            const result = await apiClient.getExamInfo(targetExamId);
+            setExamData({
+                exam_id: result.exam_id,
+                course_id: result.course_id,
+                exam_title: result.exam_title,
+                exam_description: result.exam_description,
+                price: result.price,
+                duration: result.duration,
+                exam_date: getUTCUnixTimestamp(new Date(result.exam_date!)),
+                is_public: result.is_public,
             });
         } catch (error: any) {
             const [errCode, errMessage] = extractErrorDetails(error);
@@ -45,34 +57,56 @@ const CourseInfoPage = () => {
         }
     };
 
-    const handleEdit = () => setIsEditing(!isEditing);
+    useEffect(() => {
+        fetchExamInfo();
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+    const handleEdit = () => {
+        window.history.pushState(
+            `examInfo_examId_${examData.exam_id}`,
+            "Exam Info",
+            `/examInfo?examId=${encodeURIComponent(examData.exam_id!)}&edit=${isEditing ? '0' : '1'}`,
+        );
+        setIsEditing(!isEditing);
+    }
 
     const handleChange = (e: any) => {
-        setUserData({ ...userData, [e.target.name]: e.target.value });
+        let targetValue: any = e.target.value;
+        if (getFieldOf(targetValue, "_d") instanceof Date) {
+            targetValue = getFieldOf(targetValue, "_d");
+        }
+
+        if (targetValue instanceof Date) {
+            // convert to UTC
+            targetValue = getUTCUnixTimestamp(targetValue);
+        }
+        setExamData({
+            ...examData,
+            [e.target.name]: targetValue,
+        });
     };
 
     const handleSave = async () => {
         try {
-            const result = await apiClient.editUser(userData);
-            const updatedUserData = { ...userData };
+            const result = await apiClient.editExam(examData);
+            const updatedUserData: any = { ...examData };
             Object.keys(result).forEach(key => {
-                if (key in userData) {
+                if (key in examData) {
                     updatedUserData[key as keyof (typeof updatedUserData)] = result[key as keyof (typeof result)];
                 }
             });
 
-            setUserData(updatedUserData);
+            setExamData(updatedUserData);
             setIsEditing(false);
         } catch (error: any) {
-            const errCode = error.response?.data?.error?.code;
-            const errMessage = error.response?.data?.error?.message;
+            const [errCode, errMessage] = extractErrorDetails(error);
             snackbar.error(`Failed (${errCode}) - ${errMessage}`);
             return;
         }
 
     };
 
-    if (!userData) {
+    if (!examData) {
         // maybe return better stuff here in future?
         return (
             <DashboardContainer>
@@ -99,27 +133,14 @@ const CourseInfoPage = () => {
                             {isEditing ? CurrentAppTranslation.SaveText : CurrentAppTranslation.EditText}
                         </Button>
                     </Box>
-                    <Avatar sx={{ width: 100, height: 100, mb: 2 }} />
                     <Grid container spacing={2}>
-                        {Object.keys(userData).map((field) => (
-                            <Grid item xs={12} key={field}>
-                                {isEditing && apiClient.canUserFieldBeEdited(field) ? (
-                                    <TextField
-                                        fullWidth
-                                        name={field}
-                                        label={CurrentAppTranslation[field as keyof (typeof CurrentAppTranslation)]}
-                                        value={userData[field as keyof (typeof userData)]}
-                                        onChange={handleChange}
-                                    />
-                                ) : (
-                                    <Typography>
-                                        <strong>
-                                            {CurrentAppTranslation[field as keyof (typeof CurrentAppTranslation)]}:
-                                        </strong> {userData[field as keyof (typeof userData)]}
-                                    </Typography>
-                                )}
-                            </Grid>
-                        ))}
+                        {RenderAllFields({
+                            data: examData,
+                            handleInputChange: handleChange,
+                            isEditing: isEditing,
+                            disablePast: true,
+                            noEditFields: ['exam_id'],
+                        })}
                     </Grid>
                 </Paper>
             </Container>
@@ -127,4 +148,4 @@ const CourseInfoPage = () => {
     );
 };
 
-export default CourseInfoPage;
+export default ExamInfoPage;

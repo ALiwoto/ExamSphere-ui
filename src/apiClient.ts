@@ -1,4 +1,5 @@
 
+import { sha256 } from 'js-sha256';
 import {
     UserApi,
     Configuration as APIConfiguration,
@@ -32,8 +33,12 @@ import {
     CreateExamData,
     CreateExamResult,
     ExamApi,
+    EditExamData,
+    EditExamResult,
+    GetExamInfoResult,
 } from './api';
 import { canParseAsNumber } from './utils/textUtils';
+import { SupportedTranslations } from './translations/translationSwitcher';
 
 class ExamSphereAPIClient extends UserApi {
     /** The Client's RID parameter. Automatically generated on startup. */
@@ -52,6 +57,7 @@ class ExamSphereAPIClient extends UserApi {
 
     /** The currently logged-in user's role. */
     public role?: UserRole;
+    public userLanguage?: SupportedTranslations = 'en';
 
     private topicApi: TopicApi;
     private courseApi: CourseApi;
@@ -73,12 +79,19 @@ class ExamSphereAPIClient extends UserApi {
      * @returns the generated Client RID.
      */
     private generateClientRId(): string {
+        let rid = this.readItem('ExamSphere_clientRId');
+        if (rid) {
+            return rid;
+        }
+
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         const length = Math.floor(Math.random() * (16 - 8 + 1)) + 8;
         let result = '';
         for (let i = 0; i < length; i++) {
             result += characters.charAt(Math.floor(Math.random() * characters.length));
         }
+
+        this.storeItem('ExamSphere_clientRId', result);
         return result;
     }
 
@@ -107,8 +120,25 @@ class ExamSphereAPIClient extends UserApi {
      * or security, we can add it in this method.
      */
     private storeTokens(): void {
-        localStorage.setItem('ExamSphere_accessToken', this.accessToken!);
-        localStorage.setItem('ExamSphere_refreshToken', this.refreshToken!);
+        this.storeItem('ExamSphere_accessToken', this.accessToken!);
+        this.storeItem('ExamSphere_refreshToken', this.refreshToken!);
+    }
+
+    private hash_key(value: string): string {
+        return sha256(value);
+    }
+
+    /**
+     * Stores an item in the local storage.
+     * @param key The key of the item to store.
+     * @param value The value of the item to store.
+     */
+    private storeItem(key: string, value: string): void {
+        localStorage.setItem(this.hash_key(key), value);
+    }
+
+    private readItem(key: string): string | undefined {
+        return localStorage.getItem(this.hash_key(key)) ?? undefined;
     }
 
     /**
@@ -127,8 +157,19 @@ class ExamSphereAPIClient extends UserApi {
      * or security, we can add it in this method.
      */
     private readTokens(): void {
-        this.accessToken = localStorage.getItem('ExamSphere_accessToken') ?? undefined;
-        this.refreshToken = localStorage.getItem('ExamSphere_refreshToken') ?? undefined
+        this.accessToken = this.readItem('ExamSphere_accessToken');
+        this.refreshToken = this.readItem('ExamSphere_refreshToken');
+        this.userLanguage = this.readItem('ExamSphere_userLanguage') as SupportedTranslations ?? 'en';
+    }
+
+    /**
+     * Switches the language of the app.
+     * @todo Make this method send the user settings to backend.
+     * @param lang The language to switch to.
+     */
+    public async setAppLanguage(lang: SupportedTranslations): Promise<void> {
+        this.userLanguage = lang;
+        this.storeItem('ExamSphere_userLanguage', lang);
     }
 
     /**
@@ -217,6 +258,21 @@ class ExamSphereAPIClient extends UserApi {
         return userInfo
     }
 
+    public async getExamInfo(examId: number): Promise<GetExamInfoResult> {
+        if (!this.isLoggedIn()) {
+            throw new Error("Not logged in");
+        }
+
+        let examInfo = (await this.examApi.getExamInfoV1(`Bearer ${this.accessToken}`, examId))?.data.result;
+        if (!examInfo) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to get exam info");
+        }
+
+        return examInfo;
+    }
+
     public async getCourseInfo(courseId: number): Promise<GetCourseInfoResult> {
         if (!this.isLoggedIn()) {
             throw new Error("Not logged in");
@@ -238,7 +294,7 @@ class ExamSphereAPIClient extends UserApi {
      * @returns True if the field can be edited, false otherwise.
      */
     public canUserFieldBeEdited(fieldName: string): boolean {
-        return fieldName !== "user_id" && 
+        return fieldName !== "user_id" &&
             fieldName !== "role" &&
             fieldName !== "course_id";
     }
@@ -281,6 +337,26 @@ class ExamSphereAPIClient extends UserApi {
         }
 
         return editCourseResult;
+    }
+
+    public async editExam(examData: EditExamData): Promise<EditExamResult> {
+        if (!this.isLoggedIn()) {
+            throw new Error("Not logged in");
+        }
+
+        examData.exam_id = parseInt(examData.exam_id as any);
+        if (isNaN(examData.exam_id)) {
+            throw new Error("Invalid exam ID");
+        }
+
+        let editExamResult = (await this.examApi.editExamV1(`Bearer ${this.accessToken}`, examData))?.data.result;
+        if (!editExamResult) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to edit exam");
+        }
+
+        return editExamResult;
     }
 
     public async confirmAccount(confirmData: ConfirmAccountData): Promise<boolean> {
@@ -432,6 +508,14 @@ class ExamSphereAPIClient extends UserApi {
             throw new Error("Not logged in");
         }
 
+        if (typeof data.course_id !== 'number') {
+            if (canParseAsNumber(data.course_id)) {
+                data.course_id = parseInt(data.course_id as any);
+            } else {
+                throw new Error("Invalid course ID");
+            }
+        }
+
         let createExamResult = (await this.examApi.createExamV1(`Bearer ${this.accessToken}`, data))?.data.result;
         if (!createExamResult) {
             // we shouldn't reach here, because if there is an error somewhere,
@@ -459,6 +543,10 @@ class ExamSphereAPIClient extends UserApi {
 
     public isFieldEnum(fieldName: string): boolean {
         return fieldName === "role";
+    }
+
+    public isFieldDate(fieldName: string): boolean {
+        return fieldName.endsWith("_at") || fieldName.endsWith("_date");
     }
 
     /**
@@ -498,7 +586,7 @@ class ExamSphereAPIClient extends UserApi {
     }
 
     public canCreateTargetRole(targetRole: UserRole): boolean {
-        if (targetRole === UserRole.UserRoleOwner || 
+        if (targetRole === UserRole.UserRoleOwner ||
             UserRole.UserRoleUnknown) {
             return false;
         }

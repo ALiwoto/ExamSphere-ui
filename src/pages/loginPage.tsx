@@ -96,7 +96,11 @@ const Login = () => {
                     width: '100%',
                     marginBottom: '10px'
                 }}>
-                    <h2>{CurrentAppTranslation.WelcomeToPlatformText}</h2>
+                    <h2 style={{
+                        direction: `${CurrentAppTranslation.direction}`,
+                    }}>
+                        {CurrentAppTranslation.WelcomeToPlatformText}
+                    </h2>
                 </div>
                 <LoginInput
                     type="text"

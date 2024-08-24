@@ -128,7 +128,7 @@ const CreateUserPage: React.FC = () => {
                             color="primary"
                             />
                         }
-                        label="Send email confirmation to user"
+                        label={CurrentAppTranslation.SendEmailToUseText}
                     />
                     <SubmitButton type="submit">{CurrentAppTranslation.CreateUserButtonText}</SubmitButton>
                 </CreateUserForm>

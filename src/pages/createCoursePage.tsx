@@ -10,7 +10,7 @@ import { CurrentAppTranslation } from '../translations/appTranslation';
 import useAppSnackbar from '../components/snackbars/useAppSnackbars';
 import { extractErrorDetails } from '../utils/errorUtils';
 import RenderAllFields from '../components/rendering/RenderAllFields';
-import { getFieldOf } from '../utils/commonUtils';
+import { autoSetWindowTitle, getFieldOf } from '../utils/commonUtils';
 
 
 const CreateCoursePage: React.FC = () => {
@@ -43,9 +43,7 @@ const CreateCoursePage: React.FC = () => {
     };
 
     useEffect(() => {
-        if (window.location.pathname === '/createCourse') {
-            document.title = CurrentAppTranslation.CreateCourseText;
-        }
+        autoSetWindowTitle();
     } , []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
@@ -53,7 +51,12 @@ const CreateCoursePage: React.FC = () => {
             <CreateUserContainer key={'create-course-page-create-container'}>
                 <CreateUserForm onSubmit={handleSubmit}>
                     <TitleLabel>{CurrentAppTranslation.CreateNewCourseText}</TitleLabel>
-                    {RenderAllFields(createCourseData, handleInputChange)}
+                    {RenderAllFields({
+                        data: createCourseData, 
+                        handleInputChange :handleInputChange,
+                        disablePast: false,
+                        isEditing: true
+                    })}
                     <SubmitButton type="submit">{CurrentAppTranslation.CreateCourseButtonText}</SubmitButton>
                 </CreateUserForm>
             </CreateUserContainer>

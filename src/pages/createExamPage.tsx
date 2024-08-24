@@ -10,7 +10,8 @@ import { CurrentAppTranslation } from '../translations/appTranslation';
 import useAppSnackbar from '../components/snackbars/useAppSnackbars';
 import { extractErrorDetails } from '../utils/errorUtils';
 import RenderAllFields from '../components/rendering/RenderAllFields';
-import ModernDateTimePicker from '../components/date/ModernDatePicker';
+import { getUTCUnixTimestamp } from '../utils/timeUtils';
+import { autoSetWindowTitle, getFieldOf } from '../utils/commonUtils';
 
 
 const CreateExamPage: React.FC = () => {
@@ -26,15 +27,22 @@ const CreateExamPage: React.FC = () => {
     const snackbar = useAppSnackbar();
 
     useEffect(() => {
-        if (window.location.pathname === '/createExam') {
-            document.title = CurrentAppTranslation.CreateExamText;
-        }
+        autoSetWindowTitle();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        let targetValue: any = e.target.value;
+        if (getFieldOf(targetValue, "_d") instanceof Date) {
+            targetValue = getFieldOf(targetValue, "_d");
+        }
+
+        if (targetValue instanceof Date) {
+            // convert to UTC
+            targetValue = getUTCUnixTimestamp(targetValue);
+        }
         setCreateExamData({
             ...createExamData,
-            [e.target.name]: e.target.value,
+            [e.target.name]: targetValue,
         });
     };
 
@@ -42,8 +50,13 @@ const CreateExamPage: React.FC = () => {
         e.preventDefault();
 
         try {
-            await apiClient.createExam(createExamData);
-            snackbar.success(CurrentAppTranslation.TopicCreatedSuccessfullyText);
+            let result = await apiClient.createExam(createExamData);
+            snackbar.success(CurrentAppTranslation.ExamCreatedSuccessfullyText);
+
+            // redirect the user to the exam page in 3 seconds
+            setTimeout(() => {
+                window.location.href = `/examInfo?examId=${result.exam_id}`;
+            }, 3000);
         } catch (error: any) {
             const [errCode, errMessage] = extractErrorDetails(error);
             snackbar.error(`Failed (${errCode}): ${errMessage}`);
@@ -55,9 +68,14 @@ const CreateExamPage: React.FC = () => {
             <CreateUserContainer>
                 <CreateUserForm onSubmit={handleSubmit}>
                     <TitleLabel>{CurrentAppTranslation.CreateNewExamText}</TitleLabel>
-                    {RenderAllFields(createExamData, handleInputChange)}
-                    <ModernDateTimePicker />
-                    <SubmitButton type="submit">{CurrentAppTranslation.CreateCourseButtonText}</SubmitButton>
+                    {RenderAllFields({
+                        data: createExamData,
+                        handleInputChange,
+                        isEditing: true,
+                    })}
+                    <SubmitButton type="submit">
+                        {CurrentAppTranslation.CreateCourseButtonText}
+                    </SubmitButton>
                 </CreateUserForm>
             </CreateUserContainer>
         </DashboardContainer>

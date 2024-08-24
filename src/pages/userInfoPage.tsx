@@ -64,8 +64,7 @@ const UserInfoPage = () => {
             setUserData(updatedUserData);
             setIsEditing(false);
         } catch (error: any) {
-            const errCode = error.response?.data?.error?.code;
-            const errMessage = error.response?.data?.error?.message;
+            const [errCode, errMessage] = extractErrorDetails(error);
             snackbar.error(`Failed (${errCode}) - ${errMessage}`);
             return;
         }

@@ -17,6 +17,7 @@ import apiClient from '../apiClient';
 import DashboardContainer from '../components/containers/dashboardContainer';
 import { timeAgo } from '../utils/timeUtils';
 import { CurrentAppTranslation } from '../translations/appTranslation';
+import { autoSetWindowTitle } from '../utils/commonUtils';
 
 const RenderCoursesList = (courses: SearchedCourseInfo[] | undefined, forEdit: boolean = false) => {
     if (!courses || courses.length === 0) {
@@ -116,9 +117,7 @@ const SearchCoursePage = () => {
             handleSearch(page);
         }
 
-        if (window.location.pathname === '/searchCourse') {
-            document.title = CurrentAppTranslation.SearchCoursesText;
-        }
+        autoSetWindowTitle();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
