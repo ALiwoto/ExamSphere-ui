@@ -6,6 +6,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { AdapterMomentJalaali } from '@mui/x-date-pickers/AdapterMomentJalaali';
 import { MobileDateTimePicker } from '@mui/x-date-pickers';
 import { AppCalendarType } from '../../utils/AppCalendarTypes';
+import { CurrentAppTranslation } from '../../translations/appTranslation';
 
 const theme = createTheme({
     palette: {
@@ -31,19 +32,25 @@ const ModernDateTimePicker: React.FC<ModernDateTimePickerProps> = ({ ...props })
     if (props.value) {
         const valueType = typeof props.value;
         if (valueType === 'number') {
-            momentValue = moment.unix(props.value as number);
+            momentValue = moment.utc((props.value as number) * 1000);
         } else {
-            momentValue = moment(props.value);
+            momentValue = moment.utc(props.value);
         }
     }
     const [selectedDateTime, setSelectedDateTime] = React.useState<moment.Moment | null>(momentValue);
+
+    if (!selectedDateTime && momentValue) {
+        setSelectedDateTime(momentValue);
+    }
 
     const adapterType = props.dateType === 'jalali' ? AdapterMomentJalaali : AdapterDateFns;
 
     return (
         <ThemeProvider theme={theme}>
-            <LocalizationProvider dateAdapter={adapterType as any}>
-                <MobileDateTimePicker
+            <LocalizationProvider key={`${selectedDateTime?.toString() ?? ''}-${CurrentAppTranslation.ShortLang
+                }-date-time-picker-localizer`}
+                dateAdapter={adapterType as any}>
+                <MobileDateTimePicker key={`${selectedDateTime?.toString() ?? ''}-date-time-picker`}
                     disablePast={props.disablePast}
                     disabled={props.disabled}
                     slots={
@@ -52,10 +59,27 @@ const ModernDateTimePicker: React.FC<ModernDateTimePickerProps> = ({ ...props })
                         }
                     }
                     label={props.label}
-                    value={selectedDateTime as any}
+                    value={
+                        (selectedDateTime === null || selectedDateTime === undefined) ? null :
+                            props.dateType === 'gregorian' ?
+                                (selectedDateTime as moment.Moment).local().toDate() :
+                                selectedDateTime?.local()
+                    }
                     onChange={(newValue) => {
-                        setSelectedDateTime(newValue);
-                        props.onChange(newValue);
+                        let utcValue: any = null;
+                        if (newValue instanceof Date) {
+                            // setSelectedDateTime(moment(newValue));
+                            utcValue = moment(newValue).utc();
+                        } else if (moment.isMoment(newValue)) {
+                            // setSelectedDateTime(newValue);
+                            utcValue = newValue.clone().utc();
+                        }
+
+                        if (utcValue) {
+                            props.onChange(newValue);
+                        } else {
+                            console.log('newValue is not a Date or Moment object');
+                        }
                     }}
                 />
             </LocalizationProvider>

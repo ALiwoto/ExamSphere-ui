@@ -31,6 +31,9 @@ export function autoSetWindowTitle(): void {
         case '/searchUser':
             document.title = CurrentAppTranslation.SearchUserText;
             break;
+        case '/searchExam':
+            document.title = CurrentAppTranslation.SearchExamText;
+            break;
         case '/examInfo':
             document.title = CurrentAppTranslation.ExamInfoText;
             break;

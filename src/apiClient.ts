@@ -36,6 +36,8 @@ import {
     EditExamData,
     EditExamResult,
     GetExamInfoResult,
+    SearchExamData,
+    SearchExamResult,
 } from './api';
 import { canParseAsNumber } from './utils/textUtils';
 import { SupportedTranslations } from './translations/translationSwitcher';
@@ -433,6 +435,21 @@ class ExamSphereAPIClient extends UserApi {
         }
 
         return searchCourseResult;
+    }
+
+    public async searchExam(searchExamData: SearchExamData): Promise<SearchExamResult> {
+        if (!this.isLoggedIn()) {
+            throw new Error("Not logged in");
+        }
+
+        let searchExamResult = (await this.examApi.searchExamV1(`Bearer ${this.accessToken}`, searchExamData))?.data.result;
+        if (!searchExamResult) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to search exam");
+        }
+
+        return searchExamResult;
     }
 
     public async createNewTopic(data: CreateNewTopicData): Promise<CreateNewTopicResult> {

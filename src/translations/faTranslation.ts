@@ -42,6 +42,7 @@ class FaTranslation extends AppTranslationBase {
     AddCourseText: string = "افزودن دوره";
     SearchCoursesText: string = "جستجوی دوره ها";
     SearchCourseText: string = "جستجوی دوره";
+    SearchExamText: string = "جستجوی آزمون ها";
     EditCourseText: string = "ویرایش دوره";
     ManageExamsText: string = "مدیریت آزمون ها";
     AddExamText: string = "افزودن آزمون";
@@ -56,6 +57,7 @@ class FaTranslation extends AppTranslationBase {
     EditText: string = "ویرایش";
     UserInformationText: string = "اطلاعات کاربر";
     CourseInformationText: string = "اطلاعات دوره";
+    ExamInformationText: string = "اطلاعات آزمون";
     ExamInfoText: string = "اطلاعات آزمون";
     UserInfoText: string = "اطلاعات کاربر";
     ConfirmYourAccountText: string = "حساب کاربری خود را تایید کنید";
@@ -81,6 +83,7 @@ class FaTranslation extends AppTranslationBase {
     PasswordsDoNotMatchText: string = "رمز عبور ها یکسان نیستند!";
     FailedToConfirmAccountCreationText: string = "تایید ایجاد حساب کاربری ناموفق بود";
     UserNotFoundText: string = "این کاربر وجود ندارد...";
+    ExamNotFoundText: string = "این آزمون وجود ندارد...";
     CourseNotFoundText: string = "این دوره وجود ندارد...";
     UserCreatedSuccessfullyText: string = "کاربر با موفقیت ایجاد شد";
     TopicCreatedSuccessfullyText: string = "موضوع با موفقیت ایجاد شد";
@@ -88,7 +91,7 @@ class FaTranslation extends AppTranslationBase {
     CourseCreatedSuccessfullyText: string = "دوره با موفقیت ایجاد شد";
     NoResultsFoundText: string = "نتیجه ای یافت نشد، تلاش کنید تا جستجوی خود را تغییر دهید";
     SearchSomethingForTopicsText: string = "برای جستجو یک کلمه وارد کنید یا خالی بگذارید تا همه موضوعات لیست شوند";
-    EnterSearchForEdit: string = "برای ویرایش کاربر جستجو کنید";
+    EnterSearchForEdit: string = "برای ویرایش، ابتدا جستجو کنید";
     CopyrightText: string = "ALiwoto. تمامی حقوق محفوظ است.";
 
     //#endregion

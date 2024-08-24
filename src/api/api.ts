@@ -85,7 +85,8 @@ export const APIErrorCode = {
     ErrCodeAccountAlreadyConfirmed: 2152,
     ErrCodeEmailAlreadyExists: 2153,
     ErrCodeTopicNameExists: 2154,
-    ErrCodeTopicNotFound: 2155
+    ErrCodeTopicNotFound: 2155,
+    ErrCodeBodyTooLong: 2156
 } as const;
 
 export type APIErrorCode = typeof APIErrorCode[keyof typeof APIErrorCode];
@@ -630,7 +631,7 @@ export interface CreateExamData {
      * @type {number}
      * @memberof CreateExamData
      */
-    'course_id'?: number;
+    'course_id': number;
     /**
      * 
      * @type {number}
@@ -648,13 +649,13 @@ export interface CreateExamData {
      * @type {string}
      * @memberof CreateExamData
      */
-    'exam_description'?: string;
+    'exam_description': string;
     /**
      * 
      * @type {string}
      * @memberof CreateExamData
      */
-    'exam_title'?: string;
+    'exam_title': string;
     /**
      * 
      * @type {boolean}
@@ -2474,6 +2475,69 @@ export interface SearchCourseV1200Response {
 /**
  * 
  * @export
+ * @interface SearchExamData
+ */
+export interface SearchExamData {
+    /**
+     * 
+     * @type {number}
+     * @memberof SearchExamData
+     */
+    'limit': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof SearchExamData
+     */
+    'offset': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchExamData
+     */
+    'search_query': string;
+}
+/**
+ * 
+ * @export
+ * @interface SearchExamResult
+ */
+export interface SearchExamResult {
+    /**
+     * 
+     * @type {Array<SearchedExamInfo>}
+     * @memberof SearchExamResult
+     */
+    'exams'?: Array<SearchedExamInfo>;
+}
+/**
+ * 
+ * @export
+ * @interface SearchExamV1200Response
+ */
+export interface SearchExamV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof SearchExamV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {SearchExamResult}
+     * @memberof SearchExamV1200Response
+     */
+    'result'?: SearchExamResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SearchExamV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
  * @interface SearchTopicData
  */
 export interface SearchTopicData {
@@ -2627,6 +2691,73 @@ export interface SearchedCourseInfo {
      * @memberof SearchedCourseInfo
      */
     'topic_id'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface SearchedExamInfo
+ */
+export interface SearchedExamInfo {
+    /**
+     * 
+     * @type {number}
+     * @memberof SearchedExamInfo
+     */
+    'course_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchedExamInfo
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchedExamInfo
+     */
+    'created_by'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof SearchedExamInfo
+     */
+    'duration'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchedExamInfo
+     */
+    'exam_date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchedExamInfo
+     */
+    'exam_description'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof SearchedExamInfo
+     */
+    'exam_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchedExamInfo
+     */
+    'exam_title'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SearchedExamInfo
+     */
+    'is_public'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchedExamInfo
+     */
+    'price'?: string;
 }
 /**
  * 
@@ -3867,6 +3998,49 @@ export const ExamApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
+         * Allows the user to search exams.
+         * @summary Search exams
+         * @param {string} authorization Authorization token
+         * @param {SearchExamData} data Data needed to search exams
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        searchExamV1: async (authorization: string, data: SearchExamData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('searchExamV1', 'authorization', authorization)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('searchExamV1', 'data', data)
+            const localVarPath = `/api/v1/exam/search`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Allows the user to set score for a user in an exam.
          * @summary Set score for a user in an exam
          * @param {string} authorization Authorization token
@@ -4032,6 +4206,20 @@ export const ExamApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Allows the user to search exams.
+         * @summary Search exams
+         * @param {string} authorization Authorization token
+         * @param {SearchExamData} data Data needed to search exams
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async searchExamV1(authorization: string, data: SearchExamData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SearchExamV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.searchExamV1(authorization, data, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ExamApi.searchExamV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Allows the user to set score for a user in an exam.
          * @summary Set score for a user in an exam
          * @param {string} authorization Authorization token
@@ -4142,6 +4330,17 @@ export const ExamApiFactory = function (configuration?: Configuration, basePath?
          */
         getUserOngoingExamsV1(authorization: string, targetId?: string, options?: any): AxiosPromise<GetUserOngoingExamsV1200Response> {
             return localVarFp.getUserOngoingExamsV1(authorization, targetId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Allows the user to search exams.
+         * @summary Search exams
+         * @param {string} authorization Authorization token
+         * @param {SearchExamData} data Data needed to search exams
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        searchExamV1(authorization: string, data: SearchExamData, options?: any): AxiosPromise<SearchExamV1200Response> {
+            return localVarFp.searchExamV1(authorization, data, options).then((request) => request(axios, basePath));
         },
         /**
          * Allows the user to set score for a user in an exam.
@@ -4266,6 +4465,19 @@ export class ExamApi extends BaseAPI {
      */
     public getUserOngoingExamsV1(authorization: string, targetId?: string, options?: RawAxiosRequestConfig) {
         return ExamApiFp(this.configuration).getUserOngoingExamsV1(authorization, targetId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows the user to search exams.
+     * @summary Search exams
+     * @param {string} authorization Authorization token
+     * @param {SearchExamData} data Data needed to search exams
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExamApi
+     */
+    public searchExamV1(authorization: string, data: SearchExamData, options?: RawAxiosRequestConfig) {
+        return ExamApiFp(this.configuration).searchExamV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

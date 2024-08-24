@@ -4,6 +4,7 @@ import { CurrentAppTranslation } from '../../translations/appTranslation';
 import { Box, Checkbox, FormControlLabel, Grid, TextField, Typography } from '@mui/material';
 import SelectMenu from '../../components/menus/selectMenu';
 import ModernDateTimePicker from '../date/ModernDatePicker';
+import { getDateFromServerTimestamp } from '../../utils/timeUtils';
 
 interface RenderAllFieldsProps {
     data: any;
@@ -36,11 +37,13 @@ const RenderAllFields = (props: RenderAllFieldsProps) => {
                             <strong>
                                 {`${CurrentAppTranslation[field as keyof (typeof CurrentAppTranslation)]}: `}
                             </strong>
-                            {new Date((data[field] * 1000) as number).toLocaleDateString('en-US', {
+                            {getDateFromServerTimestamp(data[field])?.toLocaleDateString('en-US', {
                                 weekday: 'long', // "Monday"
                                 year: 'numeric', // "2003"
                                 month: 'long', // "July"
-                                day: 'numeric' // "26"
+                                day: 'numeric', // "26",
+                                hour: 'numeric', // "11 AM"
+                                minute: 'numeric', // "30"
                             })}
                         </Typography>
                     </Grid>
@@ -50,7 +53,7 @@ const RenderAllFields = (props: RenderAllFieldsProps) => {
                 <ModernDateTimePicker key={`${field}-date-time-picker-key`}
                     disablePast={props.disablePast}
                     label={CurrentAppTranslation[field as keyof (typeof CurrentAppTranslation)]}
-                    value={data[field as keyof (typeof data)] ?? ''}
+                    value={data[field] ?? ''}
                     dateType={CurrentAppTranslation.CalendarType}
                     onChange={(newValue: any) => {
                         handleInputChange({

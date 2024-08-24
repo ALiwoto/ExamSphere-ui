@@ -6,8 +6,8 @@ import {DashboardContainer} from '../components/containers/dashboardContainer';
 import { CurrentAppTranslation } from '../translations/appTranslation';
 import useAppSnackbar from '../components/snackbars/useAppSnackbars';
 import { extractErrorDetails } from '../utils/errorUtils';
-import { getFieldOf } from '../utils/commonUtils';
-import { getUTCUnixTimestamp } from '../utils/timeUtils';
+import { autoSetWindowTitle, getFieldOf } from '../utils/commonUtils';
+import { getDateFromServerTimestamp, getUTCUnixTimestamp } from '../utils/timeUtils';
 import RenderAllFields from '../components/rendering/RenderAllFields';
 
 export var forceUpdateExamInfoPage = () => {};
@@ -53,12 +53,12 @@ const ExamInfoPage = () => {
                 exam_description: result.exam_description,
                 price: result.price,
                 duration: result.duration,
-                exam_date: getUTCUnixTimestamp(new Date(result.exam_date!)),
+                exam_date: getUTCUnixTimestamp(getDateFromServerTimestamp(result.exam_date)!),
                 is_public: result.is_public,
             });
         } catch (error: any) {
             const [errCode, errMessage] = extractErrorDetails(error);
-            snackbar.error(`Failed to get user info (${errCode}): ${errMessage}`);
+            snackbar.error(`Failed to get exam info (${errCode}): ${errMessage}`);
             setIsUserNotFound(true);
             return;
         }
@@ -66,6 +66,8 @@ const ExamInfoPage = () => {
 
     useEffect(() => {
         fetchExamInfo();
+
+        autoSetWindowTitle();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleEdit = () => {
@@ -109,6 +111,16 @@ const ExamInfoPage = () => {
 
             setExamData(updatedUserData);
             setIsEditing(false);
+            
+            window.history.pushState(
+                `examInfo_examId_${examData.exam_id}`,
+                "Exam Info",
+                `${window.location.pathname}?examId=${
+                    encodeURIComponent(examData.exam_id!)
+                }&edit=${
+                    isEditing ? '0' : '1'
+                }`,
+            );
         } catch (error: any) {
             const [errCode, errMessage] = extractErrorDetails(error);
             snackbar.error(`Failed (${errCode}) - ${errMessage}`);
@@ -129,7 +141,7 @@ const ExamInfoPage = () => {
     if (isUserNotFound) {
         return (
             <DashboardContainer>
-                <Typography>{CurrentAppTranslation.UserNotFoundText}</Typography>
+                <Typography>{CurrentAppTranslation.ExamNotFoundText}</Typography>
             </DashboardContainer>
         );
     }
@@ -139,7 +151,7 @@ const ExamInfoPage = () => {
             <Container maxWidth="sm">
                 <Paper elevation={3} sx={{ p: 3, mt: 4 }}>
                     <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                        <Typography variant="h4">{CurrentAppTranslation.UserInformationText}</Typography>
+                        <Typography variant="h4">{CurrentAppTranslation.ExamInformationText}</Typography>
                         <Button variant="contained" onClick={isEditing ? handleSave : handleEdit}>
                             {isEditing ? CurrentAppTranslation.SaveText : CurrentAppTranslation.EditText}
                         </Button>

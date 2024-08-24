@@ -44,6 +44,7 @@ export class AppTranslationBase {
     AddCourseText: string = "Add Course";
     SearchCoursesText: string = "Search Course";
     SearchCourseText: string = "Search Courses";
+    SearchExamText: string = "Search Exams";
     EditCourseText: string = "Edit Course";
     ManageExamsText: string = "Manage Exams";
     AddExamText: string = "Add Exam";
@@ -59,6 +60,7 @@ export class AppTranslationBase {
     EditText: string = "Edit";
     UserInformationText: string = "User Information";
     CourseInformationText: string = "Course Information";
+    ExamInformationText: string = "Exam Information";
     ExamInfoText: string = "Exam Info";
     UserInfoText: string = "User Info";
     ConfirmYourAccountText: string = "Confirm Your Account";
@@ -83,6 +85,7 @@ export class AppTranslationBase {
     PasswordsDoNotMatchText: string = "Passwords do not match!";
     FailedToConfirmAccountCreationText: string = "Failed to confirm account creation";
     UserNotFoundText: string = "This user doesn't seem to exist...";
+    ExamNotFoundText: string = "This exam doesn't seem to exist...";
     CourseNotFoundText: string = "This course doesn't seem to exist...";
     UserCreatedSuccessfullyText: string = "User created successfully";
     TopicCreatedSuccessfullyText: string = "Topic created successfully";
@@ -90,7 +93,7 @@ export class AppTranslationBase {
     CourseCreatedSuccessfullyText: string = "Course created successfully";
     NoResultsFoundText: string = "No results found, try changing your search query";
     SearchSomethingForTopicsText: string = "Search a query or enter empty to list all topics";
-    EnterSearchForEdit: string = "Enter search query to edit the user";
+    EnterSearchForEdit: string = "Enter search query to edit";
     CopyrightText: string = "ALiwoto. All rights reserved.";
 
     //#endregion

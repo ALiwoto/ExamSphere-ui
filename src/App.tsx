@@ -17,6 +17,7 @@ import SearchCoursePage from './pages/searchCoursePage';
 import CreateExamPage from './pages/createExamPage';
 import { switchAppTranslation } from './translations/translationSwitcher';
 import ExamInfoPage from './pages/examInfoPage';
+import SearchExamPage from './pages/searchExamPage';
 
 const App: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(apiClient.isLoggedIn());
@@ -124,7 +125,7 @@ const App: React.FC = () => {
                 />
                 <Route
                     path="/searchExam"
-                    element={apiClient.canSearchTopics() ? <SearchTopicPage /> : <Navigate to="/dashboard" />}
+                    element={apiClient.canSearchTopics() ? <SearchExamPage /> : <Navigate to="/dashboard" />}
                 />
                 <Route path="*" element={<Navigate to={isLoggedIn ? "/dashboard" : "/login"} />} />
             </Routes>
