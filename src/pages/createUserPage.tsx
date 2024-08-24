@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useReducer, useState } from 'react';
 import SubmitButton from '../components/buttons/submitButton';
-import DashboardContainer from '../components/containers/dashboardContainer';
+import { DashboardContainer } from '../components/containers/dashboardContainer';
 import TitleLabel from '../components/labels/titleLabel';
 import CreateUserForm from '../components/forms/createUserForm';
 import CreateUserContainer from '../components/containers/createUserContainer';
@@ -12,6 +12,8 @@ import { Checkbox, FormControlLabel, TextField } from '@mui/material';
 import useAppSnackbar from '../components/snackbars/useAppSnackbars';
 import { extractErrorDetails } from '../utils/errorUtils';
 
+export var forceUpdateCreateUserPage = () => {};
+
 const CreateUserPage: React.FC = () => {
     const [createUserData, setUserInfo] = useState<CreateUserData>({
         user_id: '',
@@ -19,7 +21,12 @@ const CreateUserPage: React.FC = () => {
         password: '',
         role: UserRole.UserRoleStudent,
     });
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
     const snackbar = useAppSnackbar();
+
+    forceUpdateCreateUserPage = () => {
+        forceUpdate();
+    };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setUserInfo({ ...createUserData, [e.target.name]: e.target.value });

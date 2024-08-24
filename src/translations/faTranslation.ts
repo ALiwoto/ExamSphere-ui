@@ -1,12 +1,14 @@
 import { AppCalendarType } from "../utils/AppCalendarTypes";
-import { AppTranslationBase } from "./appTranslation";
+import { AppTranslationBase, TextDirection, TextJustifyContent } from "./appTranslation";
 
 
 class FaTranslation extends AppTranslationBase {
     ShortLang: string = "fa";
 
     //#region Style Attributes
-    direction: "ltr" | "rtl" = "rtl";
+    fontFamily: string = `"B Kamran", "Vazir", "Shabnam", "Samim", "Iran Sans", "Yekan", "Nazanin", "Tahoma", "Arial", sans-serif`;
+    direction: TextDirection = "rtl";
+    justifyContent: TextJustifyContent = "flex-end";
     textAlign: string = "right";
     float: string = "right";
 
@@ -71,6 +73,7 @@ class FaTranslation extends AppTranslationBase {
     SendEmailToUseText: string = "ارسال ایمیل تایید به کاربر";
 
     // System messages
+    LanguageChangedSuccessfullyText: string = "زبان با موفقیت تغییر یافت";
     AreYouSureDeleteTopicText: string = "آیا مطمئن هستید که می خواهید این موضوع را حذف کنید؟";
     DeleteTopicDescriptionText: string = "این عملیات قابل بازگشت نیست! تمام دوره ها و آزمون های مرتبط با این موضوع نیز حذف خواهند شد.";
     TopicDeletedSuccessfullyText: string = "موضوع با موفقیت حذف شد!";

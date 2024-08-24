@@ -1,10 +1,16 @@
 import { AppCalendarType } from "../utils/AppCalendarTypes";
 
+export type TextDirection = "ltr" | "rtl";
+
+export type TextJustifyContent = "flex-end" | "flex-start";
+
 export class AppTranslationBase {
     ShortLang: string = "en";
 
     //#region Style Attributes
-    direction: "ltr" | "rtl" = "ltr";
+    fontFamily: string = `"Roboto", "Helvetica", "Arial", sans-serif`;
+    direction: TextDirection = "ltr";
+    justifyContent: TextJustifyContent = "flex-start";
     textAlign: string = "left";
     float: string = "left";
     
@@ -69,6 +75,7 @@ export class AppTranslationBase {
     SendEmailToUseText: string = "Send email confirmation to user";
 
     // System messages
+    LanguageChangedSuccessfullyText: string = "Language changed successfully!";
     AreYouSureDeleteTopicText: string = "Are you sure you want to delete this topic?";
     DeleteTopicDescriptionText: string = "This action cannot be undone! All courses and exams related to this topic will be deleted as well.";
     TopicDeletedSuccessfullyText: string = "Topic deleted successfully!";

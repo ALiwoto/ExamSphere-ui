@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import SubmitButton from '../components/buttons/submitButton';
-import DashboardContainer from '../components/containers/dashboardContainer';
+import { DashboardContainer } from '../components/containers/dashboardContainer';
 import TitleLabel from '../components/labels/titleLabel';
 import CreateUserForm from '../components/forms/createUserForm';
 import CreateUserContainer from '../components/containers/createUserContainer';
@@ -12,11 +12,18 @@ import useAppSnackbar from '../components/snackbars/useAppSnackbars';
 import { extractErrorDetails } from '../utils/errorUtils';
 import { autoSetWindowTitle } from '../utils/commonUtils';
 
+export var forceUpdateCreateTopicPage = () => {};
+
 const CreateTopicPage: React.FC = () => {
     const [createTopicData, setUserInfo] = useState<CreateNewTopicData>({
         topic_name: '',
     });
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
     const snackbar = useAppSnackbar();
+
+    forceUpdateCreateTopicPage = () => {
+        forceUpdate();
+    };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setUserInfo({ ...createTopicData, [e.target.name]: e.target.value });

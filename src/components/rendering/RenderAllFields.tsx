@@ -1,7 +1,7 @@
 
 import apiClient from '../../apiClient';
 import { CurrentAppTranslation } from '../../translations/appTranslation';
-import { Checkbox, FormControlLabel, Grid, TextField, Typography } from '@mui/material';
+import { Box, Checkbox, FormControlLabel, Grid, TextField, Typography } from '@mui/material';
 import SelectMenu from '../../components/menus/selectMenu';
 import ModernDateTimePicker from '../date/ModernDatePicker';
 
@@ -81,10 +81,20 @@ const RenderAllFields = (props: RenderAllFieldsProps) => {
             }
 
             return (
+                <Box key={`${field}-box-key`}
+                sx={{
+                  display: 'flex',
+                  justifyContent: `${CurrentAppTranslation.justifyContent}`,
+                  width: '100%', // Ensure the Box takes full width
+                }}
+              >
                 <FormControlLabel key={`${field}-form-control-label-key`}
+                    style={{
+                        direction: `${CurrentAppTranslation.direction}`,
+                    }}
                     control={
                         <Checkbox
-                            checked={data[field as keyof (typeof data)] ?? false}
+                            checked={data[field] ?? false}
                             disabled={!isEditing}
                             onChange={(e: any) => {
                                 handleInputChange({
@@ -99,6 +109,7 @@ const RenderAllFields = (props: RenderAllFieldsProps) => {
                     }
                     label={CurrentAppTranslation[field as keyof (typeof CurrentAppTranslation)]}
                 />
+                </Box>
             );
         }
 
@@ -162,7 +173,7 @@ const RenderAllFields = (props: RenderAllFieldsProps) => {
                     disabled={!isEditing}
                     type={'text'}
                     label={CurrentAppTranslation[field as keyof (typeof CurrentAppTranslation)]}
-                    value={data[field as keyof (typeof data)] ?? ''}
+                    value={data[field] ?? ''}
                     onChange={(e) => { handleInputChange(e as any) }}
                     required />
             );

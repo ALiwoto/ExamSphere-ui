@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import SubmitButton from '../components/buttons/submitButton';
-import DashboardContainer from '../components/containers/dashboardContainer';
+import {DashboardContainer} from '../components/containers/dashboardContainer';
 import TitleLabel from '../components/labels/titleLabel';
 import CreateUserForm from '../components/forms/createUserForm';
 import CreateUserContainer from '../components/containers/createUserContainer';
@@ -13,6 +13,7 @@ import RenderAllFields from '../components/rendering/RenderAllFields';
 import { getUTCUnixTimestamp } from '../utils/timeUtils';
 import { autoSetWindowTitle, getFieldOf } from '../utils/commonUtils';
 
+export var forceUpdateCreateExamPage = () => {};
 
 const CreateExamPage: React.FC = () => {
     const [createExamData, setCreateExamData] = useState<CreateExamData>({
@@ -24,7 +25,12 @@ const CreateExamPage: React.FC = () => {
         exam_date: 0,
         is_public: false,
     });
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
     const snackbar = useAppSnackbar();
+
+    forceUpdateCreateExamPage = () => {
+        forceUpdate();
+    };
 
     useEffect(() => {
         autoSetWindowTitle();

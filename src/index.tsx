@@ -13,7 +13,8 @@ root.render(
   <React.StrictMode>
     <AppSnackBarProvider>
       <AppLayout>
-      <App />
+        <App />
+        <div></div>
       </AppLayout>
     </AppSnackBarProvider>
   </React.StrictMode>

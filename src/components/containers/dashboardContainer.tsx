@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useReducer } from "react";
 import { useState } from "react";
 import SideMenu from '../menus/sideMenu';
 import HeaderLabel from "../labels/headerLabel";
@@ -6,15 +6,21 @@ import TitleLabel from "../labels/titleLabel";
 import MenuButton from "../menus/menuButton";
 import { CurrentAppTranslation } from "../../translations/appTranslation";
 
+
 interface DashboardContainerProps {
     children?: React.ReactNode;
     style?: React.CSSProperties;
     disableSlideMenu?: boolean;
 }
 
-const DashboardContainer: React.FC<DashboardContainerProps> = ({ ...props }) => {
+export var forceUpdateDashboardContainer: () => void = () => { };
+
+export const DashboardContainer: React.FC<DashboardContainerProps> = ({ ...props }) => {
     const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
     const toggleMenu = () => setIsSideMenuOpen(!isSideMenuOpen);
+    const [, setForceUpdate] = useReducer(x => x + 1, 0);
+
+    forceUpdateDashboardContainer = () => setForceUpdate();
 
     return (
         <div style={
@@ -45,5 +51,3 @@ const DashboardContainer: React.FC<DashboardContainerProps> = ({ ...props }) => 
         </div>
     );
 }
-
-export default DashboardContainer;

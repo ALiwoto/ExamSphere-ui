@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import {
     TextField,
     List,
@@ -14,7 +14,7 @@ import Pagination from '@mui/material/Pagination';
 import IconButton from '@mui/material/IconButton';
 import { SearchedUserInfo } from '../api';
 import apiClient from '../apiClient';
-import DashboardContainer from '../components/containers/dashboardContainer';
+import {DashboardContainer} from '../components/containers/dashboardContainer';
 import { timeAgo } from '../utils/timeUtils';
 import { CurrentAppTranslation } from '../translations/appTranslation';
 import { autoSetWindowTitle } from '../utils/commonUtils';
@@ -67,6 +67,8 @@ const RenderUsersList = (users: SearchedUserInfo[] | undefined, forEdit: boolean
     )
 }
 
+export var forceUpdateSearchUserPage = () => {};
+
 const SearchUserPage = () => {
     const urlSearch = new URLSearchParams(window.location.search);
     const providedQuery = urlSearch.get('query');
@@ -75,10 +77,13 @@ const SearchUserPage = () => {
 
     const [query, setQuery] = useState(providedQuery ?? '');
     const [users, setUsers] = useState<SearchedUserInfo[]>([]);
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState<number>(providedPage ? parseInt(providedPage) - 1 : 0);
     const [totalPages, setTotalPages] = useState(page + 1);
     const limit = 10;
+
+    forceUpdateSearchUserPage = () => forceUpdate();
 
     const handleSearch = async (newPage = 0) => {
         window.history.pushState(

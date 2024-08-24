@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import SubmitButton from '../components/buttons/submitButton';
-import DashboardContainer from '../components/containers/dashboardContainer';
+import { DashboardContainer } from '../components/containers/dashboardContainer';
 import TitleLabel from '../components/labels/titleLabel';
 import CreateUserForm from '../components/forms/createUserForm';
 import CreateUserContainer from '../components/containers/createUserContainer';
@@ -12,6 +12,7 @@ import { extractErrorDetails } from '../utils/errorUtils';
 import RenderAllFields from '../components/rendering/RenderAllFields';
 import { autoSetWindowTitle, getFieldOf } from '../utils/commonUtils';
 
+export var forceUpdateCreateCoursePage = () => {};
 
 const CreateCoursePage: React.FC = () => {
     const [createCourseData, setCourseData] = useState<CreateCourseData>({
@@ -19,7 +20,12 @@ const CreateCoursePage: React.FC = () => {
         course_name: '',
         course_description: '',
     });
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
     const snackbar = useAppSnackbar();
+
+    forceUpdateCreateCoursePage = () => {
+        forceUpdate();
+    };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setCourseData({
@@ -50,7 +56,9 @@ const CreateCoursePage: React.FC = () => {
         <DashboardContainer>
             <CreateUserContainer key={'create-course-page-create-container'}>
                 <CreateUserForm onSubmit={handleSubmit}>
-                    <TitleLabel>{CurrentAppTranslation.CreateNewCourseText}</TitleLabel>
+                    <TitleLabel>
+                        {CurrentAppTranslation.CreateNewCourseText}
+                    </TitleLabel>
                     {RenderAllFields({
                         data: createCourseData, 
                         handleInputChange :handleInputChange,

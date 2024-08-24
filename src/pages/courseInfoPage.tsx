@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import { CircularProgress, Container, Paper, Box, Typography, Grid, TextField, Button } from '@mui/material';
 import apiClient from '../apiClient';
 import { EditCourseData } from '../api';
-import DashboardContainer from '../components/containers/dashboardContainer';
+import { DashboardContainer } from '../components/containers/dashboardContainer';
 import { CurrentAppTranslation } from '../translations/appTranslation';
 import useAppSnackbar from '../components/snackbars/useAppSnackbars';
 import { extractErrorDetails } from '../utils/errorUtils';
+
+export var forceUpdateCourseInfoPage = () => {};
 
 const CourseInfoPage = () => {
     const [courseData, setCourseData] = useState<EditCourseData>({
@@ -16,8 +18,12 @@ const CourseInfoPage = () => {
     });
     const [isEditing, setIsEditing] = useState(false);
     const [isCourseNotFound, setIsCourseNotFound] = useState(false);
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
     const snackbar = useAppSnackbar();
 
+    forceUpdateCourseInfoPage = () => {
+        forceUpdate();
+    };
 
     const fetchCourseInfo = async () => {
         // the user id is passed like /courseInfo?userId=123

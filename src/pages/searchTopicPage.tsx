@@ -1,4 +1,4 @@
-import { useEffect, useState, Fragment } from 'react';
+import { useEffect, useState, Fragment, useReducer } from 'react';
 import {
     TextField,
     List,
@@ -14,7 +14,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import IconButton from '@mui/material/IconButton';
 import { SearchedTopicInfo } from '../api';
 import apiClient from '../apiClient';
-import DashboardContainer from '../components/containers/dashboardContainer';
+import { DashboardContainer } from '../components/containers/dashboardContainer';
 import { CurrentAppTranslation } from '../translations/appTranslation';
 
 import Dialog from '@mui/material/Dialog';
@@ -39,6 +39,7 @@ interface DeleteDialogueProps {
 var currentDeleteProps: DeleteDialogueProps | null = null;
 var confirmedDeleteTopicId: number = 0;
 
+export var forceUpdateSearchTopicPage = () => { };
 
 const DeleteDialogueComponent = () => {
     const props = currentDeleteProps;
@@ -135,11 +136,13 @@ const SearchTopicPage = () => {
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const [query, setQuery] = useState(providedQuery ?? '');
     const [topics, setTopics] = useState<SearchedTopicInfo[]>([]);
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
     const [isDeleteDialogueOpen, setIsDeleteDialogueOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [deleteDialogue, setDeleteDialogue] = useState<any>(null);
     const snackbar = useAppSnackbar();
 
+    forceUpdateSearchTopicPage = () => forceUpdate();
 
     const handleSearch = async () => {
         window.history.pushState(

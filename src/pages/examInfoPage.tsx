@@ -1,14 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import { CircularProgress, Container, Paper, Box, Typography, Grid, Button } from '@mui/material';
 import apiClient from '../apiClient';
 import { EditExamData } from '../api';
-import DashboardContainer from '../components/containers/dashboardContainer';
+import {DashboardContainer} from '../components/containers/dashboardContainer';
 import { CurrentAppTranslation } from '../translations/appTranslation';
 import useAppSnackbar from '../components/snackbars/useAppSnackbars';
 import { extractErrorDetails } from '../utils/errorUtils';
 import { getFieldOf } from '../utils/commonUtils';
 import { getUTCUnixTimestamp } from '../utils/timeUtils';
 import RenderAllFields from '../components/rendering/RenderAllFields';
+
+export var forceUpdateExamInfoPage = () => {};
 
 const ExamInfoPage = () => {
     const [examData, setExamData] = useState<EditExamData>({
@@ -21,9 +23,14 @@ const ExamInfoPage = () => {
         exam_date: 0,
         is_public: false,
     });
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
     const [isEditing, setIsEditing] = useState(false);
     const [isUserNotFound, setIsUserNotFound] = useState(false);
     const snackbar = useAppSnackbar();
+
+    forceUpdateExamInfoPage = () => {
+        forceUpdate();
+    };
 
     const fetchExamInfo = async () => {
         // the exam id is passed like /examInfo?examId=123
@@ -65,7 +72,11 @@ const ExamInfoPage = () => {
         window.history.pushState(
             `examInfo_examId_${examData.exam_id}`,
             "Exam Info",
-            `/examInfo?examId=${encodeURIComponent(examData.exam_id!)}&edit=${isEditing ? '0' : '1'}`,
+            `${window.location.pathname}?examId=${
+                encodeURIComponent(examData.exam_id!)
+            }&edit=${
+                isEditing ? '0' : '1'
+            }`,
         );
         setIsEditing(!isEditing);
     }
@@ -92,7 +103,7 @@ const ExamInfoPage = () => {
             const updatedUserData: any = { ...examData };
             Object.keys(result).forEach(key => {
                 if (key in examData) {
-                    updatedUserData[key as keyof (typeof updatedUserData)] = result[key as keyof (typeof result)];
+                    updatedUserData[key] = result[key as keyof (typeof result)];
                 }
             });
 

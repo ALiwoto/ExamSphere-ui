@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import {
     TextField,
     List,
@@ -14,10 +14,12 @@ import Pagination from '@mui/material/Pagination';
 import IconButton from '@mui/material/IconButton';
 import { SearchedCourseInfo } from '../api';
 import apiClient from '../apiClient';
-import DashboardContainer from '../components/containers/dashboardContainer';
+import { DashboardContainer } from '../components/containers/dashboardContainer';
 import { timeAgo } from '../utils/timeUtils';
 import { CurrentAppTranslation } from '../translations/appTranslation';
 import { autoSetWindowTitle } from '../utils/commonUtils';
+
+export var forceUpdateSearchCoursePage = () => {};
 
 const RenderCoursesList = (courses: SearchedCourseInfo[] | undefined, forEdit: boolean = false) => {
     if (!courses || courses.length === 0) {
@@ -76,9 +78,12 @@ const SearchCoursePage = () => {
     const [query, setQuery] = useState(providedQuery ?? '');
     const [courses, setCourses] = useState<SearchedCourseInfo[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [, setForceUpdate] = useReducer(x => x + 1, 0);
     const [page, setPage] = useState<number>(providedPage ? parseInt(providedPage) - 1 : 0);
     const [totalPages, setTotalPages] = useState(page + 1);
     const limit = 10;
+
+    forceUpdateSearchCoursePage = () => setForceUpdate();
 
     const handleSearch = async (newPage = 0) => {
         window.history.pushState(

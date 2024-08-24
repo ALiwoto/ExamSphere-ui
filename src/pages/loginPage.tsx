@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import styled from 'styled-components';
 import { Navigate } from 'react-router-dom';
 import apiClient from '../apiClient';
@@ -17,6 +17,8 @@ import useAppSnackbar from '../components/snackbars/useAppSnackbars';
 import { CurrentAppTranslation } from '../translations/appTranslation';
 /********************************************/
 
+export var forceUpdateLoginPage = () => {};
+
 const CaptchaContainer = styled.div`
   display: flex;
   align-items: center;
@@ -31,7 +33,12 @@ const Login = () => {
     const [captchaImage, setCaptchaImage] = useState('');
     const [isCaptchaIncorrect, setIsCaptchaIncorrect] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
     const snackbar = useAppSnackbar();
+
+    forceUpdateLoginPage = () => {
+        forceUpdate();
+    };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

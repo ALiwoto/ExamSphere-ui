@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import apiClient from '../apiClient';
-import DashboardContainer from '../components/containers/dashboardContainer';
+import { DashboardContainer } from '../components/containers/dashboardContainer';
 import { autoSetWindowTitle } from '../utils/commonUtils';
+
+export var forceUpdateDashboardPage = () => {};
 
 const MainContent = styled.div`
   display: flex;
@@ -34,6 +36,11 @@ const ListItem = styled.li`
 `;
 
 const DashboardPage: React.FC = () => {
+    const [, forceUpdate] = React.useReducer(x => x + 1, 0);
+    forceUpdateDashboardPage = () => {
+        forceUpdate();
+    }
+    
     const fetchUserInfo = async () => {
         try {
             await apiClient.getCurrentUserInfo();

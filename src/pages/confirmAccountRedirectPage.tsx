@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { CircularProgress, Container, Paper, Box, Typography, Grid, TextField, Button } from '@mui/material';
 import apiClient from '../apiClient';
 import { ConfirmAccountData } from '../api';
-import DashboardContainer from '../components/containers/dashboardContainer';
+import {DashboardContainer} from '../components/containers/dashboardContainer';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { CurrentAppTranslation } from '../translations/appTranslation';
 import useAppSnackbar from '../components/snackbars/useAppSnackbars';
@@ -16,9 +16,14 @@ interface ConfirmationRequiredFields {
     repeat_password: string;
 }
 
+export var forceUpdateConfirmAccountRedirectPage = () => {};
+
 const ConfirmAccountRedirectPage = () => {
     apiClient.clearTokens();
     const urlSearch = new URLSearchParams(window.location.search);
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
+
+    forceUpdateConfirmAccountRedirectPage = () => forceUpdate();
 
     const [requiredData, setRequiredData] = useState<ConfirmationRequiredFields>({
         user_id: '',

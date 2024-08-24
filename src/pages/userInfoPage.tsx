@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import { CircularProgress, Container, Paper, Box, Typography, Avatar, Grid, TextField, Button } from '@mui/material';
 import apiClient from '../apiClient';
 import { EditUserData } from '../api';
-import DashboardContainer from '../components/containers/dashboardContainer';
+import {DashboardContainer} from '../components/containers/dashboardContainer';
 import { CurrentAppTranslation } from '../translations/appTranslation';
 import useAppSnackbar from '../components/snackbars/useAppSnackbars';
 import { extractErrorDetails } from '../utils/errorUtils';
+
+export var forceUpdateUserInfoPage = () => {};
 
 const UserInfoPage = () => {
     const [userData, setUserData] = useState<EditUserData>({
@@ -13,9 +15,12 @@ const UserInfoPage = () => {
         full_name: '',
         email: '',
     });
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
     const [isEditing, setIsEditing] = useState(false);
     const [isUserNotFound, setIsUserNotFound] = useState(false);
     const snackbar = useAppSnackbar();
+
+    forceUpdateUserInfoPage = () => forceUpdate();
 
     useEffect(() => {
         fetchUserInfo();
@@ -54,10 +59,10 @@ const UserInfoPage = () => {
     const handleSave = async () => {
         try {
             const result = await apiClient.editUser(userData);
-            const updatedUserData = { ...userData };
+            const updatedUserData: any = { ...userData };
             Object.keys(result).forEach(key => {
                 if (key in userData) {
-                    updatedUserData[key as keyof (typeof updatedUserData)] = result[key as keyof (typeof result)];
+                    updatedUserData[key] = result[key as keyof (typeof result)];
                 }
             });
 
@@ -101,7 +106,10 @@ const UserInfoPage = () => {
                     <Avatar sx={{ width: 100, height: 100, mb: 2 }} />
                     <Grid container spacing={2}>
                         {Object.keys(userData).map((field) => (
-                            <Grid item xs={12} key={field}>
+                            <Grid item xs={12} key={field} style={{
+                                direction: `${CurrentAppTranslation.direction}`,
+                                justifyContent: `${CurrentAppTranslation.justifyContent}`,
+                            }}>
                                 {isEditing && apiClient.canUserFieldBeEdited(field) ? (
                                     <TextField
                                         fullWidth
@@ -113,8 +121,9 @@ const UserInfoPage = () => {
                                 ) : (
                                     <Typography>
                                         <strong>
-                                            {CurrentAppTranslation[field as keyof (typeof CurrentAppTranslation)]}:
-                                        </strong> {userData[field as keyof (typeof userData)]}
+                                            {`${CurrentAppTranslation[field as keyof (typeof CurrentAppTranslation)]}: `}
+                                        </strong>
+                                        {userData[field as keyof (typeof userData)]}
                                     </Typography>
                                 )}
                             </Grid>
