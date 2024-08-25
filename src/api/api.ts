@@ -672,6 +672,141 @@ export interface CreateExamData {
 /**
  * 
  * @export
+ * @interface CreateExamQuestionData
+ */
+export interface CreateExamQuestionData {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateExamQuestionData
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateExamQuestionData
+     */
+    'exam_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateExamQuestionData
+     */
+    'option1'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateExamQuestionData
+     */
+    'option2'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateExamQuestionData
+     */
+    'option3'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateExamQuestionData
+     */
+    'option4'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateExamQuestionData
+     */
+    'question_title'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateExamQuestionResult
+ */
+export interface CreateExamQuestionResult {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateExamQuestionResult
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateExamQuestionResult
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateExamQuestionResult
+     */
+    'exam_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateExamQuestionResult
+     */
+    'option1'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateExamQuestionResult
+     */
+    'option2'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateExamQuestionResult
+     */
+    'option3'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateExamQuestionResult
+     */
+    'option4'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateExamQuestionResult
+     */
+    'question_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateExamQuestionResult
+     */
+    'question_title'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateExamQuestionV1200Response
+ */
+export interface CreateExamQuestionV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof CreateExamQuestionV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {CreateExamQuestionResult}
+     * @memberof CreateExamQuestionV1200Response
+     */
+    'result'?: CreateExamQuestionResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateExamQuestionV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
  * @interface CreateExamResult
  */
 export interface CreateExamResult {
@@ -1097,6 +1232,147 @@ export interface EditExamData {
      * @memberof EditExamData
      */
     'price'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface EditExamQuestionData
+ */
+export interface EditExamQuestionData {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditExamQuestionData
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditExamQuestionData
+     */
+    'exam_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditExamQuestionData
+     */
+    'option1'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditExamQuestionData
+     */
+    'option2'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditExamQuestionData
+     */
+    'option3'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditExamQuestionData
+     */
+    'option4'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditExamQuestionData
+     */
+    'question_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditExamQuestionData
+     */
+    'question_title'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface EditExamQuestionResult
+ */
+export interface EditExamQuestionResult {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditExamQuestionResult
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditExamQuestionResult
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditExamQuestionResult
+     */
+    'exam_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditExamQuestionResult
+     */
+    'option1'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditExamQuestionResult
+     */
+    'option2'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditExamQuestionResult
+     */
+    'option3'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditExamQuestionResult
+     */
+    'option4'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditExamQuestionResult
+     */
+    'question_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditExamQuestionResult
+     */
+    'question_title'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface EditExamQuestionV1200Response
+ */
+export interface EditExamQuestionV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof EditExamQuestionV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {EditExamQuestionResult}
+     * @memberof EditExamQuestionV1200Response
+     */
+    'result'?: EditExamQuestionResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditExamQuestionV1200Response
+     */
+    'success'?: boolean;
 }
 /**
  * 
@@ -1654,6 +1930,18 @@ export interface GetExamInfoResult {
      * @type {boolean}
      * @memberof GetExamInfoResult
      */
+    'can_add_others_to_exam'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetExamInfoResult
+     */
+    'can_edit_question'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetExamInfoResult
+     */
     'can_participate'?: boolean;
     /**
      * 
@@ -1789,6 +2077,18 @@ export interface GetExamQuestionsData {
      * @memberof GetExamQuestionsData
      */
     'exam_id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetExamQuestionsData
+     */
+    'limit'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetExamQuestionsData
+     */
+    'offset'?: number;
 }
 /**
  * 
@@ -3814,6 +4114,49 @@ export const ExamApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
+         * Allows the user to create a new question for an exam.
+         * @summary Create a new question for an exam
+         * @param {string} authorization Authorization token
+         * @param {CreateExamQuestionData} data Data needed to create a new question for an exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createExamQuestionV1: async (authorization: string, data: CreateExamQuestionData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('createExamQuestionV1', 'authorization', authorization)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('createExamQuestionV1', 'data', data)
+            const localVarPath = `/api/v1/exam/createQuestion`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Allows the user to create a new exam.
          * @summary Create a new exam
          * @param {string} authorization Authorization token
@@ -3827,6 +4170,49 @@ export const ExamApiAxiosParamCreator = function (configuration?: Configuration)
             // verify required parameter 'data' is not null or undefined
             assertParamExists('createExamV1', 'data', data)
             const localVarPath = `/api/v1/exam/create`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Allows the user to edit a question of an exam.
+         * @summary Edit a question of an exam
+         * @param {string} authorization Authorization token
+         * @param {EditExamQuestionData} data Data needed to edit a question of an exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editExamQuestionV1: async (authorization: string, data: EditExamQuestionData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('editExamQuestionV1', 'authorization', authorization)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('editExamQuestionV1', 'data', data)
+            const localVarPath = `/api/v1/exam/editQuestion`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -4268,6 +4654,20 @@ export const ExamApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Allows the user to create a new question for an exam.
+         * @summary Create a new question for an exam
+         * @param {string} authorization Authorization token
+         * @param {CreateExamQuestionData} data Data needed to create a new question for an exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createExamQuestionV1(authorization: string, data: CreateExamQuestionData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateExamQuestionV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createExamQuestionV1(authorization, data, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ExamApi.createExamQuestionV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Allows the user to create a new exam.
          * @summary Create a new exam
          * @param {string} authorization Authorization token
@@ -4279,6 +4679,20 @@ export const ExamApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createExamV1(authorization, data, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ExamApi.createExamV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Allows the user to edit a question of an exam.
+         * @summary Edit a question of an exam
+         * @param {string} authorization Authorization token
+         * @param {EditExamQuestionData} data Data needed to edit a question of an exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async editExamQuestionV1(authorization: string, data: EditExamQuestionData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EditExamQuestionV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.editExamQuestionV1(authorization, data, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ExamApi.editExamQuestionV1']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -4429,6 +4843,17 @@ export const ExamApiFactory = function (configuration?: Configuration, basePath?
             return localVarFp.answerExamQuestionV1(authorization, data, options).then((request) => request(axios, basePath));
         },
         /**
+         * Allows the user to create a new question for an exam.
+         * @summary Create a new question for an exam
+         * @param {string} authorization Authorization token
+         * @param {CreateExamQuestionData} data Data needed to create a new question for an exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createExamQuestionV1(authorization: string, data: CreateExamQuestionData, options?: any): AxiosPromise<CreateExamQuestionV1200Response> {
+            return localVarFp.createExamQuestionV1(authorization, data, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Allows the user to create a new exam.
          * @summary Create a new exam
          * @param {string} authorization Authorization token
@@ -4438,6 +4863,17 @@ export const ExamApiFactory = function (configuration?: Configuration, basePath?
          */
         createExamV1(authorization: string, data: CreateExamData, options?: any): AxiosPromise<CreateExamV1200Response> {
             return localVarFp.createExamV1(authorization, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Allows the user to edit a question of an exam.
+         * @summary Edit a question of an exam
+         * @param {string} authorization Authorization token
+         * @param {EditExamQuestionData} data Data needed to edit a question of an exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editExamQuestionV1(authorization: string, data: EditExamQuestionData, options?: any): AxiosPromise<EditExamQuestionV1200Response> {
+            return localVarFp.editExamQuestionV1(authorization, data, options).then((request) => request(axios, basePath));
         },
         /**
          * Allows the user to edit an exam.
@@ -4562,6 +4998,19 @@ export class ExamApi extends BaseAPI {
     }
 
     /**
+     * Allows the user to create a new question for an exam.
+     * @summary Create a new question for an exam
+     * @param {string} authorization Authorization token
+     * @param {CreateExamQuestionData} data Data needed to create a new question for an exam
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExamApi
+     */
+    public createExamQuestionV1(authorization: string, data: CreateExamQuestionData, options?: RawAxiosRequestConfig) {
+        return ExamApiFp(this.configuration).createExamQuestionV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Allows the user to create a new exam.
      * @summary Create a new exam
      * @param {string} authorization Authorization token
@@ -4572,6 +5021,19 @@ export class ExamApi extends BaseAPI {
      */
     public createExamV1(authorization: string, data: CreateExamData, options?: RawAxiosRequestConfig) {
         return ExamApiFp(this.configuration).createExamV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows the user to edit a question of an exam.
+     * @summary Edit a question of an exam
+     * @param {string} authorization Authorization token
+     * @param {EditExamQuestionData} data Data needed to edit a question of an exam
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExamApi
+     */
+    public editExamQuestionV1(authorization: string, data: EditExamQuestionData, options?: RawAxiosRequestConfig) {
+        return ExamApiFp(this.configuration).editExamQuestionV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

@@ -45,6 +45,8 @@ export class AppTranslationBase {
     SearchCoursesText: string = "Search Course";
     SearchCourseText: string = "Search Courses";
     SearchExamText: string = "Search Exams";
+    QuestionTitleText: string = "Question Title";
+    DescriptionText: string = "Description";
     EditCourseText: string = "Edit Course";
     ManageExamsText: string = "Manage Exams";
     AddExamText: string = "Add Exam";
@@ -58,6 +60,9 @@ export class AppTranslationBase {
     SaveText: string = "Save";
     ParticipateText: string = "Participate";
     ConfirmText: string = "Confirm";
+    SubmitText: string = "Submit";
+    ChosenOptionText: string = "Chosen Option";
+    OptionText: string = "Option";
     EditText: string = "Edit";
     UserInformationText: string = "User Information";
     CourseInformationText: string = "Course Information";

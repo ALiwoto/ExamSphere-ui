@@ -20,6 +20,7 @@ import { forceUpdateSearchUserPage } from './pages/searchUserPage';
 import { forceUpdateUserInfoPage } from './pages/userInfoPage';
 import { forceUpdateSearchExamPage } from './pages/searchExamPage';
 import { forceUpdateChangePasswordPage } from './pages/changePasswordPage';
+import { forceUpdateExamHallPage } from './pages/examHallPage';
 
 /**
  * This function forces a re-render of all the pages in the app.
@@ -37,6 +38,7 @@ const forceUpdateWholePage = () => {
         forceUpdateCreateTopicPage();
         forceUpdateCreateUserPage();
         forceUpdateDashboardPage();
+        forceUpdateExamHallPage();
         forceUpdateExamInfoPage();
         forceUpdateLoginPage();
         forceUpdateSearchCoursePage();

@@ -18,6 +18,10 @@ import { DashboardContainer } from '../components/containers/dashboardContainer'
 import { timeAgo } from '../utils/timeUtils';
 import { CurrentAppTranslation } from '../translations/appTranslation';
 import { autoSetWindowTitle } from '../utils/commonUtils';
+import useAppSnackbar from '../components/snackbars/useAppSnackbars';
+import { extractErrorDetails } from '../utils/errorUtils';
+
+const PageLimit = 10;
 
 export var forceUpdateSearchCoursePage = () => {};
 
@@ -81,7 +85,7 @@ const SearchCoursePage = () => {
     const [, setForceUpdate] = useReducer(x => x + 1, 0);
     const [page, setPage] = useState<number>(providedPage ? parseInt(providedPage) - 1 : 0);
     const [totalPages, setTotalPages] = useState(page + 1);
-    const limit = 10;
+    const snackbar = useAppSnackbar();
 
     forceUpdateSearchCoursePage = () => setForceUpdate();
 
@@ -93,25 +97,34 @@ const SearchCoursePage = () => {
         );
 
         setIsLoading(true);
-        const results = await apiClient.searchCourse({
-            course_name: query,
-            offset: newPage * limit,
-            limit: limit,
-        })
 
-        if (!results || !results.courses) {
+        try {
+            const results = await apiClient.searchCourse({
+                course_name: query,
+                offset: newPage * PageLimit,
+                limit: PageLimit,
+            })
+    
+            if (!results || !results.courses) {
+                setCourses([]);
+                setIsLoading(false);
+                return;
+            }
+    
+            // we need to do setTotalPages dynamically, e.g. if the limit is reached,
+            // we should add one more page. if the amount of results returned is less than
+            // the limit, we shouldn't increment the total pages.
+            const newTotalPages = results.courses.length < PageLimit ? (newPage + 1) : newPage + 2;
+            setTotalPages(newTotalPages);
+    
+            setPage(newPage);
+            setCourses(results.courses!);
+        } catch (error: any) {
+            const [errCode, errMessage] = extractErrorDetails(error);
+            snackbar.error(`Failed to search course (${errCode}): ${errMessage}`);
             setIsLoading(false);
             return;
         }
-
-        // we need to do setTotalPages dynamically, e.g. if the limit is reached,
-        // we should add one more page. if the amount of results returned is less than
-        // the limit, we shouldn't increment the total pages.
-        const newTotalPages = results.courses.length < limit ? (newPage + 1) : newPage + 2;
-        setTotalPages(newTotalPages);
-
-        setPage(newPage);
-        setCourses(results.courses!);
         setIsLoading(false);
     };
 

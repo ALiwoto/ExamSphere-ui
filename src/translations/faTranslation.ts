@@ -43,6 +43,8 @@ class FaTranslation extends AppTranslationBase {
     SearchCoursesText: string = "جستجوی دوره ها";
     SearchCourseText: string = "جستجوی دوره";
     SearchExamText: string = "جستجوی آزمون ها";
+    QuestionTitleText: string = "عنوان سوال";
+    DescriptionText: string = "توضیحات";
     EditCourseText: string = "ویرایش دوره";
     ManageExamsText: string = "مدیریت آزمون ها";
     AddExamText: string = "افزودن آزمون";
@@ -55,6 +57,9 @@ class FaTranslation extends AppTranslationBase {
     SaveText: string = "ذخیره";
     ParticipateText: string = "شرکت در آزمون";
     ConfirmText: string = "تایید";
+    SubmitText: string = "ثبت";
+    ChosenOptionText: string = "گزینه انتخابی";
+    OptionText: string = "گزینه";
     EditText: string = "ویرایش";
     UserInformationText: string = "اطلاعات کاربر";
     CourseInformationText: string = "اطلاعات دوره";

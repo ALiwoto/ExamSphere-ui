@@ -31,7 +31,10 @@ const RenderProfileMenu = () => {
     return (
         <MenuItem label={CurrentAppTranslation.ProfileText}>
             <MenuItem label={CurrentAppTranslation.EditProfileText}></MenuItem>
-            <MenuItem label={CurrentAppTranslation.ChangePasswordText}></MenuItem>
+            <MenuItem
+                label={CurrentAppTranslation.ChangePasswordText}
+                href='/changePassword'
+            ></MenuItem>
         </MenuItem>
     )
 };
@@ -39,16 +42,18 @@ const RenderProfileMenu = () => {
 const RenderManageUserMenu = () => {
     return (
         <MenuItem label={CurrentAppTranslation.ManageUsersText}>
-            <MenuItem
+            {apiClient.canCreateNewUsers() && (<MenuItem
                 label={CurrentAppTranslation.AddUserText}
                 href='/createUser'
             >
             </MenuItem>
-            <MenuItem
+            )}
+            {apiClient.canEditUserInfo() && (<MenuItem
                 label={CurrentAppTranslation.EditUserInfoText}
-                href='/searchUser'
+                href='/searchUser?edit=true'
             >
             </MenuItem>
+            )}
             <MenuItem
                 label={CurrentAppTranslation.ChangeUserPasswordText}
                 href='/changePassword'
@@ -173,7 +178,6 @@ const SideMenu: React.FC<SideMenuProps> = ({ ...props }) => {
             <SideMenuContainer $isOpen={props?.isOpen ?? false}>
                 <MenuButton onClick={props?.toggleMenu}>✕</MenuButton>
                 {RenderProfileMenu()}
-                {RenderManageUserMenu()}
                 {RenderManageExamsMenu()}
                 {RenderCommonMenus()}
             </SideMenuContainer>

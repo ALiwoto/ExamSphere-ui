@@ -43,6 +43,15 @@ import {
     ChangePasswordData,
     ChangePasswordResult,
     ConfirmChangePasswordData,
+    GetExamQuestionsData,
+    GetExamQuestionsResult,
+    ExamQuestionInfo,
+    CreateExamQuestionData,
+    CreateExamQuestionResult,
+    AnswerQuestionData,
+    AnswerQuestionResult,
+    EditExamQuestionData,
+    EditExamQuestionResult,
 } from './api';
 import { canParseAsNumber } from './utils/textUtils';
 import { SupportedTranslations } from './translations/translationSwitcher';
@@ -121,7 +130,7 @@ class ExamSphereAPIClient extends UserApi {
         this.configuration.basePath = this.basePath;
     }
 
-    
+
     public getCurrentUserId(): string | null {
         return this.currentUserInfo?.user_id ?? null;
     }
@@ -283,6 +292,38 @@ class ExamSphereAPIClient extends UserApi {
         }
 
         return examInfo;
+    }
+
+    public async getExamQuestions(data: GetExamQuestionsData): Promise<GetExamQuestionsResult> {
+        if (!this.isLoggedIn()) {
+            throw new Error("Not logged in");
+        }
+
+        let examQuestions = (await this.examApi.getExamQuestionsV1(`Bearer ${this.accessToken}`, data))?.data.result;
+        if (!examQuestions) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to get exam questions");
+        }
+
+        return examQuestions;
+    }
+
+    /**
+     * Gets the question options from the question info.
+     * The question options are the options that the user can choose from.
+     * @todo This method should be moved to a more appropriate place.
+     * Perhaps dynamically load this from api in future?
+     * @param questionInfo The question info.
+     * @returns the question options.
+     */
+    public getQuestionOptions(questionInfo: ExamQuestionInfo): string[] {
+        return [
+            questionInfo.option1!,
+            questionInfo.option2!,
+            questionInfo.option3!,
+            questionInfo.option4!,
+        ];
     }
 
     public async getCourseInfo(courseId: number): Promise<GetCourseInfoResult> {
@@ -594,6 +635,86 @@ class ExamSphereAPIClient extends UserApi {
         return createExamResult;
     }
 
+    public async createExamQuestion(data: CreateExamQuestionData): Promise<CreateExamQuestionResult> {
+        if (!this.isLoggedIn()) {
+            throw new Error("Not logged in");
+        }
+
+        if (typeof data.exam_id !== 'number') {
+            if (canParseAsNumber(data.exam_id)) {
+                data.exam_id = parseInt(data.exam_id as any);
+            } else {
+                throw new Error("Invalid exam ID");
+            }
+        }
+
+        let createExamQuestionResult = (await this.examApi.createExamQuestionV1(
+            `Bearer ${this.accessToken}`, data))?.data.result;
+        if (!createExamQuestionResult) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to create exam question");
+        }
+
+        return createExamQuestionResult;
+    }
+
+    public async answerExamQuestion(data: AnswerQuestionData): Promise<AnswerQuestionResult> {
+        if (!this.isLoggedIn()) {
+            throw new Error("Not logged in");
+        }
+
+        if (typeof data.exam_id !== 'number') {
+            if (canParseAsNumber(data.exam_id)) {
+                data.exam_id = parseInt(data.exam_id as any);
+            } else {
+                throw new Error("Invalid exam ID");
+            }
+        }
+
+        let answerQuestionResult = (await this.examApi.answerExamQuestionV1(
+            `Bearer ${this.accessToken}`, data))?.data.result;
+        if (!answerQuestionResult) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to answer question");
+        }
+
+        return answerQuestionResult;
+    }
+
+    public async editExamQuestion(data: EditExamQuestionData): Promise<EditExamQuestionResult> {
+        if (!this.isLoggedIn()) {
+            throw new Error("Not logged in");
+        }
+
+        if (typeof data.exam_id !== 'number') {
+            if (canParseAsNumber(data.exam_id)) {
+                data.exam_id = parseInt(data.exam_id as any);
+            } else {
+                throw new Error("Invalid exam ID");
+            }
+        }
+
+        if (typeof data.question_id !== 'number') {
+            if (canParseAsNumber(data.question_id)) {
+                data.question_id = parseInt(data.question_id as any);
+            } else {
+                throw new Error("Invalid question ID");
+            }
+        }
+
+        let editExamQuestionResult = (await this.examApi.editExamQuestionV1(
+            `Bearer ${this.accessToken}`, data))?.data.result;
+        if (!editExamQuestionResult) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to edit exam question");
+        }
+
+        return editExamQuestionResult;
+    }
+
     /**
      * Returns true if we are considered as "logged in" by the API client,
      * This method only checks if the access token is present, it doesn't
@@ -638,6 +759,10 @@ class ExamSphereAPIClient extends UserApi {
     }
 
     public canCreateNewUsers(): boolean {
+        return this.isOwner() || this.isAdmin();
+    }
+
+    public canEditUserInfo(): boolean {
         return this.isOwner() || this.isAdmin();
     }
 
