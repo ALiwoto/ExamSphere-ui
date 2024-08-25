@@ -84,7 +84,7 @@ const RenderAllQuestions: React.FC<RenderQuestionsListProps> = ({ ...props }) =>
                                 value={option}
                                 onChange={(e) => props.handleInputChange(
                                     question.question_id!,
-                                    `option${index}` as keyof ExamQuestionInfo,
+                                    `option${index+1}` as keyof ExamQuestionInfo,
                                     e.target.value
                                 )}
                                 disabled={props.editingId !== question.question_id}

@@ -8,6 +8,7 @@ import { DashboardContainer } from '../components/containers/dashboardContainer'
 import RenderAllQuestions from '../components/rendering/RenderAllQuestions';
 import { autoSetWindowTitle } from '../utils/commonUtils';
 import { CurrentAppTranslation } from '../translations/appTranslation';
+import backgroundImage1 from '../assets/bg/exam_hall1.jpg'
 
 const PageLimit = 10;
 
@@ -109,9 +110,9 @@ const ExamHallPage: React.FC = () => {
         // this function will be called when the user clicks on the edit button
         // for a question. if the question is already being edited, we will cancel
         // the edit mode. otherwise, we will set the editingId to the question_id.
-        if (id == editingId) {
+        setQuestions(questions.filter(q => q.question_id !== -1));
+        if (id === editingId) {
             // remove all questions that have id of -1
-            setQuestions(questions.filter(q => q.question_id !== -1));
             setEditingId(null);
         } else {
             setEditingId(id);
@@ -126,7 +127,7 @@ const ExamHallPage: React.FC = () => {
         if (id === -1 && newExamQuestion) {
             setIsLoading(true);
             try {
-                apiClient.createExamQuestion(newExamQuestion);
+                await apiClient.createExamQuestion(newExamQuestion);
             } catch (error: any) {
                 const [errCode, errMessage] = extractErrorDetails(error);
                 snackbar.error(`Failed to create examQuestion (${errCode}): ${errMessage}`);
@@ -178,6 +179,14 @@ const ExamHallPage: React.FC = () => {
 
     const handleInputChange = (id: number, field: keyof ExamQuestionInfo, value: string) => {
         setQuestions(questions.map(q => q.question_id === id ? { ...q, [field]: value } : q));
+        if (id === -1 && newExamQuestion) {
+            setNewExamQuestion(
+                {
+                    ...newExamQuestion,
+                    [field]: value,
+                }
+            );
+        }
     };
 
     const handleChosenOptionChange = (qId: number, value: string) => {
@@ -230,13 +239,22 @@ const ExamHallPage: React.FC = () => {
         setEditingId(-1);
     }
 
+    console.log(backgroundImage1);
+
     useEffect(() => {
         fetchExamInfo();
         autoSetWindowTitle();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
-        <DashboardContainer>
+        <DashboardContainer style={{
+            backgroundImage: `url(${backgroundImage1})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+        }}
+            titleText={
+                `${CurrentAppTranslation.ExamHallText} - ${examInfo?.exam_title ?? ''}`
+            }>
             <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '80vh' }}>
                 <Box sx={{
                     flexGrow: 1,

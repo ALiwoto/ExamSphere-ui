@@ -11,6 +11,7 @@ interface DashboardContainerProps {
     children?: React.ReactNode;
     style?: React.CSSProperties;
     disableSlideMenu?: boolean;
+    titleText?: string;
 }
 
 export var forceUpdateDashboardContainer: () => void = () => { };
@@ -31,21 +32,24 @@ export const DashboardContainer: React.FC<DashboardContainerProps> = ({ ...props
                 padding: '20px',
                 overflowX: 'hidden',
                 position: 'relative',
-                minHeight:'100vh',
-                backgroundColor:'#f5f5f5',
+                minHeight: '100vh',
+                backgroundColor: '#f5f5f5',
                 ...props.style
             }
         }>
             <HeaderLabel>
-                <TitleLabel>{CurrentAppTranslation.ExamSphereTitleText}</TitleLabel>
+                <TitleLabel>
+                    {props.titleText ?
+                        props.titleText : CurrentAppTranslation.ExamSphereTitleText}
+                </TitleLabel>
                 <MenuButton onClick={toggleMenu}>☰</MenuButton>
             </HeaderLabel>
             {
-                ((props.disableSlideMenu !== true) && 
-                <SideMenu isOpen={isSideMenuOpen}
-                    toggleMenu={toggleMenu}
-                >
-                </SideMenu>)
+                ((props.disableSlideMenu !== true) &&
+                    <SideMenu isOpen={isSideMenuOpen}
+                        toggleMenu={toggleMenu}
+                    >
+                    </SideMenu>)
             }
             {props.children}
         </div>
