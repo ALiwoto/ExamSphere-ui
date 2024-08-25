@@ -6,7 +6,7 @@ class FaTranslation extends AppTranslationBase {
     ShortLang: string = "fa";
 
     //#region Style Attributes
-    fontFamily: string = `"B Kamran", "Vazir", "Shabnam", "Samim", "Iran Sans", "Yekan", "Nazanin", "Tahoma", "Arial", sans-serif`;
+    fontFamily: string = `"Vazirmatn", "B Kamran", "Vazir", "Shabnam", "Samim", "Iran Sans", "Yekan", "Nazanin", "Tahoma", "Arial", sans-serif`;
     direction: TextDirection = "rtl";
     justifyContent: TextJustifyContent = "flex-end";
     textAlign: string = "right";
@@ -80,9 +80,11 @@ class FaTranslation extends AppTranslationBase {
     CreateExamText: string = "ایجاد آزمون";
     AddNewQuestionText: string = "افزودن سوال جدید";
     DeleteTopicButtonText: string = "حذف موضوع";
+    BackToExamInfoText: string = "بازگشت به اطلاعات آزمون";
     CreateCourseButtonText: string = "ایجاد دوره";
     CancelButtonText: string = "لغو";
     SendEmailToUseText: string = "ارسال ایمیل تایید به کاربر";
+    ExamFinishesInText: string = "آزمون پایان می یابد در";
 
     // System messages
     ExamParticipationSuccessText: string = "عملیات شرکت در آزمون با موفقیت انجام شد!";

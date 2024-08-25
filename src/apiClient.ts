@@ -162,12 +162,16 @@ class ExamSphereAPIClient extends UserApi {
         return localStorage.getItem(this.hash_key(key)) ?? undefined;
     }
 
+    private removeItem(key: string): void {
+        localStorage.removeItem(this.hash_key(key));
+    }
+
     /**
      * Clears the access and refresh tokens from the local storage.
      */
     public clearTokens(): void {
-        localStorage.removeItem('ExamSphere_accessToken');
-        localStorage.removeItem('ExamSphere_refreshToken');
+        this.removeItem('ExamSphere_accessToken');
+        this.removeItem('ExamSphere_refreshToken');
         this.accessToken = undefined;
         this.refreshToken = undefined
     }
@@ -776,6 +780,10 @@ class ExamSphereAPIClient extends UserApi {
 
     public canCreateTopics(): boolean {
         return this.isOwner() || this.isAdmin();
+    }
+
+    public canViewExamInfo(): boolean {
+        return this.isLoggedIn();
     }
 
     public canSearchTopics(): boolean {

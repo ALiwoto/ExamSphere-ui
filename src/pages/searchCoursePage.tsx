@@ -41,7 +41,12 @@ const RenderCoursesList = (courses: SearchedCourseInfo[] | undefined, forEdit: b
                 <ListItem key={course.course_id} sx={{ mb: 2 }}>
                     <Paper
                         elevation={3}
-                        sx={{ width: '100%', p: 2, borderRadius: 2 }}
+                        sx={{ 
+                            width: '100%', 
+                            p: 2, 
+                            borderRadius: 2,
+                            cursor: 'pointer',
+                        }}
                         onClick={
                             () => {
                                 // Redirect to course info page, make sure to query encode it

@@ -75,8 +75,10 @@ const RenderAllQuestions: React.FC<RenderQuestionsListProps> = ({ ...props }) =>
                         />
                     )}
                     {apiClient.getQuestionOptions(question).map((option, index) => (
-                        props.editingId !== question.question_id ?
-                            (<Typography key={index} variant="body2">{`${index + 1}. ${option}`}</Typography>) :
+                        props.editingId !== question.question_id || !props.canEditQuestions ?
+                            (<Typography key={index} variant="body2">
+                                {`${index + 1}. ${option}`}
+                            </Typography>) :
                             (<TextField
                                 key={index}
                                 fullWidth

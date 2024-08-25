@@ -8,7 +8,7 @@ export class AppTranslationBase {
     ShortLang: string = "en";
 
     //#region Style Attributes
-    fontFamily: string = `"Roboto", "Helvetica", "Arial", sans-serif`;
+    fontFamily: string = `"Vazirmatn", "Roboto", "Helvetica", "Arial", sans-serif`;
     direction: TextDirection = "ltr";
     justifyContent: TextJustifyContent = "flex-start";
     textAlign: string = "left";
@@ -83,8 +83,10 @@ export class AppTranslationBase {
     CreateExamText: string = "Create Exam";
     AddNewQuestionText: string = "Add New Question";
     DeleteTopicButtonText: string = "Delete Topic";
+    BackToExamInfoText: string = "Back to Exam Info";
     CancelButtonText: string = "Cancel";
     SendEmailToUseText: string = "Send email confirmation to user";
+    ExamFinishesInText: string = "Exam finishes in";
 
     // System messages
     ExamParticipationSuccessText: string = "Successfully participated in the exam!";

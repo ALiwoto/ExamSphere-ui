@@ -104,7 +104,11 @@ const RenderTopicsList = (
                         sx={{ width: '100%', p: 2, borderRadius: 2 }}>
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
-                                <Typography variant="body2">
+                                <Typography variant="body2" sx={
+                                    {
+                                        fontFamily: `${CurrentAppTranslation.fontFamily}`,
+                                    }
+                                }>
                                     {`${CurrentAppTranslation.topic_id}: ${topic.topic_id}`}
                                 </Typography>
                                 <Typography variant="body2">

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { CurrentAppTheme } from '../../themes/appThemeBase';
+import { CurrentAppTranslation } from '../../translations/appTranslation';
 
 const MenuItemWrapper = styled.div`
   cursor: pointer;
@@ -33,36 +34,41 @@ const ChildItem = styled.div`
 `;
 
 interface MenuItemProps {
-  label: string;
-  children?: React.ReactNode;
-  href?: string;
-  onClick?: () => void;
+    label: string;
+    children?: React.ReactNode;
+    href?: string;
+    onClick?: () => void;
 }
 
 const MenuItem: React.FC<MenuItemProps> = ({ ...props }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const { label, children, href } = props;
+    const [isOpen, setIsOpen] = useState(false);
+    const { label, children, href } = props;
 
-  return (
-    <MenuItemWrapper>
-      <MenuItemHeader 
-        onClick={() => {
-          setIsOpen(!isOpen);
-          props.onClick?.();
-        }}
-        href={href}
-      >
-        <div>{label}</div>
-      </MenuItemHeader>
-      {children && (
-        <MenuItemChildren $isOpen={isOpen}>
-          {React.Children.map(children, child => (
-            <ChildItem>{child}</ChildItem>
-          ))}
-        </MenuItemChildren>
-      )}
-    </MenuItemWrapper>
-  );
+    return (
+        <MenuItemWrapper>
+            <MenuItemHeader
+                onClick={() => {
+                    setIsOpen(!isOpen);
+                    props.onClick?.();
+                }}
+                style={{
+                    justifyContent: CurrentAppTranslation.justifyContent,
+                }}
+                href={href}
+            >
+                <div>
+                    {label}
+                </div>
+            </MenuItemHeader>
+            {children && (
+                <MenuItemChildren $isOpen={isOpen}>
+                    {React.Children.map(children, child => (
+                        <ChildItem>{child}</ChildItem>
+                    ))}
+                </MenuItemChildren>
+            )}
+        </MenuItemWrapper>
+    );
 };
 
 export default MenuItem;

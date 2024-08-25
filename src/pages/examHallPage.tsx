@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState } from 'react';
-import { Button, Box, Pagination, CircularProgress } from '@mui/material';
+import { Button, Box, Pagination, CircularProgress, Link, Paper } from '@mui/material';
 import { AnswerQuestionData, CreateExamQuestionData, ExamQuestionInfo, GetExamInfoResult } from '../api';
 import { extractErrorDetails } from '../utils/errorUtils';
 import useAppSnackbar from '../components/snackbars/useAppSnackbars';
@@ -251,10 +251,20 @@ const ExamHallPage: React.FC = () => {
             backgroundImage: `url(${backgroundImage1})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
+            gap: '10px',
         }}
             titleText={
                 `${CurrentAppTranslation.ExamHallText} - ${examInfo?.exam_title ?? ''}`
             }>
+            <Box sx={{ 
+                maxWidth: '650px',
+                width: '100%',
+                margin: '0 auto',
+            }}>
+                <Paper sx={{ backgroundColor: 'white', padding: '8px', margin: '8px', textAlign: 'center' }}>
+                    {`${CurrentAppTranslation.ExamFinishesInText}: ${examInfo?.finishes_in ?? ''}`}
+                </Paper>
+            </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '80vh' }}>
                 <Box sx={{
                     flexGrow: 1,
@@ -281,7 +291,7 @@ const ExamHallPage: React.FC = () => {
                         isParticipating={examInfo?.has_participated ?? false}
                         canEditQuestions={examInfo?.can_edit_question ?? false}
                     />}
-                    {editingId !== -1 && examInfo?.can_edit_question && (
+                    {editingId !== -1 && examInfo?.can_edit_question && !examInfo.has_finished && (
                         <Box sx={{
                             display: 'flex',
                             justifyContent: 'center',
@@ -297,6 +307,17 @@ const ExamHallPage: React.FC = () => {
                 <Box sx={{ display: 'flex', justifyContent: 'center', margin: '0 auto', }}>
                     <Pagination
                         count={totalPages} page={page + 1} onChange={(_, newPage) => handleNextPage(newPage - 1)} />
+                </Box>
+                <Box sx={{ display: 'flex', justifyContent: 'center', margin: '0 auto', }}>
+                    <Link href={`/examInfo?examId=${examId}`} style={{ marginTop: '16px' }}
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                        }}
+                    >
+                        {CurrentAppTranslation.BackToExamInfoText}
+                    </Link>
                 </Box>
             </Box>
         </DashboardContainer>

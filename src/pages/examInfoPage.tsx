@@ -190,16 +190,22 @@ const ExamInfoPage = () => {
         <DashboardContainer>
             <Container maxWidth="sm">
                 <Paper elevation={3} sx={{ p: 3, mt: 4 }}>
+                    <Typography variant="h4" style={{
+                        textAlign: 'center',
+                    }} gutterBottom>
+                        {CurrentAppTranslation.ExamInformationText}
+                    </Typography>
                     <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                        <Typography variant="h4">{CurrentAppTranslation.ExamInformationText}</Typography>
                         <Button variant="contained" onClick={isEditing ? handleSave : handleEdit}>
                             {isEditing ? CurrentAppTranslation.SaveText : CurrentAppTranslation.EditText}
                         </Button>
-                        {(!isEditing && examInfo?.can_participate && !examInfo.has_participated) && (
-                            <Button variant="contained" onClick={handleParticipate}>
-                                {CurrentAppTranslation.ParticipateText}
-                            </Button>
-                        )}
+                        {(!isEditing && examInfo?.can_participate &&
+                            !examInfo.has_participated && 
+                            !examInfo.has_finished && !examInfo.can_edit_question) && (
+                                <Button variant="contained" onClick={handleParticipate}>
+                                    {CurrentAppTranslation.ParticipateText}
+                                </Button>
+                            )}
                         {(!isEditing && examInfo?.can_edit_question) && (
                             <Button variant="contained" onClick={handleExamHall}>
                                 {CurrentAppTranslation.QuestionsText}
@@ -211,6 +217,7 @@ const ExamInfoPage = () => {
                             </Button>
                         )}
                     </Box>
+                    <hr />
                     <Grid container spacing={2}>
                         {RenderAllFields({
                             data: examData,
