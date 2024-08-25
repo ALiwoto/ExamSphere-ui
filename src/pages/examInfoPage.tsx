@@ -12,10 +12,16 @@ import RenderAllFields from '../components/rendering/RenderAllFields';
 
 export var forceUpdateExamInfoPage = () => { };
 
+interface DisplayingExamData extends EditExamData {
+    has_participated?: boolean;
+    has_started?: boolean;
+    has_finished?: boolean;
+}
+
 var ExamCountdownId = 0;
 
 const ExamInfoPage = () => {
-    const [examData, setExamData] = useState<EditExamData>({
+    const [examData, setExamData] = useState<DisplayingExamData>({
         exam_id: 0,
         course_id: 0,
         exam_title: '',
@@ -58,6 +64,9 @@ const ExamInfoPage = () => {
                 duration: result.duration,
                 exam_date: getUTCUnixTimestamp(getDateFromServerTimestamp(result.exam_date)!),
                 is_public: result.is_public,
+                has_participated: result.has_participated,
+                has_finished: result.has_finished,
+                has_started: result.has_started,
             });
             setExamInfo(result);
 
@@ -196,11 +205,13 @@ const ExamInfoPage = () => {
                         {CurrentAppTranslation.ExamInformationText}
                     </Typography>
                     <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                        <Button variant="contained" onClick={isEditing ? handleSave : handleEdit}>
-                            {isEditing ? CurrentAppTranslation.SaveText : CurrentAppTranslation.EditText}
-                        </Button>
+                        {examInfo?.can_edit_question && (
+                            <Button variant="contained" onClick={isEditing ? handleSave : handleEdit}>
+                                {isEditing ? CurrentAppTranslation.SaveText : CurrentAppTranslation.EditText}
+                            </Button>
+                        )}
                         {(!isEditing && examInfo?.can_participate &&
-                            !examInfo.has_participated && 
+                            !examInfo.has_participated &&
                             !examInfo.has_finished && !examInfo.can_edit_question) && (
                                 <Button variant="contained" onClick={handleParticipate}>
                                     {CurrentAppTranslation.ParticipateText}
@@ -224,7 +235,13 @@ const ExamInfoPage = () => {
                             handleInputChange: handleChange,
                             isEditing: isEditing,
                             disablePast: true,
-                            noEditFields: ['exam_id'],
+                            disableDateTimePickers: examInfo?.has_finished,
+                            noEditFields: [
+                                'exam_id',
+                                'has_participated',
+                                'has_started',
+                                'has_finished',
+                            ],
                         })}
                     </Grid>
                 </Paper>

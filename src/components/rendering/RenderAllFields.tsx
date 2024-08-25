@@ -14,6 +14,7 @@ interface RenderAllFieldsProps {
     disablePast?: boolean;
     excludedFields?: string[];
     noEditFields?: string[];
+    disableDateTimePickers?: boolean;
 }
 
 const RenderAllFields = (props: RenderAllFieldsProps) => {
@@ -56,6 +57,7 @@ const RenderAllFields = (props: RenderAllFieldsProps) => {
                     label={CurrentAppTranslation[field as keyof (typeof CurrentAppTranslation)]}
                     value={data[field] ?? ''}
                     dateType={CurrentAppTranslation.CalendarType}
+                    disabled={props.disableDateTimePickers ?? false}
                     onChange={(newValue: any) => {
                         handleInputChange({
                             target: {

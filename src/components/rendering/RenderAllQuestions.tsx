@@ -8,6 +8,10 @@ import { CurrentAppTranslation } from "../../translations/appTranslation";
 
 interface RenderQuestionsListProps {
     questions: ExamQuestionInfo[];
+
+    /**
+     * The id of the question that is currently being edited.
+     */
     editingId: number | null;
 
     /**
@@ -22,6 +26,11 @@ interface RenderQuestionsListProps {
      */
     canEditQuestions: boolean;
 
+    /**
+     * Whether the exam is finished.
+     */
+    isExamFinished?: boolean;
+
     handleEdit: (qId: number) => void;
     handleSubmit: (qId: number) => void;
     handleInputChange: (qId: number, field: keyof ExamQuestionInfo, value: string) => void;
@@ -30,14 +39,29 @@ interface RenderQuestionsListProps {
 }
 
 const RenderAllQuestions: React.FC<RenderQuestionsListProps> = ({ ...props }) => {
-    console.log(props.questions);
+    if (!props.questions || props.questions.length === 0) {
+        return (
+            <Typography variant="body2" sx={{ textAlign: 'center', mt: 4 }}>
+                {CurrentAppTranslation.ExamHasNoQuestionsYetText}
+            </Typography>
+        );
+    }
+
     return (
-        <Container maxWidth="md">
+        <Container maxWidth="md" >
             {props.questions.map((question) => (
                 <Paper key={question.question_id} elevation={3} sx={{ p: 3, mb: 3 }}>
-                    <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+                    <Box display="flex"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        mb={2}>
                         {props.editingId !== question.question_id || !props.canEditQuestions ? (
-                            <Typography variant="h6">
+                            <Typography variant="h6"
+                                style={{
+                                    justifyContent: CurrentAppTranslation.justifyContent,
+                                    direction: CurrentAppTranslation.direction,
+                                }}
+                            >
                                 {question.question_title}
                             </Typography>
                         ) : (
@@ -49,21 +73,32 @@ const RenderAllQuestions: React.FC<RenderQuestionsListProps> = ({ ...props }) =>
                                 disabled={props.editingId !== question.question_id}
                             />
                         )}
-                        <Button
-                            variant="contained"
-                            color={props.editingId === question.question_id ? "secondary" : "primary"}
-                            onClick={() => props.handleEdit(question.question_id!)}
-                        >
-                            {props.editingId === question.question_id ?
-                                CurrentAppTranslation.CancelButtonText :
-                                CurrentAppTranslation.EditText}
-                        </Button>
+                        {!props.isExamFinished && (
+                            <Button
+                                variant="contained"
+                                color={props.editingId === question.question_id ? "secondary" : "primary"}
+                                onClick={() => props.handleEdit(question.question_id!)}
+                            >
+                                {props.editingId === question.question_id ?
+                                    CurrentAppTranslation.CancelButtonText :
+                                    CurrentAppTranslation.EditText}
+                            </Button>
+                        )}
                     </Box>
                     {props.editingId !== question.question_id || !props.canEditQuestions ? (
-                        <Typography variant="body1" gutterBottom>
+                        <Typography variant="body1"
+                            sx={{
+                                justifyContent: CurrentAppTranslation.justifyContent,
+                                direction: CurrentAppTranslation.direction,
+                            }}
+                            gutterBottom>
                             {question.description}
                         </Typography>) : (
                         <TextField
+                            sx={{
+                                justifyContent: CurrentAppTranslation.justifyContent,
+                                direction: CurrentAppTranslation.direction,
+                            }}
                             fullWidth
                             multiline
                             rows={3}
@@ -76,9 +111,16 @@ const RenderAllQuestions: React.FC<RenderQuestionsListProps> = ({ ...props }) =>
                     )}
                     {apiClient.getQuestionOptions(question).map((option, index) => (
                         props.editingId !== question.question_id || !props.canEditQuestions ?
-                            (<Typography key={index} variant="body2">
-                                {`${index + 1}. ${option}`}
-                            </Typography>) :
+                            (
+                                <Typography key={index} variant="body2" sx={{
+                                    justifyContent: CurrentAppTranslation.justifyContent,
+                                    direction: CurrentAppTranslation.direction,
+                                }}>
+                                    {`${CurrentAppTranslation.OptionText} ${index + 1}${
+                                        CurrentAppTranslation.OptionSeparatorChar
+                                    } ${option}`}
+                                </Typography>
+                            ) :
                             (<TextField
                                 key={index}
                                 fullWidth
@@ -86,7 +128,7 @@ const RenderAllQuestions: React.FC<RenderQuestionsListProps> = ({ ...props }) =>
                                 value={option}
                                 onChange={(e) => props.handleInputChange(
                                     question.question_id!,
-                                    `option${index+1}` as keyof ExamQuestionInfo,
+                                    `option${index + 1}` as keyof ExamQuestionInfo,
                                     e.target.value
                                 )}
                                 disabled={props.editingId !== question.question_id}
@@ -106,11 +148,15 @@ const RenderAllQuestions: React.FC<RenderQuestionsListProps> = ({ ...props }) =>
                             fullWidth
                             multiline
                             rows={3}
-                            label="Answer Text"
+                            label={CurrentAppTranslation.AnswerFieldText}
                             value={question.user_answer?.answer}
                             onChange={(e) => props.handleAnswerTextChange(question.question_id!, e.target.value)}
                             disabled={props.editingId !== question.question_id!}
                             margin="normal"
+                            style={{
+                                justifyContent: CurrentAppTranslation.justifyContent,
+                                direction: CurrentAppTranslation.direction,
+                            }}
                         />)}
                     {props.editingId === question.question_id && (
                         <Button

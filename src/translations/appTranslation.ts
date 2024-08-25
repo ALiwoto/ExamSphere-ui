@@ -64,7 +64,9 @@ export class AppTranslationBase {
     ConfirmText: string = "Confirm";
     SubmitText: string = "Submit";
     ChosenOptionText: string = "Chosen Option";
+    AnswerFieldText: string = "Answer Text";
     OptionText: string = "Option";
+    OptionSeparatorChar: string = ".";
     EditText: string = "Edit";
     UserInformationText: string = "User Information";
     CourseInformationText: string = "Course Information";
@@ -87,10 +89,12 @@ export class AppTranslationBase {
     CancelButtonText: string = "Cancel";
     SendEmailToUseText: string = "Send email confirmation to user";
     ExamFinishesInText: string = "Exam finishes in";
+    ExamFinishedText: string = "Exam finished!";
 
     // System messages
     ExamParticipationSuccessText: string = "Successfully participated in the exam!";
     LanguageChangedSuccessfullyText: string = "Language changed successfully!";
+    ExamHasNoQuestionsYetText: string = "This exam has no questions yet!";
     EmailForPassWilLBeSentText: string = "An email will be sent to you for password change.";
     UserUpdatedSuccessfullyText: string = "User updated successfully!";
     PasswordChangedSuccessfullyText: string = "Password changed successfully!";
@@ -118,6 +122,9 @@ export class AppTranslationBase {
 
     //#region API response fields translations
 
+    has_started: string = "Is Started";
+    has_finished: string = "Is Finished";
+    has_participated: string = "Has Participated";
     setup_completed: string = "Send email confirmation to user";
     is_public: string = "Is Public";
     exam_date: string = "Exam Date";

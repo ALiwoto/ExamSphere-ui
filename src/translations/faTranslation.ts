@@ -61,7 +61,9 @@ class FaTranslation extends AppTranslationBase {
     ConfirmText: string = "تایید";
     SubmitText: string = "ثبت";
     ChosenOptionText: string = "گزینه انتخابی";
+    AnswerFieldText: string = "متن پاسخ";
     OptionText: string = "گزینه";
+    OptionSeparatorChar: string = ")";
     EditText: string = "ویرایش";
     UserInformationText: string = "اطلاعات کاربر";
     CourseInformationText: string = "اطلاعات دوره";
@@ -85,10 +87,12 @@ class FaTranslation extends AppTranslationBase {
     CancelButtonText: string = "لغو";
     SendEmailToUseText: string = "ارسال ایمیل تایید به کاربر";
     ExamFinishesInText: string = "آزمون پایان می یابد در";
+    ExamFinishedText: string = "آزمون پایان یافت!";
 
     // System messages
     ExamParticipationSuccessText: string = "عملیات شرکت در آزمون با موفقیت انجام شد!";
     LanguageChangedSuccessfullyText: string = "زبان با موفقیت تغییر یافت";
+    ExamHasNoQuestionsYetText: string = "این آزمون هنوز سوالی ندارد!";
     PasswordChangedSuccessfullyText: string = "رمز عبور با موفقیت تغییر یافت";
     EmailForPassWilLBeSentText: string = "ایمیلی برای تغییر رمز عبور به شما ارسال خواهد شد";
     UserUpdatedSuccessfullyText: string = "کاربر با موفقیت ویرایش شد";
@@ -116,6 +120,9 @@ class FaTranslation extends AppTranslationBase {
 
     //#region API response fields translations
 
+    has_started: string = "شروع شده";
+    has_finished: string = "پایان یافته";
+    has_participated: string = "شرکت کرده";
     setup_completed: string = "ارسال ایمیل تایید به کاربر";
     is_public: string = "عمومی";
     exam_date: string = "تاریخ آزمون";

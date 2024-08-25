@@ -256,13 +256,23 @@ const ExamHallPage: React.FC = () => {
             titleText={
                 `${CurrentAppTranslation.ExamHallText} - ${examInfo?.exam_title ?? ''}`
             }>
-            <Box sx={{ 
+            <Box sx={{
                 maxWidth: '650px',
                 width: '100%',
                 margin: '0 auto',
             }}>
-                <Paper sx={{ backgroundColor: 'white', padding: '8px', margin: '8px', textAlign: 'center' }}>
-                    {`${CurrentAppTranslation.ExamFinishesInText}: ${examInfo?.finishes_in ?? ''}`}
+                <Paper sx={
+                    {
+                        backgroundColor: 'white', 
+                        padding: '8px', 
+                        margin: '8px', 
+                        textAlign: 'center',
+                        direction: `${CurrentAppTranslation.direction}`
+                    }}>
+                    {!examInfo?.has_finished ?
+                        `${CurrentAppTranslation.ExamFinishesInText}: ${examInfo?.finishes_in ?? ''}` :
+                        CurrentAppTranslation.ExamFinishedText
+                    }
                 </Paper>
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '80vh' }}>
@@ -290,6 +300,7 @@ const ExamHallPage: React.FC = () => {
                         handleAnswerTextChange={handleAnswerTextChange}
                         isParticipating={examInfo?.has_participated ?? false}
                         canEditQuestions={examInfo?.can_edit_question ?? false}
+                        isExamFinished={examInfo?.has_finished ?? true}
                     />}
                     {editingId !== -1 && examInfo?.can_edit_question && !examInfo.has_finished && (
                         <Box sx={{
