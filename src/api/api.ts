@@ -215,6 +215,12 @@ export interface AnsweredQuestionInfo {
      * @memberof AnsweredQuestionInfo
      */
     'seconds_taken'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof AnsweredQuestionInfo
+     */
+    'user_id'?: string;
 }
 /**
  * 
@@ -1622,6 +1628,61 @@ export interface EndpointResponse {
 /**
  * 
  * @export
+ * @interface ExamParticipantInfo
+ */
+export interface ExamParticipantInfo {
+    /**
+     * 
+     * @type {string}
+     * @memberof ExamParticipantInfo
+     */
+    'added_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExamParticipantInfo
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ExamParticipantInfo
+     */
+    'exam_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExamParticipantInfo
+     */
+    'final_score'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExamParticipantInfo
+     */
+    'full_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExamParticipantInfo
+     */
+    'price'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExamParticipantInfo
+     */
+    'scored_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExamParticipantInfo
+     */
+    'user_id'?: string;
+}
+/**
+ * 
+ * @export
  * @interface ExamQuestionInfo
  */
 export interface ExamQuestionInfo {
@@ -2068,6 +2129,81 @@ export interface GetExamInfoV1200Response {
 /**
  * 
  * @export
+ * @interface GetExamParticipantsData
+ */
+export interface GetExamParticipantsData {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetExamParticipantsData
+     */
+    'exam_id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetExamParticipantsData
+     */
+    'limit'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetExamParticipantsData
+     */
+    'offset'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface GetExamParticipantsResult
+ */
+export interface GetExamParticipantsResult {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetExamParticipantsResult
+     */
+    'can_set_score'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetExamParticipantsResult
+     */
+    'exam_id'?: number;
+    /**
+     * 
+     * @type {Array<ExamParticipantInfo>}
+     * @memberof GetExamParticipantsResult
+     */
+    'participants'?: Array<ExamParticipantInfo>;
+}
+/**
+ * 
+ * @export
+ * @interface GetExamParticipantsV1200Response
+ */
+export interface GetExamParticipantsV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof GetExamParticipantsV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {GetExamParticipantsResult}
+     * @memberof GetExamParticipantsV1200Response
+     */
+    'result'?: GetExamParticipantsResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetExamParticipantsV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
  * @interface GetExamQuestionsData
  */
 export interface GetExamQuestionsData {
@@ -2089,6 +2225,12 @@ export interface GetExamQuestionsData {
      * @memberof GetExamQuestionsData
      */
     'offset'?: number;
+    /**
+     * Point of view
+     * @type {string}
+     * @memberof GetExamQuestionsData
+     */
+    'pov'?: string;
 }
 /**
  * 
@@ -2102,6 +2244,12 @@ export interface GetExamQuestionsResult {
      * @memberof GetExamQuestionsResult
      */
     'exam_id'?: number;
+    /**
+     * Point of view
+     * @type {string}
+     * @memberof GetExamQuestionsResult
+     */
+    'pov'?: string;
     /**
      * 
      * @type {Array<ExamQuestionInfo>}
@@ -3249,81 +3397,81 @@ export interface SearchedUserInfo {
 /**
  * 
  * @export
- * @interface SetScoreData
+ * @interface SetExamScoreData
  */
-export interface SetScoreData {
+export interface SetExamScoreData {
     /**
      * ExamId is the exam we are trying to give this score to.
      * @type {number}
-     * @memberof SetScoreData
+     * @memberof SetExamScoreData
      */
     'exam_id'?: number;
     /**
      * Score is the score we are trying to give to the user.
      * @type {string}
-     * @memberof SetScoreData
+     * @memberof SetExamScoreData
      */
     'score'?: string;
     /**
      * UserId is the person we are trying to give this score to.
      * @type {string}
-     * @memberof SetScoreData
+     * @memberof SetExamScoreData
      */
     'user_id'?: string;
 }
 /**
  * 
  * @export
- * @interface SetScoreResult
+ * @interface SetExamScoreResult
  */
-export interface SetScoreResult {
+export interface SetExamScoreResult {
     /**
      * 
      * @type {number}
-     * @memberof SetScoreResult
+     * @memberof SetExamScoreResult
      */
     'exam_id'?: number;
     /**
      * 
      * @type {string}
-     * @memberof SetScoreResult
+     * @memberof SetExamScoreResult
      */
     'score'?: string;
     /**
      * 
      * @type {string}
-     * @memberof SetScoreResult
+     * @memberof SetExamScoreResult
      */
     'scored_by'?: string;
     /**
      * 
      * @type {string}
-     * @memberof SetScoreResult
+     * @memberof SetExamScoreResult
      */
     'user_id'?: string;
 }
 /**
  * 
  * @export
- * @interface SetScoreV1200Response
+ * @interface SetExamScoreV1200Response
  */
-export interface SetScoreV1200Response {
+export interface SetExamScoreV1200Response {
     /**
      * 
      * @type {EndpointError}
-     * @memberof SetScoreV1200Response
+     * @memberof SetExamScoreV1200Response
      */
     'error'?: EndpointError;
     /**
      * 
-     * @type {SetScoreResult}
-     * @memberof SetScoreV1200Response
+     * @type {SetExamScoreResult}
+     * @memberof SetExamScoreV1200Response
      */
-    'result'?: SetScoreResult;
+    'result'?: SetExamScoreResult;
     /**
      * 
      * @type {boolean}
-     * @memberof SetScoreV1200Response
+     * @memberof SetExamScoreV1200Response
      */
     'success'?: boolean;
 }
@@ -4330,6 +4478,49 @@ export const ExamApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
+         * Allows the user to get participants of an exam.
+         * @summary Get participants of an exam
+         * @param {string} authorization Authorization token
+         * @param {GetExamParticipantsData} data Data needed to get participants of an exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getExamParticipantsV1: async (authorization: string, data: GetExamParticipantsData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('getExamParticipantsV1', 'authorization', authorization)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('getExamParticipantsV1', 'data', data)
+            const localVarPath = `/api/v1/exam/participants`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Allows the user to get questions of an exam.
          * @summary Get questions of an exam
          * @param {string} authorization Authorization token
@@ -4590,15 +4781,15 @@ export const ExamApiAxiosParamCreator = function (configuration?: Configuration)
          * Allows the user to set score for a user in an exam.
          * @summary Set score for a user in an exam
          * @param {string} authorization Authorization token
-         * @param {SetScoreData} data Data needed to set score for a user in an exam
+         * @param {SetExamScoreData} data Data needed to set score for a user in an exam
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        setScoreV1: async (authorization: string, data: SetScoreData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        setExamScoreV1: async (authorization: string, data: SetExamScoreData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'authorization' is not null or undefined
-            assertParamExists('setScoreV1', 'authorization', authorization)
+            assertParamExists('setExamScoreV1', 'authorization', authorization)
             // verify required parameter 'data' is not null or undefined
-            assertParamExists('setScoreV1', 'data', data)
+            assertParamExists('setExamScoreV1', 'data', data)
             const localVarPath = `/api/v1/exam/setScore`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -4724,6 +4915,20 @@ export const ExamApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Allows the user to get participants of an exam.
+         * @summary Get participants of an exam
+         * @param {string} authorization Authorization token
+         * @param {GetExamParticipantsData} data Data needed to get participants of an exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getExamParticipantsV1(authorization: string, data: GetExamParticipantsData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetExamParticipantsV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getExamParticipantsV1(authorization, data, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ExamApi.getExamParticipantsV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Allows the user to get questions of an exam.
          * @summary Get questions of an exam
          * @param {string} authorization Authorization token
@@ -4811,14 +5016,14 @@ export const ExamApiFp = function(configuration?: Configuration) {
          * Allows the user to set score for a user in an exam.
          * @summary Set score for a user in an exam
          * @param {string} authorization Authorization token
-         * @param {SetScoreData} data Data needed to set score for a user in an exam
+         * @param {SetExamScoreData} data Data needed to set score for a user in an exam
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async setScoreV1(authorization: string, data: SetScoreData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SetScoreV1200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.setScoreV1(authorization, data, options);
+        async setExamScoreV1(authorization: string, data: SetExamScoreData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SetExamScoreV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.setExamScoreV1(authorization, data, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ExamApi.setScoreV1']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['ExamApi.setExamScoreV1']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -4898,6 +5103,17 @@ export const ExamApiFactory = function (configuration?: Configuration, basePath?
             return localVarFp.getExamInfoV1(authorization, id, options).then((request) => request(axios, basePath));
         },
         /**
+         * Allows the user to get participants of an exam.
+         * @summary Get participants of an exam
+         * @param {string} authorization Authorization token
+         * @param {GetExamParticipantsData} data Data needed to get participants of an exam
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getExamParticipantsV1(authorization: string, data: GetExamParticipantsData, options?: any): AxiosPromise<GetExamParticipantsV1200Response> {
+            return localVarFp.getExamParticipantsV1(authorization, data, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Allows the user to get questions of an exam.
          * @summary Get questions of an exam
          * @param {string} authorization Authorization token
@@ -4967,12 +5183,12 @@ export const ExamApiFactory = function (configuration?: Configuration, basePath?
          * Allows the user to set score for a user in an exam.
          * @summary Set score for a user in an exam
          * @param {string} authorization Authorization token
-         * @param {SetScoreData} data Data needed to set score for a user in an exam
+         * @param {SetExamScoreData} data Data needed to set score for a user in an exam
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        setScoreV1(authorization: string, data: SetScoreData, options?: any): AxiosPromise<SetScoreV1200Response> {
-            return localVarFp.setScoreV1(authorization, data, options).then((request) => request(axios, basePath));
+        setExamScoreV1(authorization: string, data: SetExamScoreData, options?: any): AxiosPromise<SetExamScoreV1200Response> {
+            return localVarFp.setExamScoreV1(authorization, data, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -5063,6 +5279,19 @@ export class ExamApi extends BaseAPI {
     }
 
     /**
+     * Allows the user to get participants of an exam.
+     * @summary Get participants of an exam
+     * @param {string} authorization Authorization token
+     * @param {GetExamParticipantsData} data Data needed to get participants of an exam
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExamApi
+     */
+    public getExamParticipantsV1(authorization: string, data: GetExamParticipantsData, options?: RawAxiosRequestConfig) {
+        return ExamApiFp(this.configuration).getExamParticipantsV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Allows the user to get questions of an exam.
      * @summary Get questions of an exam
      * @param {string} authorization Authorization token
@@ -5144,13 +5373,13 @@ export class ExamApi extends BaseAPI {
      * Allows the user to set score for a user in an exam.
      * @summary Set score for a user in an exam
      * @param {string} authorization Authorization token
-     * @param {SetScoreData} data Data needed to set score for a user in an exam
+     * @param {SetExamScoreData} data Data needed to set score for a user in an exam
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ExamApi
      */
-    public setScoreV1(authorization: string, data: SetScoreData, options?: RawAxiosRequestConfig) {
-        return ExamApiFp(this.configuration).setScoreV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
+    public setExamScoreV1(authorization: string, data: SetExamScoreData, options?: RawAxiosRequestConfig) {
+        return ExamApiFp(this.configuration).setExamScoreV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

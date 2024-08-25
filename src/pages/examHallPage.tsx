@@ -10,7 +10,7 @@ import { autoSetWindowTitle } from '../utils/commonUtils';
 import { CurrentAppTranslation } from '../translations/appTranslation';
 import backgroundImage1 from '../assets/bg/exam_hall1.jpg'
 
-const PageLimit = 10;
+const PageLimit = 4;
 
 export var forceUpdateExamHallPage = () => { };
 
@@ -18,6 +18,8 @@ const ExamHallPage: React.FC = () => {
     const urlSearch = new URLSearchParams(window.location.search);
     const examId = parseInt(urlSearch.get('examId')!);
     const providedPage = urlSearch.get('page');
+    const pov = apiClient.canTryUsingPovExamFeature() ? urlSearch.get('pov') : '';
+    const hasPov = pov && pov.length > 0;
     const [examInfo, setExamInfo] = useState<GetExamInfoResult | null>(null);
     const [page, setPage] = useState<number>(providedPage ? parseInt(providedPage) - 1 : 0);
     const [totalPages, setTotalPages] = useState(page + 1);
@@ -38,8 +40,15 @@ const ExamHallPage: React.FC = () => {
                 exam_id: examId!,
                 offset: page * PageLimit,
                 limit: PageLimit,
+                pov: pov!,
             });
             setQuestions(result.questions!);
+
+            // we need to do setTotalPages dynamically, e.g. if the limit is reached,
+            // we should add one more page. if the amount of results returned is less than
+            // the limit, we shouldn't increment the total pages.
+            const newTotalPages = (result.questions?.length ?? 0) < PageLimit ? (page + 1) : page + 2;
+            setTotalPages(newTotalPages);
             return result;
         } catch (error: any) {
             const [errCode, errMessage] = extractErrorDetails(error);
@@ -64,6 +73,8 @@ const ExamHallPage: React.FC = () => {
         } catch (error: any) {
             const [errCode, errMessage] = extractErrorDetails(error);
             snackbar.error(`Failed to get examInfo (${errCode}): ${errMessage}`);
+            setIsLoading(false);
+            return;
         }
 
         await fetchQuestions();
@@ -71,10 +82,15 @@ const ExamHallPage: React.FC = () => {
     };
 
     const handleNextPage = async (newPage: number) => {
+        let extraQueries = `&page=${newPage + 1}`;
+        if (hasPov) {
+            extraQueries = `&pov=${pov}`;
+        }
+
         window.history.pushState(
             `examHall_page_${newPage + 1}`,
             "Exam Hall",
-            `${window.location.pathname}?examId=${examId}&page=${newPage + 1}`,
+            `${window.location.pathname}?examId=${examId}${extraQueries}`,
         );
 
         setIsLoading(true);
@@ -84,6 +100,7 @@ const ExamHallPage: React.FC = () => {
                 exam_id: examId!,
                 offset: newPage * PageLimit,
                 limit: PageLimit,
+                pov: pov!,
             });
 
             if (!result || !result.questions) {
@@ -100,10 +117,19 @@ const ExamHallPage: React.FC = () => {
 
             setPage(newPage);
             setQuestions(result.questions);
+            setIsLoading(false);
         } catch (error: any) {
             const [errCode, errMessage] = extractErrorDetails(error);
             snackbar.error(`Failed to get examQuestions (${errCode}): ${errMessage}`);
+            setIsLoading(false);
         }
+    };
+
+    const getExamHallTitle = () => {
+        let examHallTitle = !examInfo?.has_finished ?
+            `${CurrentAppTranslation.ExamFinishesInText}: ${examInfo?.finishes_in ?? ''}` :
+            CurrentAppTranslation.ExamFinishedText;
+        return examHallTitle;
     };
 
     const handleEdit = (id: number) => {
@@ -139,7 +165,19 @@ const ExamHallPage: React.FC = () => {
             setNewExamQuestion(null);
         } else if (!examInfo?.can_edit_question && answerQuestionData) {
             try {
-                apiClient.answerExamQuestion(answerQuestionData);
+                const question = questions.find(q => q.question_id === id);
+                if (!question) {
+                    throw new Error('Failed to find the question to answer');
+                }
+
+                question.user_answer = {
+                    chosen_option: answerQuestionData.chosen_option,
+                    answer: answerQuestionData.answer_text,
+                    question_id: question.question_id,
+                    seconds_taken: answerQuestionData.seconds_taken,
+                }
+
+                await apiClient.answerExamQuestion(answerQuestionData);
             } catch (error: any) {
                 const [errCode, errMessage] = extractErrorDetails(error);
                 snackbar.error(`Failed to submit answer (${errCode}): ${errMessage}`);
@@ -155,7 +193,7 @@ const ExamHallPage: React.FC = () => {
                     return;
                 }
 
-                apiClient.editExamQuestion({
+                await apiClient.editExamQuestion({
                     exam_id: examId!,
                     question_id: question.question_id,
                     question_title: question.question_title,
@@ -198,6 +236,9 @@ const ExamHallPage: React.FC = () => {
             {
                 ...answerQuestionData,
                 chosen_option: value,
+                exam_id: examId!,
+                question_id: qId,
+                seconds_taken: 0,
             }
         )
     };
@@ -211,6 +252,9 @@ const ExamHallPage: React.FC = () => {
             {
                 ...answerQuestionData,
                 answer_text: value,
+                exam_id: examId!,
+                question_id: qId,
+                seconds_taken: 0,
             }
         )
     }
@@ -239,8 +283,6 @@ const ExamHallPage: React.FC = () => {
         setEditingId(-1);
     }
 
-    console.log(backgroundImage1);
-
     useEffect(() => {
         fetchExamInfo();
         autoSetWindowTitle();
@@ -263,17 +305,26 @@ const ExamHallPage: React.FC = () => {
             }}>
                 <Paper sx={
                     {
-                        backgroundColor: 'white', 
-                        padding: '8px', 
-                        margin: '8px', 
+                        backgroundColor: 'white',
+                        padding: '8px',
+                        margin: '8px',
                         textAlign: 'center',
                         direction: `${CurrentAppTranslation.direction}`
                     }}>
-                    {!examInfo?.has_finished ?
-                        `${CurrentAppTranslation.ExamFinishesInText}: ${examInfo?.finishes_in ?? ''}` :
-                        CurrentAppTranslation.ExamFinishedText
-                    }
+                    {getExamHallTitle()}
                 </Paper>
+                {hasPov && (
+                    <Paper sx={
+                        {
+                            backgroundColor: 'rgb(37, 198, 136)',
+                            padding: '8px',
+                            margin: '8px',
+                            textAlign: 'center',
+                            direction: `${CurrentAppTranslation.direction}`,
+                        }}>
+                        {`${CurrentAppTranslation.AnswersForText} ${pov}`}
+                    </Paper>
+                )}
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '80vh' }}>
                 <Box sx={{
@@ -299,7 +350,7 @@ const ExamHallPage: React.FC = () => {
                         handleChosenOptionChange={handleChosenOptionChange}
                         handleAnswerTextChange={handleAnswerTextChange}
                         isParticipating={examInfo?.has_participated ?? false}
-                        canEditQuestions={examInfo?.can_edit_question ?? false}
+                        canEditQuestions={!hasPov && (examInfo?.can_edit_question ?? false)}
                         isExamFinished={examInfo?.has_finished ?? true}
                     />}
                     {editingId !== -1 && examInfo?.can_edit_question && !examInfo.has_finished && (

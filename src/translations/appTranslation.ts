@@ -63,7 +63,12 @@ export class AppTranslationBase {
     ExamHallText : string = "Exam Hall";
     ConfirmText: string = "Confirm";
     SubmitText: string = "Submit";
+    ScoreText: string = "Score";
+    NotSetText: string = "Not Set";
+    SetScoreText: string = "Set Score";
+    ViewAnswersText: string = "View Answers";
     ChosenOptionText: string = "Chosen Option";
+    AnswersForText: string = "Answers for";
     AnswerFieldText: string = "Answer Text";
     OptionText: string = "Option";
     OptionSeparatorChar: string = ".";

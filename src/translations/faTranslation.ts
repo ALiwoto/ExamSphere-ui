@@ -60,7 +60,12 @@ class FaTranslation extends AppTranslationBase {
     ExamHallText: string = "سالن امتحان";
     ConfirmText: string = "تایید";
     SubmitText: string = "ثبت";
+    ScoreText: string = "نمره";
+    NotSetText: string = "وارد نشده";
+    SetScoreText: string = "تغییر نمره";
+    ViewAnswersText: string = "مشاهده پاسخ ها";
     ChosenOptionText: string = "گزینه انتخابی";
+    AnswersForText: string = "پاسخ های";
     AnswerFieldText: string = "متن پاسخ";
     OptionText: string = "گزینه";
     OptionSeparatorChar: string = ")";

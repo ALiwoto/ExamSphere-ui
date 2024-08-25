@@ -20,6 +20,7 @@ const CreateUserPage: React.FC = () => {
         email: '',
         password: '',
         role: UserRole.UserRoleStudent,
+        setup_completed: true,
     });
     const [, forceUpdate] = useReducer(x => x + 1, 0);
     const snackbar = useAppSnackbar();
@@ -130,8 +131,8 @@ const CreateUserPage: React.FC = () => {
                     <FormControlLabel
                         control={
                             <Checkbox
-                            checked={createUserData.setup_completed ?? true}
-                            onChange={(e) => setUserInfo({ ...createUserData, setup_completed: e.target.checked })}
+                            checked={!(createUserData.setup_completed ?? true)}
+                            onChange={(e) => setUserInfo({ ...createUserData, setup_completed: !e.target.checked })}
                             color="primary"
                             />
                         }

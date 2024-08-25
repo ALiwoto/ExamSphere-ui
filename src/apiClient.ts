@@ -52,6 +52,10 @@ import {
     AnswerQuestionResult,
     EditExamQuestionData,
     EditExamQuestionResult,
+    GetExamParticipantsData,
+    GetExamParticipantsResult,
+    SetExamScoreData,
+    SetExamScoreResult,
 } from './api';
 import { canParseAsNumber } from './utils/textUtils';
 import { SupportedTranslations } from './translations/translationSwitcher';
@@ -298,9 +302,29 @@ class ExamSphereAPIClient extends UserApi {
         return examInfo;
     }
 
+    public async getExamParticipants(data: GetExamParticipantsData): Promise<GetExamParticipantsResult> {
+        if (!this.isLoggedIn()) {
+            throw new Error("Not logged in");
+        }
+
+        let examParticipants = (await this.examApi.getExamParticipantsV1(
+            `Bearer ${this.accessToken}`, data))?.data.result;
+        if (!examParticipants) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to get exam participants");
+        }
+
+        return examParticipants
+    }
+
     public async getExamQuestions(data: GetExamQuestionsData): Promise<GetExamQuestionsResult> {
         if (!this.isLoggedIn()) {
             throw new Error("Not logged in");
+        }
+
+        if (!this.isTeacherOrAdmin()) {
+            data.pov = '';
         }
 
         let examQuestions = (await this.examApi.getExamQuestionsV1(`Bearer ${this.accessToken}`, data))?.data.result;
@@ -436,7 +460,8 @@ class ExamSphereAPIClient extends UserApi {
             throw new Error("Not logged in");
         }
 
-        let participateExamResult = (await this.examApi.participateExamV1(`Bearer ${this.accessToken}`, data))?.data.result;
+        let participateExamResult = (await this.examApi.participateExamV1(
+            `Bearer ${this.accessToken}`, data))?.data.result;
         if (!participateExamResult) {
             // we shouldn't reach here, because if there is an error somewhere,
             // it should have already been thrown by the API client
@@ -444,6 +469,22 @@ class ExamSphereAPIClient extends UserApi {
         }
 
         return participateExamResult;
+    }
+
+    public async setExamScore(data: SetExamScoreData): Promise<SetExamScoreResult> {
+        if (!this.isLoggedIn()) {
+            throw new Error("Not logged in");
+        }
+
+        let setExamScoreResult = (await this.examApi.setExamScoreV1(
+            `Bearer ${this.accessToken}`, data))?.data.result;
+        if (!setExamScoreResult) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to set exam score");
+        }
+
+        return setExamScoreResult;
     }
 
     public async confirmAccount(confirmData: ConfirmAccountData): Promise<boolean> {
@@ -629,7 +670,16 @@ class ExamSphereAPIClient extends UserApi {
             }
         }
 
-        let createExamResult = (await this.examApi.createExamV1(`Bearer ${this.accessToken}`, data))?.data.result;
+        if (typeof data.duration !== 'number') {
+            if (canParseAsNumber(data.duration)) {
+                data.duration = parseInt(data.duration as any);
+            } else {
+                throw new Error("Invalid course ID");
+            }
+        }
+
+        let createExamResult = (await this.examApi.createExamV1(
+            `Bearer ${this.accessToken}`, data))?.data.result;
         if (!createExamResult) {
             // we shouldn't reach here, because if there is an error somewhere,
             // it should have already been thrown by the API client
@@ -672,7 +722,7 @@ class ExamSphereAPIClient extends UserApi {
             if (canParseAsNumber(data.exam_id)) {
                 data.exam_id = parseInt(data.exam_id as any);
             } else {
-                throw new Error("Invalid exam ID");
+                throw new Error(`Invalid exam ID: ${data.exam_id}`);
             }
         }
 
@@ -758,6 +808,10 @@ class ExamSphereAPIClient extends UserApi {
         return this.role === UserRole.UserRoleTeacher;
     }
 
+    public isTeacherOrAdmin(): boolean {
+        return this.isTeacher() || this.isOwner() || this.isAdmin();
+    }
+
     public isStudent(): boolean {
         return this.role === UserRole.UserRoleStudent;
     }
@@ -772,6 +826,28 @@ class ExamSphereAPIClient extends UserApi {
 
     public canChangeOthersPassword(): boolean {
         return this.isOwner() || this.isAdmin();
+    }
+
+    public canTryUsingPovExamFeature(): boolean {
+        return this.isTeacherOrAdmin();
+    }
+
+    public canViewExamQuestionAnswers(examInfo: GetExamInfoResult | null | undefined): boolean {
+        if (!examInfo) {
+            return false;
+        }
+
+        return this.isAdmin() || this.isOwner() ||
+            examInfo.created_by === this.getCurrentUserId();
+    }
+
+    public canSetExamScore(examInfo: GetExamInfoResult | null | undefined): boolean {
+        if (!examInfo) {
+            return false;
+        }
+        
+        return this.isAdmin() || this.isOwner() ||
+            examInfo.created_by === this.getCurrentUserId();
     }
 
     public canSearchUser(): boolean {
