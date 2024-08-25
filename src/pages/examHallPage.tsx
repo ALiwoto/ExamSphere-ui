@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState } from 'react';
-import { Typography, Button, TextField, Paper, Box, Container, Pagination, CircularProgress } from '@mui/material';
+import { Button, Box, Pagination, CircularProgress } from '@mui/material';
 import { AnswerQuestionData, CreateExamQuestionData, ExamQuestionInfo, GetExamInfoResult } from '../api';
 import { extractErrorDetails } from '../utils/errorUtils';
 import useAppSnackbar from '../components/snackbars/useAppSnackbars';
@@ -7,12 +7,13 @@ import apiClient from '../apiClient';
 import { DashboardContainer } from '../components/containers/dashboardContainer';
 import RenderAllQuestions from '../components/rendering/RenderAllQuestions';
 import { autoSetWindowTitle } from '../utils/commonUtils';
+import { CurrentAppTranslation } from '../translations/appTranslation';
 
 const PageLimit = 10;
 
 export var forceUpdateExamHallPage = () => { };
 
-export default function Component() {
+const ExamHallPage: React.FC = () => {
     const urlSearch = new URLSearchParams(window.location.search);
     const examId = parseInt(urlSearch.get('examId')!);
     const providedPage = urlSearch.get('page');
@@ -109,6 +110,8 @@ export default function Component() {
         // for a question. if the question is already being edited, we will cancel
         // the edit mode. otherwise, we will set the editingId to the question_id.
         if (id == editingId) {
+            // remove all questions that have id of -1
+            setQuestions(questions.filter(q => q.question_id !== -1));
             setEditingId(null);
         } else {
             setEditingId(id);
@@ -250,7 +253,7 @@ export default function Component() {
                         }}>
                             <CircularProgress size={60} />
                         </Box>
-                    ) : <RenderAllQuestions editingId={editingId}
+                    ) : <RenderAllQuestions key={`q-renderer-id-${editingId}`} editingId={editingId}
                         questions={questions}
                         handleEdit={handleEdit}
                         handleSubmit={handleSubmit}
@@ -260,7 +263,18 @@ export default function Component() {
                         isParticipating={examInfo?.has_participated ?? false}
                         canEditQuestions={examInfo?.can_edit_question ?? false}
                     />}
-                    <Button variant="contained" color="primary" onClick={handleAddNewQuestion}>Add New Question</Button>
+                    {editingId !== -1 && examInfo?.can_edit_question && (
+                        <Box sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            margin: '0 auto',
+                            mt: 4,
+                        }}>
+                            <Button variant="contained" color="primary" onClick={handleAddNewQuestion}>
+                                {CurrentAppTranslation.AddNewQuestionText}
+                            </Button>
+                        </Box>
+                    )}
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'center', margin: '0 auto', }}>
                     <Pagination
@@ -269,10 +283,6 @@ export default function Component() {
             </Box>
         </DashboardContainer>
     );
-    // return (
-    //     <Container maxWidth="md">
-    //         <Typography variant="h4" gutterBottom>Online Exam</Typography>
-
-    //     </Container>
-    // );
 }
+
+export default ExamHallPage;

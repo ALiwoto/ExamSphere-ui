@@ -56,6 +56,8 @@ class FaTranslation extends AppTranslationBase {
     CreateTopicButtonText: string = "ایجاد موضوع";
     SaveText: string = "ذخیره";
     ParticipateText: string = "شرکت در آزمون";
+    QuestionsText: string = "سوالات";
+    ExamHallText: string = "سالن امتحان";
     ConfirmText: string = "تایید";
     SubmitText: string = "ثبت";
     ChosenOptionText: string = "گزینه انتخابی";
@@ -76,6 +78,7 @@ class FaTranslation extends AppTranslationBase {
     CreateNewCourseText: string = "ایجاد دوره جدید";
     CreateCourseText: string = "ایجاد دوره";
     CreateExamText: string = "ایجاد آزمون";
+    AddNewQuestionText: string = "افزودن سوال جدید";
     DeleteTopicButtonText: string = "حذف موضوع";
     CreateCourseButtonText: string = "ایجاد دوره";
     CancelButtonText: string = "لغو";

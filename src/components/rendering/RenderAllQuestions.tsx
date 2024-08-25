@@ -30,12 +30,13 @@ interface RenderQuestionsListProps {
 }
 
 const RenderAllQuestions: React.FC<RenderQuestionsListProps> = ({ ...props }) => {
+    console.log(props.questions);
     return (
         <Container maxWidth="md">
             {props.questions.map((question) => (
                 <Paper key={question.question_id} elevation={3} sx={{ p: 3, mb: 3 }}>
                     <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                        {props.editingId === question.question_id && props.canEditQuestions ? (
+                        {props.editingId !== question.question_id || !props.canEditQuestions ? (
                             <Typography variant="h6">
                                 {question.question_title}
                             </Typography>
@@ -58,10 +59,10 @@ const RenderAllQuestions: React.FC<RenderQuestionsListProps> = ({ ...props }) =>
                                 CurrentAppTranslation.EditText}
                         </Button>
                     </Box>
-                    {props.editingId === question.question_id && props.canEditQuestions ? (
+                    {props.editingId !== question.question_id || !props.canEditQuestions ? (
                         <Typography variant="body1" gutterBottom>
-                        {question.description}
-                    </Typography>) : (
+                            {question.description}
+                        </Typography>) : (
                         <TextField
                             fullWidth
                             multiline
@@ -74,7 +75,7 @@ const RenderAllQuestions: React.FC<RenderQuestionsListProps> = ({ ...props }) =>
                         />
                     )}
                     {apiClient.getQuestionOptions(question).map((option, index) => (
-                        props.editingId === question.question_id ?
+                        props.editingId !== question.question_id ?
                             (<Typography key={index} variant="body2">{`${index + 1}. ${option}`}</Typography>) :
                             (<TextField
                                 key={index}

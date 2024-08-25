@@ -20,6 +20,7 @@ import ExamInfoPage from './pages/examInfoPage';
 import SearchExamPage from './pages/searchExamPage';
 import ChangePasswordPage from './pages/changePasswordPage';
 import PassChangeRedirectPage from './pages/passChangeRedirectPage';
+import ExamHallPage from './pages/examHallPage';
 
 const App: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(apiClient.isLoggedIn());
@@ -136,6 +137,10 @@ const App: React.FC = () => {
                 <Route
                     path="/searchExam"
                     element={apiClient.canSearchTopics() ? <SearchExamPage /> : <Navigate to="/dashboard" />}
+                />
+                <Route
+                    path="/examHall"
+                    element={isLoggedIn ? <ExamHallPage /> : <Navigate to="/login" />}
                 />
                 <Route path="*" element={<Navigate to={isLoggedIn ? "/dashboard" : "/login"} />} />
             </Routes>

@@ -12,6 +12,8 @@ import RenderAllFields from '../components/rendering/RenderAllFields';
 
 export var forceUpdateExamInfoPage = () => { };
 
+var ExamCountdownId = 0;
+
 const ExamInfoPage = () => {
     const [examData, setExamData] = useState<EditExamData>({
         exam_id: 0,
@@ -26,7 +28,7 @@ const ExamInfoPage = () => {
     const [examInfo, setExamInfo] = useState<GetExamInfoResult | null>(null);
     const [, forceUpdate] = useReducer(x => x + 1, 0);
     const [isEditing, setIsEditing] = useState(false);
-    const [isUserNotFound, setIsUserNotFound] = useState(false);
+    const [isExamNotFound, setIsUserNotFound] = useState(false);
     const snackbar = useAppSnackbar();
 
     forceUpdateExamInfoPage = () => {
@@ -58,6 +60,24 @@ const ExamInfoPage = () => {
                 is_public: result.is_public,
             });
             setExamInfo(result);
+
+            if (examInfo?.can_participate && !examInfo.has_started && !examInfo.has_finished) {
+                ExamCountdownId = window.setInterval(() => {
+                    if (!examInfo.starts_in || examInfo.starts_in < 0) {
+                        clearInterval(ExamCountdownId);
+
+                        // automatically redirect the user to the exam hall
+                        setTimeout(() => {
+                            window.location.href = `/examHall?examId=${targetExamId}`;
+                        }, 5000);
+                    }
+
+                    setExamInfo({
+                        ...examInfo,
+                        starts_in: examInfo.starts_in! - 1,
+                    });
+                }, 60000);
+            }
         } catch (error: any) {
             const [errCode, errMessage] = extractErrorDetails(error);
             snackbar.error(`Failed to get exam info (${errCode}): ${errMessage}`);
@@ -116,15 +136,13 @@ const ExamInfoPage = () => {
                 `examInfo_examId_${examData.exam_id}`,
                 "Exam Info",
                 `${window.location.pathname}?examId=${encodeURIComponent(examData.exam_id!)
-                }&edit=${isEditing ? '0' : '1'
-                }`,
+                }&edit=${isEditing ? '0' : '1'}`,
             );
         } catch (error: any) {
             const [errCode, errMessage] = extractErrorDetails(error);
             snackbar.error(`Failed (${errCode}) - ${errMessage}`);
             return;
         }
-
     };
 
     const handleParticipate = async () => {
@@ -147,6 +165,10 @@ const ExamInfoPage = () => {
         }
     };
 
+    const handleExamHall = () => {
+        window.location.href = `/examHall?examId=${examData.exam_id}`;
+    }
+
     if (!examData) {
         // maybe return better stuff here in future?
         return (
@@ -156,7 +178,7 @@ const ExamInfoPage = () => {
         );
     }
 
-    if (isUserNotFound) {
+    if (isExamNotFound) {
         return (
             <DashboardContainer>
                 <Typography>{CurrentAppTranslation.ExamNotFoundText}</Typography>
@@ -173,15 +195,21 @@ const ExamInfoPage = () => {
                         <Button variant="contained" onClick={isEditing ? handleSave : handleEdit}>
                             {isEditing ? CurrentAppTranslation.SaveText : CurrentAppTranslation.EditText}
                         </Button>
-                        {examInfo?.can_participate && <Button variant="contained" onClick={handleParticipate}>
-                            {CurrentAppTranslation.ParticipateText}
-                        </Button>}
-                        <Button variant="contained" onClick={isEditing ? handleSave : handleEdit}>
-                            {isEditing ? CurrentAppTranslation.SaveText : CurrentAppTranslation.EditText}
-                        </Button>
-                        <Button variant="contained" onClick={isEditing ? handleSave : handleEdit}>
-                            {isEditing ? CurrentAppTranslation.SaveText : CurrentAppTranslation.EditText}
-                        </Button>
+                        {(!isEditing && examInfo?.can_participate && !examInfo.has_participated) && (
+                            <Button variant="contained" onClick={handleParticipate}>
+                                {CurrentAppTranslation.ParticipateText}
+                            </Button>
+                        )}
+                        {(!isEditing && examInfo?.can_edit_question) && (
+                            <Button variant="contained" onClick={handleExamHall}>
+                                {CurrentAppTranslation.QuestionsText}
+                            </Button>
+                        )}
+                        {(!isEditing && examInfo?.has_participated && examInfo.has_started) && (
+                            <Button variant="contained" onClick={handleExamHall}>
+                                {CurrentAppTranslation.ExamHallText}
+                            </Button>
+                        )}
                     </Box>
                     <Grid container spacing={2}>
                         {RenderAllFields({

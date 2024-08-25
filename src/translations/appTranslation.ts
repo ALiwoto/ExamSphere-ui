@@ -59,6 +59,8 @@ export class AppTranslationBase {
     CreateCourseButtonText: string = "Create Course";
     SaveText: string = "Save";
     ParticipateText: string = "Participate";
+    QuestionsText: string = "Questions";
+    ExamHallText : string = "Exam Hall";
     ConfirmText: string = "Confirm";
     SubmitText: string = "Submit";
     ChosenOptionText: string = "Chosen Option";
@@ -79,6 +81,7 @@ export class AppTranslationBase {
     CreateNewCourseText: string = "Create New Course";
     CreateCourseText: string = "Create Course";
     CreateExamText: string = "Create Exam";
+    AddNewQuestionText: string = "Add New Question";
     DeleteTopicButtonText: string = "Delete Topic";
     CancelButtonText: string = "Cancel";
     SendEmailToUseText: string = "Send email confirmation to user";
