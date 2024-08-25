@@ -4,16 +4,16 @@ import apiClient from '../apiClient';
 import { DashboardContainer } from '../components/containers/dashboardContainer';
 import { autoSetWindowTitle } from '../utils/commonUtils';
 
-export var forceUpdateDashboardPage = () => {};
+export var forceUpdateDashboardPage = () => { };
 
-const MainContent = styled.div`
+export const MainContent = styled.div`
   display: flex;
   gap: 20px;
   padding: 20px;
 `;
 
 
-const Section = styled.div`
+export const Section = styled.div`
   flex: 1;
   background-color: #f9f9f9;
   padding: 20px;
@@ -35,12 +35,50 @@ const ListItem = styled.li`
   margin-bottom: 5px;
 `;
 
+const AddMainContent = (legacyContent: boolean = false) => {
+    if (!legacyContent) {
+        return (
+            <MainContent>
+                {/* TODO */}
+            </MainContent>
+        );
+    }
+
+    return (
+        <MainContent>
+            <Section>
+                <SectionTitle>Courses</SectionTitle>
+                <List>
+                    <ListItem>Mathematics</ListItem>
+                    <ListItem>Physics</ListItem>
+                    <ListItem>Chemistry</ListItem>
+                </List>
+            </Section>
+            <Section>
+                <SectionTitle>Exams</SectionTitle>
+                <List>
+                    <ListItem>Midterm Exam</ListItem>
+                    <ListItem>Final Exam</ListItem>
+                    <ListItem>Pop Quiz</ListItem>
+                </List>
+            </Section>
+            <Section>
+                <SectionTitle>Topics</SectionTitle>
+                <List>
+                    <ListItem>Ongoing Exams</ListItem>
+                    <ListItem>Participated Exams</ListItem>
+                </List>
+            </Section>
+        </MainContent>
+    );
+}
+
 const DashboardPage: React.FC = () => {
     const [, forceUpdate] = React.useReducer(x => x + 1, 0);
     forceUpdateDashboardPage = () => {
         forceUpdate();
     }
-    
+
     const fetchUserInfo = async () => {
         try {
             await apiClient.getCurrentUserInfo();
@@ -58,31 +96,7 @@ const DashboardPage: React.FC = () => {
 
     return (
         <DashboardContainer>
-            <MainContent>
-                <Section>
-                    <SectionTitle>Courses</SectionTitle>
-                    <List>
-                        <ListItem>Mathematics</ListItem>
-                        <ListItem>Physics</ListItem>
-                        <ListItem>Chemistry</ListItem>
-                    </List>
-                </Section>
-                <Section>
-                    <SectionTitle>Exams</SectionTitle>
-                    <List>
-                        <ListItem>Midterm Exam</ListItem>
-                        <ListItem>Final Exam</ListItem>
-                        <ListItem>Pop Quiz</ListItem>
-                    </List>
-                </Section>
-                <Section>
-                    <SectionTitle>Topics</SectionTitle>
-                    <List>
-                        <ListItem>Ongoing Exams</ListItem>
-                        <ListItem>Participated Exams</ListItem>
-                    </List>
-                </Section>
-            </MainContent>
+            {AddMainContent()}
         </DashboardContainer>
     )
 };
