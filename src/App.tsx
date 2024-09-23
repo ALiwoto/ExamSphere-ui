@@ -128,7 +128,7 @@ const App: React.FC = () => {
                 />
                 <Route
                     path="/createExam"
-                    element={apiClient.canCreateTopics() ? <CreateExamPage /> : <Navigate to="/dashboard" />}
+                    element={apiClient.canCreateExams() ? <CreateExamPage /> : <Navigate to="/dashboard" />}
                 />
                 <Route
                     path="/examInfo"
