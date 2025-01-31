@@ -21,6 +21,7 @@ import SearchExamPage from './pages/searchExamPage';
 import ChangePasswordPage from './pages/changePasswordPage';
 import PassChangeRedirectPage from './pages/passChangeRedirectPage';
 import ExamHallPage from './pages/examHallPage';
+import PlatformLogsPage from './pages/platformPages/platformLogsPage';
 
 const App: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(apiClient.isLoggedIn());
@@ -141,6 +142,11 @@ const App: React.FC = () => {
                 <Route
                     path="/examHall"
                     element={isLoggedIn ? <ExamHallPage /> : <Navigate to="/login" />}
+                />
+                <Route
+                    path="/platform/logs"
+                    element={isLoggedIn && apiClient.canGetPlatformLogs() ? 
+                    <PlatformLogsPage /> : <Navigate to="/login" />}
                 />
                 <Route path="*" element={<Navigate to={isLoggedIn ? "/dashboard" : "/login"} />} />
             </Routes>

@@ -2411,6 +2411,44 @@ export interface GetMeV1200Response {
 /**
  * 
  * @export
+ * @interface GetPlatformLogsResult
+ */
+export interface GetPlatformLogsResult {
+    /**
+     * 
+     * @type {Array<LoggingLogEntry>}
+     * @memberof GetPlatformLogsResult
+     */
+    'logs'?: Array<LoggingLogEntry>;
+}
+/**
+ * 
+ * @export
+ * @interface GetPlatformLogsV1200Response
+ */
+export interface GetPlatformLogsV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof GetPlatformLogsV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {GetPlatformLogsResult}
+     * @memberof GetPlatformLogsV1200Response
+     */
+    'result'?: GetPlatformLogsResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPlatformLogsV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
  * @interface GetTopicInfoResult
  */
 export interface GetTopicInfoResult {
@@ -2737,6 +2775,61 @@ export interface GetUsersExamHistoryResult {
      */
     'exams'?: Array<UserExamHistoryInfo>;
 }
+/**
+ * 
+ * @export
+ * @interface LoggingLogEntry
+ */
+export interface LoggingLogEntry {
+    /**
+     * 
+     * @type {string}
+     * @memberof LoggingLogEntry
+     */
+    'date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof LoggingLogEntry
+     */
+    'details'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof LoggingLogEntry
+     */
+    'log_id'?: string;
+    /**
+     * 
+     * @type {LoggingLogType}
+     * @memberof LoggingLogEntry
+     */
+    'log_type'?: LoggingLogType;
+    /**
+     * 
+     * @type {string}
+     * @memberof LoggingLogEntry
+     */
+    'message'?: string;
+}
+
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const LoggingLogType = {
+    LogTypeDebug: 'debug',
+    LogTypeInfo: 'info',
+    LogTypeWarning: 'warning',
+    LogTypeError: 'error'
+} as const;
+
+export type LoggingLogType = typeof LoggingLogType[keyof typeof LoggingLogType];
+
+
 /**
  * 
  * @export
@@ -5380,6 +5473,125 @@ export class ExamApi extends BaseAPI {
      */
     public setExamScoreV1(authorization: string, data: SetExamScoreData, options?: RawAxiosRequestConfig) {
         return ExamApiFp(this.configuration).setExamScoreV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * PlatformApi - axios parameter creator
+ * @export
+ */
+export const PlatformApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Allows a client to get platform logs
+         * @summary Get platform logs
+         * @param {string} authorization Authorization token
+         * @param {string} [storage] Storage name
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPlatformLogsV1: async (authorization: string, storage?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('getPlatformLogsV1', 'authorization', authorization)
+            const localVarPath = `/api/v1/platform/logs`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (storage !== undefined) {
+                localVarQueryParameter['storage'] = storage;
+            }
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * PlatformApi - functional programming interface
+ * @export
+ */
+export const PlatformApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = PlatformApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Allows a client to get platform logs
+         * @summary Get platform logs
+         * @param {string} authorization Authorization token
+         * @param {string} [storage] Storage name
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getPlatformLogsV1(authorization: string, storage?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetPlatformLogsV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPlatformLogsV1(authorization, storage, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PlatformApi.getPlatformLogsV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * PlatformApi - factory interface
+ * @export
+ */
+export const PlatformApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = PlatformApiFp(configuration)
+    return {
+        /**
+         * Allows a client to get platform logs
+         * @summary Get platform logs
+         * @param {string} authorization Authorization token
+         * @param {string} [storage] Storage name
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPlatformLogsV1(authorization: string, storage?: string, options?: any): AxiosPromise<GetPlatformLogsV1200Response> {
+            return localVarFp.getPlatformLogsV1(authorization, storage, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * PlatformApi - object-oriented interface
+ * @export
+ * @class PlatformApi
+ * @extends {BaseAPI}
+ */
+export class PlatformApi extends BaseAPI {
+    /**
+     * Allows a client to get platform logs
+     * @summary Get platform logs
+     * @param {string} authorization Authorization token
+     * @param {string} [storage] Storage name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PlatformApi
+     */
+    public getPlatformLogsV1(authorization: string, storage?: string, options?: RawAxiosRequestConfig) {
+        return PlatformApiFp(this.configuration).getPlatformLogsV1(authorization, storage, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

@@ -56,6 +56,8 @@ import {
     GetExamParticipantsResult,
     SetExamScoreData,
     SetExamScoreResult,
+    PlatformApi,
+    GetPlatformLogsResult,
 } from './api';
 import { canParseAsNumber } from './utils/textUtils';
 import { SupportedTranslations } from './translations/translationSwitcher';
@@ -82,6 +84,7 @@ class ExamSphereAPIClient extends UserApi {
     private topicApi: TopicApi;
     private courseApi: CourseApi;
     private examApi: ExamApi;
+    private platformApi: PlatformApi;
 
     constructor() {
         super();
@@ -92,6 +95,7 @@ class ExamSphereAPIClient extends UserApi {
         this.topicApi = new TopicApi(this.configuration);
         this.courseApi = new CourseApi(this.configuration);
         this.examApi = new ExamApi(this.configuration);
+        this.platformApi = new PlatformApi(this.configuration);
     }
 
     /**
@@ -120,8 +124,8 @@ class ExamSphereAPIClient extends UserApi {
      */
     public guessBasePath(): void {
         // try to find out the base path
-        let correctBasePath = "https://aliwoto.is-a.dev:8080";
-        // let correctBasePath = "http://localhost:8080";
+        // let correctBasePath = "https://aliwoto.is-a.dev:8080";
+        let correctBasePath = "http://localhost:8080";
         const envBasePath = process.env.EXAM_SPHERE_API_URL;
         if (envBasePath) {
             correctBasePath = envBasePath;
@@ -769,6 +773,22 @@ class ExamSphereAPIClient extends UserApi {
         return editExamQuestionResult;
     }
 
+    public async getPlatformLogs(storageName?: string): Promise<GetPlatformLogsResult> {
+        if (!this.isLoggedIn()) {
+            throw new Error("Not logged in");
+        }
+
+        let getPlatformLogsResult = (await this.platformApi.getPlatformLogsV1(
+            `Bearer ${this.accessToken}`, storageName))?.data.result;
+        if (!getPlatformLogsResult) {
+            // we shouldn't reach here, because if there is an error somewhere,
+            // it should have already been thrown by the API client
+            throw new Error("Failed to get platform logs");
+        }
+
+        return getPlatformLogsResult;
+    }
+
     /**
      * Returns true if we are considered as "logged in" by the API client,
      * This method only checks if the access token is present, it doesn't
@@ -779,9 +799,9 @@ class ExamSphereAPIClient extends UserApi {
      */
     public isLoggedIn(): boolean {
         return this.accessToken !== undefined &&
-            (this.accessToken?.length > 0 ?? false) &&
+            this.accessToken.length > 0 &&
             this.refreshToken !== undefined &&
-            (this.refreshToken?.length > 0 ?? false);
+            this.refreshToken.length > 0;
     }
 
     public isFieldEnum(fieldName: string): boolean {
@@ -868,6 +888,10 @@ class ExamSphereAPIClient extends UserApi {
 
     public canSearchTopics(): boolean {
         return this.isLoggedIn();
+    }
+
+    public canGetPlatformLogs(): boolean {
+        return this.isAdmin() || this.isOwner();
     }
 
     public canCreateTargetRole(targetRole: UserRole): boolean {
