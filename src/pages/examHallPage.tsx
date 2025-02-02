@@ -10,7 +10,7 @@ import { autoSetWindowTitle } from '../utils/commonUtils';
 import { CurrentAppTranslation } from '../translations/appTranslation';
 import backgroundImage1 from '../assets/bg/exam_hall1.jpg'
 
-const PageLimit = 4;
+export var QuestionsListLimit = 4;
 
 export var forceUpdateExamHallPage = () => { };
 
@@ -38,8 +38,8 @@ const ExamHallPage: React.FC = () => {
         try {
             const result = await apiClient.getExamQuestions({
                 exam_id: examId!,
-                offset: page * PageLimit,
-                limit: PageLimit,
+                offset: page * QuestionsListLimit,
+                limit: QuestionsListLimit,
                 pov: pov!,
             });
             setQuestions(result.questions!);
@@ -47,7 +47,7 @@ const ExamHallPage: React.FC = () => {
             // we need to do setTotalPages dynamically, e.g. if the limit is reached,
             // we should add one more page. if the amount of results returned is less than
             // the limit, we shouldn't increment the total pages.
-            const newTotalPages = (result.questions?.length ?? 0) < PageLimit ? (page + 1) : page + 2;
+            const newTotalPages = (result.questions?.length ?? 0) < QuestionsListLimit ? (page + 1) : page + 2;
             setTotalPages(newTotalPages);
             return result;
         } catch (error: any) {
@@ -69,6 +69,9 @@ const ExamHallPage: React.FC = () => {
         setIsLoading(true);
         try {
             const result = await apiClient.getExamInfo(examId!);
+            if (result.is_strict) {
+                QuestionsListLimit = 1;
+            }
             setExamInfo(result);
         } catch (error: any) {
             const [errCode, errMessage] = extractErrorDetails(error);
@@ -98,8 +101,8 @@ const ExamHallPage: React.FC = () => {
         try {
             const result = await apiClient.getExamQuestions({
                 exam_id: examId!,
-                offset: newPage * PageLimit,
-                limit: PageLimit,
+                offset: newPage * QuestionsListLimit,
+                limit: QuestionsListLimit,
                 pov: pov!,
             });
 
@@ -112,7 +115,7 @@ const ExamHallPage: React.FC = () => {
             // we need to do setTotalPages dynamically, e.g. if the limit is reached,
             // we should add one more page. if the amount of results returned is less than
             // the limit, we shouldn't increment the total pages.
-            const newTotalPages = result.questions.length < PageLimit ? (newPage + 1) : newPage + 2;
+            const newTotalPages = result.questions.length < QuestionsListLimit ? (newPage + 1) : newPage + 2;
             setTotalPages(newTotalPages);
 
             setPage(newPage);

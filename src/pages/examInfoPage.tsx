@@ -106,6 +106,10 @@ const ExamInfoPage = () => {
         duration: 60,
         exam_date: 0,
         is_public: false,
+        is_strict: false,
+        max_questions_seconds: 0,
+        needs_video_call: false,
+        needs_voice_call: false,
     });
     const [examInfo, setExamInfo] = useState<ExamInfoResult>(null);
     const [examParticipants, setExamParticipants] = useState<ExamParticipants>(null);

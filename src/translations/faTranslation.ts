@@ -130,6 +130,10 @@ class FaTranslation extends AppTranslationBase {
     has_participated: string = "شرکت کرده";
     setup_completed: string = "ارسال ایمیل تایید به کاربر";
     is_public: string = "عمومی";
+    is_strict: string = "سختگیرانه";
+    max_questions_seconds: string = "حداکثر زمان سوالات";
+    needs_video_call: string = "تماس تصویری";
+    needs_voice_call: string = "تماس صوتی";
     exam_date: string = "تاریخ آزمون";
     duration: string = "مدت زمان (دقیقه)";
     price: string = "هزینه";

@@ -132,6 +132,10 @@ export class AppTranslationBase {
     has_participated: string = "Has Participated";
     setup_completed: string = "Send email confirmation to user";
     is_public: string = "Is Public";
+    is_strict: string = "Is Strict";
+    max_questions_seconds: string = "Max Questions Seconds";
+    needs_video_call: string = "Video Call";
+    needs_voice_call: string = "Voice Call";
     exam_date: string = "Exam Date";
     duration: string = "Duration (minutes)";
     price: string = "Price";
