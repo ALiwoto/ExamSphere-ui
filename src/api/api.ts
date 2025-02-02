@@ -86,7 +86,8 @@ export const APIErrorCode = {
     ErrCodeEmailAlreadyExists: 2153,
     ErrCodeTopicNameExists: 2154,
     ErrCodeTopicNotFound: 2155,
-    ErrCodeBodyTooLong: 2156
+    ErrCodeBodyTooLong: 2156,
+    ErrCodeStrictExamViolation: 2157
 } as const;
 
 export type APIErrorCode = typeof APIErrorCode[keyof typeof APIErrorCode];
@@ -165,6 +166,12 @@ export interface AnswerQuestionResult {
      * @type {string}
      * @memberof AnswerQuestionResult
      */
+    'answer_text'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AnswerQuestionResult
+     */
     'answered_at'?: string;
     /**
      * 
@@ -172,6 +179,12 @@ export interface AnswerQuestionResult {
      * @memberof AnswerQuestionResult
      */
     'answered_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AnswerQuestionResult
+     */
+    'chosen_option'?: string;
     /**
      * 
      * @type {number}
@@ -184,6 +197,18 @@ export interface AnswerQuestionResult {
      * @memberof AnswerQuestionResult
      */
     'question_id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof AnswerQuestionResult
+     */
+    'seconds_taken'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof AnswerQuestionResult
+     */
+    'seen_at'?: string;
 }
 /**
  * 
@@ -215,6 +240,12 @@ export interface AnsweredQuestionInfo {
      * @memberof AnsweredQuestionInfo
      */
     'seconds_taken'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof AnsweredQuestionInfo
+     */
+    'seen_at'?: string;
     /**
      * 
      * @type {string}
@@ -670,6 +701,36 @@ export interface CreateExamData {
     'is_public'?: boolean;
     /**
      * 
+     * @type {boolean}
+     * @memberof CreateExamData
+     */
+    'is_sample_exam'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateExamData
+     */
+    'is_strict'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateExamData
+     */
+    'max_questions_seconds'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateExamData
+     */
+    'needs_video_call'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateExamData
+     */
+    'needs_voice_call'?: boolean;
+    /**
+     * 
      * @type {string}
      * @memberof CreateExamData
      */
@@ -695,6 +756,12 @@ export interface CreateExamQuestionData {
     'exam_id'?: number;
     /**
      * 
+     * @type {boolean}
+     * @memberof CreateExamQuestionData
+     */
+    'is_pointer'?: boolean;
+    /**
+     * 
      * @type {string}
      * @memberof CreateExamQuestionData
      */
@@ -717,6 +784,18 @@ export interface CreateExamQuestionData {
      * @memberof CreateExamQuestionData
      */
     'option4'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateExamQuestionData
+     */
+    'pointer_count'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateExamQuestionData
+     */
+    'pointer_to_exam_id'?: number;
     /**
      * 
      * @type {string}
@@ -750,6 +829,12 @@ export interface CreateExamQuestionResult {
     'exam_id'?: number;
     /**
      * 
+     * @type {boolean}
+     * @memberof CreateExamQuestionResult
+     */
+    'is_pointer'?: boolean;
+    /**
+     * 
      * @type {string}
      * @memberof CreateExamQuestionResult
      */
@@ -772,6 +857,18 @@ export interface CreateExamQuestionResult {
      * @memberof CreateExamQuestionResult
      */
     'option4'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateExamQuestionResult
+     */
+    'pointer_count'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateExamQuestionResult
+     */
+    'pointer_to_exam_id'?: number;
     /**
      * 
      * @type {number}
@@ -1234,6 +1331,30 @@ export interface EditExamData {
     'is_public'?: boolean;
     /**
      * 
+     * @type {boolean}
+     * @memberof EditExamData
+     */
+    'is_strict'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditExamData
+     */
+    'max_questions_seconds'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditExamData
+     */
+    'needs_video_call'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditExamData
+     */
+    'needs_voice_call'?: boolean;
+    /**
+     * 
      * @type {string}
      * @memberof EditExamData
      */
@@ -1286,6 +1407,18 @@ export interface EditExamQuestionData {
      * @type {number}
      * @memberof EditExamQuestionData
      */
+    'pointer_count'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditExamQuestionData
+     */
+    'pointer_to_exam_id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditExamQuestionData
+     */
     'question_id'?: number;
     /**
      * 
@@ -1320,6 +1453,12 @@ export interface EditExamQuestionResult {
     'exam_id'?: number;
     /**
      * 
+     * @type {boolean}
+     * @memberof EditExamQuestionResult
+     */
+    'is_pointer'?: boolean;
+    /**
+     * 
      * @type {string}
      * @memberof EditExamQuestionResult
      */
@@ -1342,6 +1481,18 @@ export interface EditExamQuestionResult {
      * @memberof EditExamQuestionResult
      */
     'option4'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditExamQuestionResult
+     */
+    'pointer_count'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditExamQuestionResult
+     */
+    'pointer_to_exam_id'?: number;
     /**
      * 
      * @type {number}
@@ -1440,6 +1591,36 @@ export interface EditExamResult {
      * @memberof EditExamResult
      */
     'is_public'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditExamResult
+     */
+    'is_sample'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditExamResult
+     */
+    'is_strict'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditExamResult
+     */
+    'max_questions_seconds'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditExamResult
+     */
+    'needs_video_call'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditExamResult
+     */
+    'needs_voice_call'?: boolean;
     /**
      * 
      * @type {string}
@@ -1700,6 +1881,12 @@ export interface ExamQuestionInfo {
     'description'?: string;
     /**
      * 
+     * @type {boolean}
+     * @memberof ExamQuestionInfo
+     */
+    'is_pointer'?: boolean;
+    /**
+     * 
      * @type {string}
      * @memberof ExamQuestionInfo
      */
@@ -1722,6 +1909,18 @@ export interface ExamQuestionInfo {
      * @memberof ExamQuestionInfo
      */
     'option4'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ExamQuestionInfo
+     */
+    'pointer_count'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ExamQuestionInfo
+     */
+    'pointer_to_exam_id'?: number;
     /**
      * 
      * @type {number}
@@ -2082,6 +2281,36 @@ export interface GetExamInfoResult {
      * @memberof GetExamInfoResult
      */
     'is_public'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetExamInfoResult
+     */
+    'is_sample'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetExamInfoResult
+     */
+    'is_strict'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetExamInfoResult
+     */
+    'max_questions_seconds'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetExamInfoResult
+     */
+    'needs_video_call'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetExamInfoResult
+     */
+    'needs_voice_call'?: boolean;
     /**
      * 
      * @type {string}
@@ -3150,6 +3379,12 @@ export interface SearchExamData {
     'offset': number;
     /**
      * 
+     * @type {boolean}
+     * @memberof SearchExamData
+     */
+    'sample_exams'?: boolean;
+    /**
+     * 
      * @type {string}
      * @memberof SearchExamData
      */
@@ -3410,6 +3645,36 @@ export interface SearchedExamInfo {
      * @memberof SearchedExamInfo
      */
     'is_public'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SearchedExamInfo
+     */
+    'is_sample'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SearchedExamInfo
+     */
+    'is_strict'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof SearchedExamInfo
+     */
+    'max_questions_seconds'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SearchedExamInfo
+     */
+    'needs_video_call'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SearchedExamInfo
+     */
+    'needs_voice_call'?: boolean;
     /**
      * 
      * @type {string}
