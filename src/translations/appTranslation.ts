@@ -45,12 +45,16 @@ export class AppTranslationBase {
     SearchCoursesText: string = "Search Course";
     SearchCourseText: string = "Search Courses";
     SearchExamText: string = "Search Exams";
+    SearchQuestionsBankText: string = "Search Questions Bank";
     QuestionTitleText: string = "Question Title";
     DescriptionText: string = "Description";
     EditCourseText: string = "Edit Course";
     ManageExamsText: string = "Manage Exams";
+    ManageQuestionBankText: string = "Manage Question Bank";
     AddExamText: string = "Add Exam";
+    AddQuestionsBankText: string = "Add Questions Bank";
     EditExamText: string = "Edit Exam";
+    EditQuestionsBankText: string = "Edit Questions Bank";
     SettingsText: string = "Settings";
     HelpText: string = "Help";
     LogoutText: string = "Logout";

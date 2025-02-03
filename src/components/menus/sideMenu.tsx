@@ -116,6 +116,25 @@ const RenderManageExamsMenu = () => {
     )
 };
 
+const RenderManageQuestionsBankMenu = () => {
+    return (
+        <MenuItem label={CurrentAppTranslation.ManageQuestionBankText}>
+            <MenuItem
+                label={CurrentAppTranslation.AddQuestionsBankText}
+                href='/createExam?sample=true'
+            ></MenuItem>
+            <MenuItem
+                label={CurrentAppTranslation.SearchQuestionsBankText}
+                href='/searchExam?sample=true'
+            ></MenuItem>
+            <MenuItem
+                label={CurrentAppTranslation.EditQuestionsBankText}
+                href='/searchExam?edit=true&sample=true'
+            ></MenuItem>
+        </MenuItem>
+    )
+};
+
 const RenderCommonMenus = () => {
     return (
         <>
@@ -141,6 +160,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ ...props }) => {
                 {RenderManageTopicsMenu()}
                 {RenderManageCoursesMenu()}
                 {RenderManageExamsMenu()}
+                {RenderManageQuestionsBankMenu()}
                 {RenderCommonMenus()}
             </SideMenuContainer>
         );

@@ -43,12 +43,16 @@ class FaTranslation extends AppTranslationBase {
     SearchCoursesText: string = "جستجوی دوره ها";
     SearchCourseText: string = "جستجوی دوره";
     SearchExamText: string = "جستجوی آزمون ها";
+    SearchQuestionsBankText: string = "جستجوی بانک سوالات";
     QuestionTitleText: string = "عنوان سوال";
     DescriptionText: string = "توضیحات";
     EditCourseText: string = "ویرایش دوره";
     ManageExamsText: string = "مدیریت آزمون ها";
+    ManageQuestionBankText: string = "مدیریت بانک سوالات";
     AddExamText: string = "افزودن آزمون";
+    AddQuestionsBankText: string = "افزودن بانک سوالات";
     EditExamText: string = "ویرایش آزمون";
+    EditQuestionsBankText: string = "ویرایش بانک سوالات";
     SettingsText: string = "تنظیمات";
     HelpText: string = "راهنما";
     LogoutText: string = "خروج از حساب کاربری";
