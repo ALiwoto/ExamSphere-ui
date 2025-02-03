@@ -48,6 +48,7 @@ class FaTranslation extends AppTranslationBase {
     SearchQuestionsBankText: string = "جستجوی بانک سوالات";
     QuestionTitleText: string = "عنوان سوال";
     ReferenceExamIdText: string = "شناسه آزمون مرجع";
+    ReferencedQuestionsText: string = "سوالات مرجع";
     ReferencedQuestionsCountText: string = "تعداد سوالات مرجع";
     DescriptionText: string = "توضیحات";
     EditCourseText: string = "ویرایش دوره";
@@ -105,6 +106,7 @@ class FaTranslation extends AppTranslationBase {
     CancelButtonText: string = "لغو";
     SendEmailToUseText: string = "ارسال ایمیل تایید به کاربر";
     ExamFinishesInText: string = "آزمون پایان می یابد در";
+    QuestionsInBankText: string = "تعداد سوالات در بانک";
     ExamFinishedText: string = "آزمون پایان یافت!";
 
     // System messages

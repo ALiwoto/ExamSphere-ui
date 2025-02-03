@@ -1,10 +1,8 @@
 import React from "react";
 import { ExamQuestionInfo } from "../../api";
-import { Box, Button, Container, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, Link, Paper, TextField, Typography } from "@mui/material";
 import apiClient from "../../apiClient";
 import { CurrentAppTranslation } from "../../translations/appTranslation";
-
-
 
 interface RenderQuestionsListProps {
     questions: ExamQuestionInfo[];
@@ -33,10 +31,24 @@ interface RenderQuestionsListProps {
 
     handleEdit: (qId: number) => void;
     handleSubmit: (qId: number) => void;
-    handleInputChange: (qId: number, field: keyof ExamQuestionInfo, value: string) => void;
+    handleInputChange: (qId: number, field: keyof ExamQuestionInfo, value: any) => void;
     handleChosenOptionChange: (qId: number, value: string) => void;
     handleAnswerTextChange: (qId: number, value: string) => void;
 }
+
+const getPointerQuestionDescription = (question: ExamQuestionInfo) => {
+    // there are question.pointer_count and question.pointer_to_exam_id
+    return (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+            <Typography variant="body1">
+                References {question.pointer_count} questions from{' '}
+                <Link href={`/examInfo?examId=${question.pointer_to_exam_id}`} underline="hover">
+                    exam-{question.pointer_to_exam_id}
+                </Link>
+            </Typography>
+        </Box>
+    );
+};
 
 const RenderAllQuestions: React.FC<RenderQuestionsListProps> = ({ ...props }) => {
     if (!props.questions || props.questions.length === 0) {
@@ -58,11 +70,12 @@ const RenderAllQuestions: React.FC<RenderQuestionsListProps> = ({ ...props }) =>
                         {props.editingId !== question.question_id || !props.canEditQuestions ? (
                             <Typography variant="h6"
                                 style={{
-                                    justifyContent: CurrentAppTranslation.justifyContent,
+                                    justifyContent: question.is_pointer ? 'center' : CurrentAppTranslation.justifyContent,
                                     direction: CurrentAppTranslation.direction,
                                 }}
                             >
-                                {question.question_title}
+                                {question.is_pointer ? CurrentAppTranslation.ReferencedQuestionsText :
+                                    question.question_title}
                             </Typography>
                         ) : (
                             question?.is_pointer ?? false ? (
@@ -70,7 +83,9 @@ const RenderAllQuestions: React.FC<RenderQuestionsListProps> = ({ ...props }) =>
                                     fullWidth
                                     label={CurrentAppTranslation.ReferenceExamIdText}
                                     value={question.pointer_to_exam_id}
-                                    onChange={(e) => props.handleInputChange(question.question_id!, "pointer_to_exam_id", e.target.value)}
+                                    type="number"
+                                    onChange={(e) => props.handleInputChange(
+                                        question.question_id!, "pointer_to_exam_id", parseInt(e.target.value))}
                                     disabled={props.editingId !== question.question_id}
                                 />
                             ) : (
@@ -102,7 +117,7 @@ const RenderAllQuestions: React.FC<RenderQuestionsListProps> = ({ ...props }) =>
                                 direction: CurrentAppTranslation.direction,
                             }}
                             gutterBottom>
-                            {question.description}
+                            {question.is_pointer ? getPointerQuestionDescription(question) : question.description}
                         </Typography>
                     ) : (
                         question?.is_pointer ?? false ? (
@@ -111,7 +126,8 @@ const RenderAllQuestions: React.FC<RenderQuestionsListProps> = ({ ...props }) =>
                                 label={CurrentAppTranslation.ReferencedQuestionsCountText}
                                 value={question.pointer_count ?? 0}
                                 type="number"
-                                onChange={(e) => props.handleInputChange(question.question_id!, "pointer_count", e.target.value)}
+                                onChange={(e) => props.handleInputChange(
+                                    question.question_id!, "pointer_count", parseInt(e.target.value))}
                                 disabled={props.editingId !== question.question_id}
                             />
                         ) : (

@@ -26,6 +26,7 @@ const ExamHallPage: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [questions, setQuestions] = useState<ExamQuestionInfo[]>([]);
     const [editingId, setEditingId] = useState<number | null>(null);
+    const [totalQuestionsCount, setTotalQuestionsCount] = useState<number>(0);
     const [answerQuestionData, setAnswerQuestionData] = useState<AnswerQuestionData | null>({});
     const [newExamQuestion, setNewExamQuestion] = useState<CreateExamQuestionData | null>(null);
     const [, setForceUpdate] = useReducer(x => x + 1, 0);
@@ -73,6 +74,7 @@ const ExamHallPage: React.FC = () => {
                 QuestionsListLimit = 1;
             }
             setExamInfo(result);
+            setTotalQuestionsCount(result.question_count ?? 0)
         } catch (error: any) {
             const [errCode, errMessage] = extractErrorDetails(error);
             snackbar.error(`Failed to get examInfo (${errCode}): ${errMessage}`);
@@ -129,6 +131,9 @@ const ExamHallPage: React.FC = () => {
     };
 
     const getExamHallTitle = () => {
+        if (examInfo?.is_sample_exam) {
+            return `${CurrentAppTranslation.QuestionsInBankText}: ${totalQuestionsCount}`;
+        }
         let examHallTitle = !examInfo?.has_finished ?
             `${CurrentAppTranslation.ExamFinishesInText}: ${examInfo?.finishes_in ?? ''}` :
             CurrentAppTranslation.ExamFinishedText;
@@ -165,6 +170,7 @@ const ExamHallPage: React.FC = () => {
 
             // fetch the questions again to get the new question(s)
             await fetchQuestions();
+            setTotalQuestionsCount(totalQuestionsCount + 1);
             setIsLoading(false);
             setNewExamQuestion(null);
         } else if (!examInfo?.can_edit_question && answerQuestionData) {
@@ -221,7 +227,7 @@ const ExamHallPage: React.FC = () => {
         setEditingId(null);
     };
 
-    const handleInputChange = (id: number, field: keyof ExamQuestionInfo, value: string) => {
+    const handleInputChange = (id: number, field: keyof ExamQuestionInfo, value: any) => {
         setQuestions(questions.map(q => q.question_id === id ? { ...q, [field]: value } : q));
         if (id === -1 && newExamQuestion) {
             setNewExamQuestion(

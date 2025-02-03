@@ -175,6 +175,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ ...props }) => {
                 {RenderManageTopicsMenu()}
                 {RenderManageCoursesMenu()}
                 {RenderManageExamsMenu()}
+                {RenderManageQuestionsBankMenu()}
                 {RenderCommonMenus()}
             </SideMenuContainer>
         );
@@ -188,6 +189,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ ...props }) => {
                 {RenderManageUserMenu()}
                 {RenderManageCoursesMenu()}
                 {RenderManageExamsMenu()}
+                {RenderManageQuestionsBankMenu()}
                 {RenderCommonMenus()}
             </SideMenuContainer>
         );

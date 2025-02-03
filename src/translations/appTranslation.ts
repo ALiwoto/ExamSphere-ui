@@ -50,6 +50,7 @@ export class AppTranslationBase {
     SearchQuestionsBankText: string = "Search Questions Bank";
     QuestionTitleText: string = "Question Title";
     ReferenceExamIdText: string = "Reference Exam ID";
+    ReferencedQuestionsText: string = "Referenced Questions";
     ReferencedQuestionsCountText: string = "Referenced Questions Count";
     DescriptionText: string = "Description";
     EditCourseText: string = "Edit Course";
@@ -107,6 +108,7 @@ export class AppTranslationBase {
     CancelButtonText: string = "Cancel";
     SendEmailToUseText: string = "Send email confirmation to user";
     ExamFinishesInText: string = "Exam finishes in";
+    QuestionsInBankText: string = "Questions in Bank";
     ExamFinishedText: string = "Exam finished!";
 
     // System messages

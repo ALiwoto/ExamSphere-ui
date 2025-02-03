@@ -76,7 +76,7 @@ const RenderParticipantsList: React.FC<RenderParticipantsListProps> = ({ ...prop
                                     </Typography>
                                     {props.canSetScore && (
                                         <Button variant="contained"
-                                        onClick={() => props.handleViewAnswers(participant.user_id!)}>
+                                            onClick={() => props.handleViewAnswers(participant.user_id!)}>
                                             {CurrentAppTranslation.ViewAnswersText}
                                         </Button>
                                     )}
@@ -113,6 +113,7 @@ const ExamInfoPage = () => {
     });
     const [examInfo, setExamInfo] = useState<ExamInfoResult>(null);
     const [examParticipants, setExamParticipants] = useState<ExamParticipants>(null);
+    const [excludedFields, setExcludedFields] = useState<string[]>(['is_sample_exam']);
     const [participantPage, setParticipantPage] = useState(0);
     const [totalPages, setTotalPages] = useState(participantPage + 1);
     const [currentScoreEditUserId, setCurrentScoreEditUserId] = useState<string | null>(null);
@@ -186,6 +187,21 @@ const ExamInfoPage = () => {
                 needs_voice_call: result.needs_voice_call,
             });
             setExamInfo(result);
+
+            if (result.is_sample_exam) {
+                setExcludedFields([
+                    'duration',
+                    'exam_date',
+                    'is_strict',
+                    'max_questions_seconds',
+                    'needs_video_call',
+                    'needs_voice_call',
+                    'is_sample_exam',
+                    'has_participated',
+                    'has_started',
+                    'has_finished',
+                ])
+            }
 
             if (examInfo?.can_participate && !examInfo.has_started && !examInfo.has_finished) {
                 ExamCountdownId = window.setInterval(() => {
@@ -406,6 +422,7 @@ const ExamInfoPage = () => {
                                 'has_finished',
                                 'is_sample_exam',
                             ],
+                            excludedFields: excludedFields,
                         })}
                     </Grid>
                 </Paper>

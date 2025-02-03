@@ -24,7 +24,7 @@ const CreateExamPage: React.FC = () => {
         exam_description: '',
         price: '0',
         course_id: 0,
-        duration: 60,
+        duration: isSampleExam ? 0 : 60,
         exam_date: 0,
         is_public: false,
         is_strict: false,
@@ -35,6 +35,23 @@ const CreateExamPage: React.FC = () => {
     });
     const [, forceUpdate] = useReducer(x => x + 1, 0);
     const snackbar = useAppSnackbar();
+    let excludedFields: string[] = [];
+
+    if (isSampleExam) {
+        excludedFields = [
+            'duration',
+            'exam_date',
+            'is_strict',
+            'max_questions_seconds',
+            'needs_video_call',
+            'needs_voice_call',
+            'is_sample_exam',
+        ];
+    } else {
+        excludedFields = [
+            'is_sample_exam',
+        ];
+    }
 
     forceUpdateCreateExamPage = () => {
         forceUpdate();
@@ -64,6 +81,7 @@ const CreateExamPage: React.FC = () => {
         e.preventDefault();
 
         try {
+            // make sure to convert the exam date to UTC
             let result = await apiClient.createExam(createExamData);
             snackbar.success(CurrentAppTranslation.ExamCreatedSuccessfullyText);
 
@@ -87,7 +105,7 @@ const CreateExamPage: React.FC = () => {
                         data: createExamData,
                         handleInputChange,
                         isEditing: true,
-                        excludedFields: ['is_sample_exam'],
+                        excludedFields: excludedFields,
                     })}
                     <SubmitButton type="submit">
                         {CurrentAppTranslation.CreateButtonText}
