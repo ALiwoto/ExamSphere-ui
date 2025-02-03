@@ -13,8 +13,8 @@ export class AppTranslationBase {
     justifyContent: TextJustifyContent = "flex-start";
     textAlign: string = "left";
     float: string = "left";
-    leftPaddingValue: string = "20px";
-    rightPaddingValue: string = "0";
+    menuItemLeftPaddingValue: string = "20px";
+    menuItemRightPaddingValue: string = "0";
     
     //#endregion
 

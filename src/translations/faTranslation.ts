@@ -11,8 +11,8 @@ class FaTranslation extends AppTranslationBase {
     justifyContent: TextJustifyContent = "flex-end";
     textAlign: string = "right";
     float: string = "right";
-    leftPaddingValue: string = "0";
-    rightPaddingValue: string = "20px";
+    menuItemLeftPaddingValue: string = "0";
+    menuItemRightPaddingValue: string = "20px";
 
     //#endregion
 

@@ -29,8 +29,8 @@ const MenuItemChildren = styled.div<{ $isOpen: boolean }>`
   transition: max-height 0.1s linear;
 `;
 
-const ChildItem = styled.div`
-  padding: 5px ${CurrentAppTranslation.rightPaddingValue} 5px ${CurrentAppTranslation.leftPaddingValue};
+const ChildItem = styled.div<{ $rightPadding: string; $leftPadding: string }>`
+  padding: 5px ${props => props.$rightPadding} 5px ${props => props.$leftPadding};
 `;
 
 interface MenuItemProps {
@@ -63,7 +63,9 @@ const MenuItem: React.FC<MenuItemProps> = ({ ...props }) => {
             {children && (
                 <MenuItemChildren $isOpen={isOpen}>
                     {React.Children.map(children, child => (
-                        <ChildItem>{child}</ChildItem>
+                        <ChildItem 
+                          $leftPadding={CurrentAppTranslation.menuItemLeftPaddingValue}
+                          $rightPadding={CurrentAppTranslation.menuItemRightPaddingValue}>{child}</ChildItem>
                     ))}
                 </MenuItemChildren>
             )}
