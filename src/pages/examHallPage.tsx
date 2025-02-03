@@ -154,13 +154,14 @@ const ExamHallPage: React.FC = () => {
         // 2. edit an existing question
         // 3. submit an answer
         if (id === -1 && newExamQuestion) {
-            setIsLoading(true);
             try {
                 await apiClient.createExamQuestion(newExamQuestion);
             } catch (error: any) {
                 const [errCode, errMessage] = extractErrorDetails(error);
                 snackbar.error(`Failed to create examQuestion (${errCode}): ${errMessage}`);
+                return;
             }
+            setIsLoading(true);
 
             // fetch the questions again to get the new question(s)
             await fetchQuestions();
@@ -205,6 +206,8 @@ const ExamHallPage: React.FC = () => {
                     option2: question.option2,
                     option3: question.option3,
                     option4: question.option4,
+                    pointer_count: question.pointer_count ?? 0,
+                    pointer_to_exam_id: question.pointer_to_exam_id,
                 });
             } catch (error: any) {
                 const [errCode, errMessage] = extractErrorDetails(error);
@@ -286,6 +289,36 @@ const ExamHallPage: React.FC = () => {
         setEditingId(-1);
     }
 
+    const handleAddNewFromQuestionsBank = () => {
+        setQuestions([...questions, {
+            question_id: -1,
+            question_title: 'REFERENCE QUESTION',
+            description: '',
+            user_answer: {
+                chosen_option: '',
+                answer: '',
+            },
+            is_pointer: true,
+            pointer_count: 0,
+            pointer_to_exam_id: -1,
+        }]);
+        setNewExamQuestion(
+            {
+                exam_id: examId!,
+                question_title: 'REFERENCE QUESTION',
+                description: '',
+                option1: '',
+                option2: '',
+                option3: '',
+                option4: '',
+                is_pointer: true,
+                pointer_count: 0,
+                pointer_to_exam_id: -1,
+            }
+        );
+        setEditingId(-1);
+    }
+
     useEffect(() => {
         fetchExamInfo();
         autoSetWindowTitle();
@@ -356,7 +389,7 @@ const ExamHallPage: React.FC = () => {
                         canEditQuestions={!hasPov && (examInfo?.can_edit_question ?? false)}
                         isExamFinished={examInfo?.has_finished ?? true}
                     />}
-                    {editingId !== -1 && examInfo?.can_edit_question && !examInfo.has_finished && (
+                    {editingId !== -1 && examInfo?.can_edit_question && !examInfo.has_finished && !examInfo.has_started && (
                         <Box sx={{
                             display: 'flex',
                             justifyContent: 'center',
@@ -366,6 +399,9 @@ const ExamHallPage: React.FC = () => {
                             <Button variant="contained" color="primary" onClick={handleAddNewQuestion}>
                                 {CurrentAppTranslation.AddNewQuestionText}
                             </Button>
+                            {!examInfo?.is_sample_exam && <Button variant="contained" color="primary" onClick={handleAddNewFromQuestionsBank}>
+                                {CurrentAppTranslation.AddFromQuestionsBankText}
+                            </Button>}
                         </Box>
                     )}
                 </Box>

@@ -350,6 +350,10 @@ class ExamSphereAPIClient extends UserApi {
      * @returns the question options.
      */
     public getQuestionOptions(questionInfo: ExamQuestionInfo): string[] {
+        if (questionInfo.is_pointer) {
+            return [];
+        }
+
         return [
             questionInfo.option1!,
             questionInfo.option2!,

@@ -49,6 +49,8 @@ export class AppTranslationBase {
     SearchExamText: string = "Search Exams";
     SearchQuestionsBankText: string = "Search Questions Bank";
     QuestionTitleText: string = "Question Title";
+    ReferenceExamIdText: string = "Reference Exam ID";
+    ReferencedQuestionsCountText: string = "Referenced Questions Count";
     DescriptionText: string = "Description";
     EditCourseText: string = "Edit Course";
     ManageExamsText: string = "Manage Exams";
@@ -99,6 +101,7 @@ export class AppTranslationBase {
     CreateCourseText: string = "Create Course";
     CreateExamText: string = "Create Exam";
     AddNewQuestionText: string = "Add New Question";
+    AddFromQuestionsBankText: string = "Add From Questions Bank";
     DeleteTopicButtonText: string = "Delete Topic";
     BackToExamInfoText: string = "Back to Exam Info";
     CancelButtonText: string = "Cancel";

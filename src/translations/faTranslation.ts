@@ -47,6 +47,8 @@ class FaTranslation extends AppTranslationBase {
     SearchExamText: string = "جستجوی آزمون ها";
     SearchQuestionsBankText: string = "جستجوی بانک سوالات";
     QuestionTitleText: string = "عنوان سوال";
+    ReferenceExamIdText: string = "شناسه آزمون مرجع";
+    ReferencedQuestionsCountText: string = "تعداد سوالات مرجع";
     DescriptionText: string = "توضیحات";
     EditCourseText: string = "ویرایش دوره";
     ManageExamsText: string = "مدیریت آزمون ها";
@@ -96,6 +98,7 @@ class FaTranslation extends AppTranslationBase {
     CreateCourseText: string = "ایجاد دوره";
     CreateExamText: string = "ایجاد آزمون";
     AddNewQuestionText: string = "افزودن سوال جدید";
+    AddFromQuestionsBankText: string = "افزودن از بانک سوالات";
     DeleteTopicButtonText: string = "حذف موضوع";
     BackToExamInfoText: string = "بازگشت به اطلاعات آزمون";
     CreateCourseButtonText: string = "ایجاد دوره";

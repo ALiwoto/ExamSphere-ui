@@ -65,13 +65,23 @@ const RenderAllQuestions: React.FC<RenderQuestionsListProps> = ({ ...props }) =>
                                 {question.question_title}
                             </Typography>
                         ) : (
-                            <TextField
-                                fullWidth
-                                label={CurrentAppTranslation.QuestionTitleText}
-                                value={question.question_title}
-                                onChange={(e) => props.handleInputChange(question.question_id!, "question_title", e.target.value)}
-                                disabled={props.editingId !== question.question_id}
-                            />
+                            question?.is_pointer ?? false ? (
+                                <TextField
+                                    fullWidth
+                                    label={CurrentAppTranslation.ReferenceExamIdText}
+                                    value={question.pointer_to_exam_id}
+                                    onChange={(e) => props.handleInputChange(question.question_id!, "pointer_to_exam_id", e.target.value)}
+                                    disabled={props.editingId !== question.question_id}
+                                />
+                            ) : (
+                                <TextField
+                                    fullWidth
+                                    label={CurrentAppTranslation.QuestionTitleText}
+                                    value={question.question_title}
+                                    onChange={(e) => props.handleInputChange(question.question_id!, "question_title", e.target.value)}
+                                    disabled={props.editingId !== question.question_id}
+                                />
+                            )
                         )}
                         {!props.isExamFinished && (
                             <Button
@@ -93,32 +103,43 @@ const RenderAllQuestions: React.FC<RenderQuestionsListProps> = ({ ...props }) =>
                             }}
                             gutterBottom>
                             {question.description}
-                        </Typography>) : (
-                        <TextField
-                            sx={{
-                                justifyContent: CurrentAppTranslation.justifyContent,
-                                direction: CurrentAppTranslation.direction,
-                            }}
-                            fullWidth
-                            multiline
-                            rows={3}
-                            label={CurrentAppTranslation.DescriptionText}
-                            value={question.description}
-                            onChange={(e) => props.handleInputChange(question.question_id!, "description", e.target.value)}
-                            disabled={props.editingId !== question.question_id}
-                            margin="normal"
-                        />
+                        </Typography>
+                    ) : (
+                        question?.is_pointer ?? false ? (
+                            <TextField
+                                fullWidth
+                                label={CurrentAppTranslation.ReferencedQuestionsCountText}
+                                value={question.pointer_count ?? 0}
+                                type="number"
+                                onChange={(e) => props.handleInputChange(question.question_id!, "pointer_count", e.target.value)}
+                                disabled={props.editingId !== question.question_id}
+                            />
+                        ) : (
+                            <TextField
+                                sx={{
+                                    justifyContent: CurrentAppTranslation.justifyContent,
+                                    direction: CurrentAppTranslation.direction,
+                                }}
+                                fullWidth
+                                multiline
+                                rows={3}
+                                label={CurrentAppTranslation.DescriptionText}
+                                value={question.description}
+                                onChange={(e) => props.handleInputChange(question.question_id!, "description", e.target.value)}
+                                disabled={props.editingId !== question.question_id}
+                                margin="normal"
+                            />
+                        )
                     )}
-                    {apiClient.getQuestionOptions(question).map((option, index) => (
+                    {!question.is_pointer && apiClient.getQuestionOptions(question).map((option, index) => (
                         props.editingId !== question.question_id || !props.canEditQuestions ?
                             (
                                 <Typography key={index} variant="body2" sx={{
                                     justifyContent: CurrentAppTranslation.justifyContent,
                                     direction: CurrentAppTranslation.direction,
                                 }}>
-                                    {`${CurrentAppTranslation.OptionText} ${index + 1}${
-                                        CurrentAppTranslation.OptionSeparatorChar
-                                    } ${option}`}
+                                    {`${CurrentAppTranslation.OptionText} ${index + 1}${CurrentAppTranslation.OptionSeparatorChar
+                                        } ${option}`}
                                 </Typography>
                             ) :
                             (<TextField
