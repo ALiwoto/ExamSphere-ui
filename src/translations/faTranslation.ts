@@ -56,6 +56,7 @@ class FaTranslation extends AppTranslationBase {
     SettingsText: string = "تنظیمات";
     HelpText: string = "راهنما";
     LogoutText: string = "خروج از حساب کاربری";
+    CreateButtonText: string = "ایجاد";
     CreateUserButtonText: string = "ایجاد کاربر";
     CreateTopicButtonText: string = "ایجاد موضوع";
     SaveText: string = "ذخیره";
@@ -85,6 +86,7 @@ class FaTranslation extends AppTranslationBase {
     CreateNewUserText: string = "ایجاد کاربر جدید";
     CreateNewTopicText: string = "ایجاد موضوع جدید";
     CreateNewExamText: string = "ایجاد آزمون جدید";
+    CreateNewQuestionsBankText: string = "ایجاد بانک سوالات جدید";
     CreateTopicText: string = "ایجاد موضوع";
     CreateNewCourseText: string = "ایجاد دوره جدید";
     CreateCourseText: string = "ایجاد دوره";

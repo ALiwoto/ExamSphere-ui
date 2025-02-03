@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import SubmitButton from '../components/buttons/submitButton';
-import {DashboardContainer} from '../components/containers/dashboardContainer';
+import { DashboardContainer } from '../components/containers/dashboardContainer';
 import TitleLabel from '../components/labels/titleLabel';
 import CreateUserForm from '../components/forms/createUserForm';
 import CreateUserContainer from '../components/containers/createUserContainer';
@@ -16,6 +16,9 @@ import { autoSetWindowTitle, getFieldOf } from '../utils/commonUtils';
 export var forceUpdateCreateExamPage = () => {};
 
 const CreateExamPage: React.FC = () => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const isSampleExam = queryParams.get('sample') === 'true' || queryParams.get('sample') === '1';
+
     const [createExamData, setCreateExamData] = useState<CreateExamData>({
         exam_title: '',
         exam_description: '',
@@ -24,6 +27,11 @@ const CreateExamPage: React.FC = () => {
         duration: 60,
         exam_date: 0,
         is_public: false,
+        is_strict: false,
+        max_questions_seconds: 0,
+        needs_video_call: false,
+        needs_voice_call: false,
+        is_sample_exam: isSampleExam,
     });
     const [, forceUpdate] = useReducer(x => x + 1, 0);
     const snackbar = useAppSnackbar();
@@ -73,14 +81,15 @@ const CreateExamPage: React.FC = () => {
         <DashboardContainer>
             <CreateUserContainer>
                 <CreateUserForm onSubmit={handleSubmit}>
-                    <TitleLabel>{CurrentAppTranslation.CreateNewExamText}</TitleLabel>
+                    <TitleLabel>{isSampleExam ? CurrentAppTranslation.CreateNewQuestionsBankText :
+                        CurrentAppTranslation.CreateNewExamText}</TitleLabel>
                     {RenderAllFields({
                         data: createExamData,
                         handleInputChange,
                         isEditing: true,
                     })}
                     <SubmitButton type="submit">
-                        {CurrentAppTranslation.CreateCourseButtonText}
+                        {CurrentAppTranslation.CreateButtonText}
                     </SubmitButton>
                 </CreateUserForm>
             </CreateUserContainer>

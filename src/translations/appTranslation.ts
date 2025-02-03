@@ -58,6 +58,7 @@ export class AppTranslationBase {
     SettingsText: string = "Settings";
     HelpText: string = "Help";
     LogoutText: string = "Logout";
+    CreateButtonText: string = "Create";
     CreateUserButtonText: string = "Create User";
     CreateTopicButtonText: string = "Create Topic";
     CreateCourseButtonText: string = "Create Course";
@@ -88,6 +89,7 @@ export class AppTranslationBase {
     CreateNewUserText: string = "Create New User";
     CreateNewTopicText: string = "Create New Topic";
     CreateNewExamText: string = "Create New Exam";
+    CreateNewQuestionsBankText: string = "Create New Questions Bank";
     CreateTopicText: string = "Create Topic";
     CreateNewCourseText: string = "Create New Course";
     CreateCourseText: string = "Create Course";
