@@ -81,6 +81,8 @@ class FaTranslation extends AppTranslationBase {
     CourseInformationText: string = "اطلاعات دوره";
     ExamInformationText: string = "اطلاعات آزمون";
     ExamInfoText: string = "اطلاعات آزمون";
+    QuestionBankInfoText: string = "اطلاعات بانک سوالات";
+    QuestionBankInformationText: string = "اطلاعات بانک سوالات";
     UserInfoText: string = "اطلاعات کاربر";
     ConfirmYourAccountText: string = "حساب کاربری خود را تایید کنید";
     ConfirmChangingYourPasswordText: string = "تغییر رمز عبور خود را تایید کنید";

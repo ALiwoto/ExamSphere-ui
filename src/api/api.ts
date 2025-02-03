@@ -87,7 +87,8 @@ export const APIErrorCode = {
     ErrCodeTopicNameExists: 2154,
     ErrCodeTopicNotFound: 2155,
     ErrCodeBodyTooLong: 2156,
-    ErrCodeStrictExamViolation: 2157
+    ErrCodeStrictExamViolation: 2157,
+    ErrCodeOwnerCannotDoThis: 2158
 } as const;
 
 export type APIErrorCode = typeof APIErrorCode[keyof typeof APIErrorCode];
@@ -1596,7 +1597,7 @@ export interface EditExamResult {
      * @type {boolean}
      * @memberof EditExamResult
      */
-    'is_sample'?: boolean;
+    'is_sample_exam'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -2286,7 +2287,7 @@ export interface GetExamInfoResult {
      * @type {boolean}
      * @memberof GetExamInfoResult
      */
-    'is_sample'?: boolean;
+    'is_sample_exam'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -3650,7 +3651,7 @@ export interface SearchedExamInfo {
      * @type {boolean}
      * @memberof SearchedExamInfo
      */
-    'is_sample'?: boolean;
+    'is_sample_exam'?: boolean;
     /**
      * 
      * @type {boolean}

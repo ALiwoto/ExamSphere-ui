@@ -180,6 +180,10 @@ const ExamInfoPage = () => {
                 has_participated: result.has_participated,
                 has_finished: result.has_finished,
                 has_started: result.has_started,
+                is_strict: result.is_strict,
+                max_questions_seconds: result.max_questions_seconds,
+                needs_video_call: result.needs_video_call,
+                needs_voice_call: result.needs_voice_call,
             });
             setExamInfo(result);
 
@@ -190,7 +194,7 @@ const ExamInfoPage = () => {
 
                         // automatically redirect the user to the exam hall
                         setTimeout(() => {
-                            window.location.href = `/examHall?examId=${targetExamId}`;
+                            window.location.href = `/examHall?examId=${targetExamId}&sample=${examInfo.is_sample_exam}`;
                         }, 5000);
                     }
 
@@ -246,14 +250,14 @@ const ExamInfoPage = () => {
     const handleSave = async () => {
         try {
             const result = await apiClient.editExam(examData);
-            const updatedUserData: any = { ...examData };
+            const updatedExamData: any = { ...examData };
             Object.keys(result).forEach(key => {
                 if (key in examData) {
-                    updatedUserData[key] = result[key as keyof (typeof result)];
+                    updatedExamData[key] = result[key as keyof (typeof result)];
                 }
             });
 
-            setExamData(updatedUserData);
+            setExamData(updatedExamData);
             setIsEditing(false);
 
             window.history.pushState(
@@ -400,6 +404,7 @@ const ExamInfoPage = () => {
                                 'has_participated',
                                 'has_started',
                                 'has_finished',
+                                'is_sample_exam',
                             ],
                         })}
                     </Grid>

@@ -84,6 +84,8 @@ export class AppTranslationBase {
     CourseInformationText: string = "Course Information";
     ExamInformationText: string = "Exam Information";
     ExamInfoText: string = "Exam Info";
+    QuestionBankInfoText: string = "Question Bank Information";
+    QuestionBankInformationText: string = "Question Bank Information";
     UserInfoText: string = "User Info";
     ConfirmYourAccountText: string = "Confirm Your Account";
     ConfirmChangingYourPasswordText: string = "Confirm Changing Your Password";
