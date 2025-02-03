@@ -87,6 +87,7 @@ const CreateExamPage: React.FC = () => {
                         data: createExamData,
                         handleInputChange,
                         isEditing: true,
+                        excludedFields: ['is_sample_exam'],
                     })}
                     <SubmitButton type="submit">
                         {CurrentAppTranslation.CreateButtonText}

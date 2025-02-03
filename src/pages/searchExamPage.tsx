@@ -88,6 +88,7 @@ const SearchExamPage = () => {
     const providedQuery = urlSearch.get('query');
     const providedPage = urlSearch.get('page');
     const forEdit = (urlSearch.get('edit') ?? "false") === "true";
+    const isSampleExam = urlSearch.get('sample') === 'true' || urlSearch.get('sample') === '1';
 
     const [query, setQuery] = useState(providedQuery ?? '');
     const [courses, setCourses] = useState<SearchedExamInfo[]>([]);
@@ -114,6 +115,7 @@ const SearchExamPage = () => {
                 search_query: query,
                 offset: newPage * PageLimit,
                 limit: PageLimit,
+                sample_exams: isSampleExam,
             })
     
             if (!results || !results.exams) {

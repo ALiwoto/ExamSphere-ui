@@ -69,7 +69,7 @@ const ExamHallPage: React.FC = () => {
         setIsLoading(true);
         try {
             const result = await apiClient.getExamInfo(examId!);
-            if (result.is_strict) {
+            if (result.is_strict && !result.can_edit_question) {
                 QuestionsListLimit = 1;
             }
             setExamInfo(result);

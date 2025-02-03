@@ -30,7 +30,7 @@ const MenuItemChildren = styled.div<{ $isOpen: boolean }>`
 `;
 
 const ChildItem = styled.div`
-  padding: 5px 0 5px 20px;
+  padding: 5px ${CurrentAppTranslation.rightPaddingValue} 5px ${CurrentAppTranslation.leftPaddingValue};
 `;
 
 interface MenuItemProps {
