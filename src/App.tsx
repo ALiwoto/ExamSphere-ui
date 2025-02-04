@@ -4,7 +4,7 @@ import { CurrentAppTranslation } from './translations/appTranslation';
 import apiClient from './apiClient';
 import Login from './pages/loginPage';
 import CreateUserPage from './pages/createUserPage';
-import DashboardPage from './pages/dashboardPage';
+import DashboardPage from './pages/dashboardPages/dashboardPage';
 import SearchUserPage from './pages/searchUserPage';
 import UserInfoPage from './pages/userInfoPage';
 import { Box, CircularProgress, Typography } from '@mui/material';

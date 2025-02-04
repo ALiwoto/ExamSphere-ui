@@ -106,7 +106,7 @@ const SearchExamPage = () => {
             "Search Exam",
             `${window.location.pathname}?query=${
                 encodeURIComponent(query)
-            }&page=${newPage + 1}`,
+            }&page=${newPage + 1}&edit=${forEdit}&sample=${isSampleExam}`,
         );
 
         setIsLoading(true);

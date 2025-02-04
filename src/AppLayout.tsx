@@ -11,7 +11,7 @@ import { forceUpdateCreateCoursePage } from './pages/createCoursePage';
 import { forceUpdateCreateExamPage } from './pages/createExamPage';
 import { forceUpdateCreateTopicPage } from './pages/createTopicPage';
 import { forceUpdateCreateUserPage } from './pages/createUserPage';
-import { forceUpdateDashboardPage } from './pages/dashboardPage';
+import { forceUpdateDashboardPage } from './pages/dashboardPages/dashboardPage';
 import { forceUpdateExamInfoPage } from './pages/examInfoPage';
 import { forceUpdateLoginPage } from './pages/loginPage';
 import { forceUpdateSearchCoursePage } from './pages/searchCoursePage';

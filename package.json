@@ -24,6 +24,7 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.0",
     "react-scripts": "^5.0.1",
+    "recharts": "^2.15.1",
     "styled-components": "^6.1.12",
     "typescript": "^5.5.4",
     "web-vitals": "^4.2.3"

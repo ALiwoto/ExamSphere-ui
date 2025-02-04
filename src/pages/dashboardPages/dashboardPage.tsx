@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import apiClient from '../apiClient';
-import { DashboardContainer } from '../components/containers/dashboardContainer';
-import { autoSetWindowTitle } from '../utils/commonUtils';
+import apiClient from '../../apiClient';
+import { DashboardContainer } from '../../components/containers/dashboardContainer';
+import { autoSetWindowTitle } from '../../utils/commonUtils';
+import StudentDashboard from './studentDashboard';
 
 export var forceUpdateDashboardPage = () => { };
 
@@ -36,6 +37,14 @@ const ListItem = styled.li`
 `;
 
 const AddMainContent = (legacyContent: boolean = false) => {
+    if (apiClient.isStudent()) {
+        return (
+            <MainContent>
+                <StudentDashboard />
+            </MainContent>
+        )
+    }
+    
     if (!legacyContent) {
         return (
             <MainContent>

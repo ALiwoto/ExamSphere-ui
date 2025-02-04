@@ -793,6 +793,63 @@ class ExamSphereAPIClient extends UserApi {
         return getPlatformLogsResult;
     }
 
+    public async fetchOngoingExams(): Promise<any[]> {
+        await delay(500)
+        return [
+            { id: "1", title: "Math Exam", timeLeft: "30 minutes" },
+            { id: "2", title: "Science Quiz", timeLeft: "45 minutes" },
+        ]
+    }
+
+    public async fetchFutureExams(): Promise<any[]> {
+        await delay(500)
+        return [
+            { id: "3", title: "History Test", date: "2023-06-15" },
+            { id: "4", title: "English Essay", date: "2023-06-20" },
+        ]
+    }
+
+    public async fetchPreviousExams(): Promise<any[]> {
+        await delay(500)
+        return [
+            { id: "5", title: "Geography Quiz", score: 85, date: "2023-05-10" },
+            { id: "6", title: "Literature Exam", score: 92, date: "2023-05-05" },
+        ]
+    }
+
+    public async fetchExamScores(): Promise<{ date: string; score: number }[]> {
+        await delay(500)
+        return [
+            { date: "2024-01-15", score: 75 },
+            { date: "2024-02-20", score: 82 },
+            { date: "2024-03-10", score: 88 },
+            { date: "2024-04-05", score: 90 },
+            { date: "2024-05-01", score: 85 },
+        ]
+    }
+
+    public async fetchExamsPerTopic(): Promise<{ topic: string; count: number }[]> {
+        await delay(500)
+        return [
+            { topic: "Math", count: 5 },
+            { topic: "Science", count: 4 },
+            { topic: "History", count: 3 },
+            { topic: "English", count: 6 },
+            { topic: "Geography", count: 2 },
+        ]
+    }
+
+    public async fetchExamDurations(): Promise<{ date: string; duration: number }[]> {
+        await delay(500)
+        return [
+            { date: "2023-05-01", duration: 45 },
+            { date: "2023-05-05", duration: 60 },
+            { date: "2023-05-10", duration: 55 },
+            { date: "2023-05-15", duration: 50 },
+            { date: "2023-05-20", duration: 40 },
+        ]
+    }
+
     /**
      * Returns true if we are considered as "logged in" by the API client,
      * This method only checks if the access token is present, it doesn't
@@ -869,7 +926,7 @@ class ExamSphereAPIClient extends UserApi {
         if (!examInfo) {
             return false;
         }
-        
+
         return this.isAdmin() || this.isOwner() ||
             examInfo.created_by === this.getCurrentUserId();
     }
@@ -920,6 +977,10 @@ class ExamSphereAPIClient extends UserApi {
         this.clearTokens();
     }
 }
+
+
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 
 const apiClient = new ExamSphereAPIClient();
 
