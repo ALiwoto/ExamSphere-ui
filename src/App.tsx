@@ -117,15 +117,15 @@ const App: React.FC = () => {
                 />
                 <Route
                     path="/createCourse"
-                    element={apiClient.canCreateTopics() ? <CreateCoursePage /> : <Navigate to="/dashboard" />}
+                    element={apiClient.canCreateCourse() ? <CreateCoursePage /> : <Navigate to="/dashboard" />}
                 />
                 <Route
                     path="/courseInfo"
-                    element={apiClient.canCreateTopics() ? <CourseInfoPage /> : <Navigate to="/dashboard" />}
+                    element={apiClient.canViewCourseInfo() ? <CourseInfoPage /> : <Navigate to="/dashboard" />}
                 />
                 <Route
                     path="/searchCourse"
-                    element={apiClient.canSearchTopics() ? <SearchCoursePage /> : <Navigate to="/dashboard" />}
+                    element={apiClient.canSearchCourses() ? <SearchCoursePage /> : <Navigate to="/dashboard" />}
                 />
                 <Route
                     path="/createExam"
@@ -137,7 +137,7 @@ const App: React.FC = () => {
                 />
                 <Route
                     path="/searchExam"
-                    element={apiClient.canSearchTopics() ? <SearchExamPage /> : <Navigate to="/dashboard" />}
+                    element={apiClient.canSearchExam() ? <SearchExamPage /> : <Navigate to="/dashboard" />}
                 />
                 <Route
                     path="/examHall"

@@ -946,11 +946,27 @@ class ExamSphereAPIClient extends UserApi {
         return this.isOwner() || this.isAdmin();
     }
 
+    public canViewCourseInfo(): boolean {
+        return this.isTeacherOrAdmin();
+    }
+
+    public canCreateCourse(): boolean {
+        return this.isTeacherOrAdmin();
+    }
+
+    public canSearchCourses(): boolean {
+        return this.isTeacherOrAdmin();
+    }
+
     public canCreateExams(): boolean {
         return this.isTeacherOrAdmin();
     }
 
     public canViewExamInfo(): boolean {
+        return this.isLoggedIn();
+    }
+
+    public canSearchExam(): boolean {
         return this.isLoggedIn();
     }
 
