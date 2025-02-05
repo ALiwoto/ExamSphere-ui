@@ -58,6 +58,10 @@ import {
     SetExamScoreResult,
     PlatformApi,
     GetPlatformLogsResult,
+    UserOngoingExamInfo,
+    UserFutureExamInfo,
+    GetUsersExamHistoryData,
+    UserExamHistoryInfo,
 } from './api';
 import { canParseAsNumber } from './utils/textUtils';
 import { SupportedTranslations } from './translations/translationSwitcher';
@@ -793,28 +797,31 @@ class ExamSphereAPIClient extends UserApi {
         return getPlatformLogsResult;
     }
 
-    public async fetchOngoingExams(): Promise<any[]> {
-        await delay(500)
-        return [
-            { id: "1", title: "Math Exam", timeLeft: "30 minutes" },
-            { id: "2", title: "Science Quiz", timeLeft: "45 minutes" },
-        ]
+    public async fetchOngoingExams(): Promise<UserOngoingExamInfo[]> {
+        let result = await this.examApi.getUserOngoingExamsV1(`Bearer ${this.accessToken}`);
+        if (!result?.data?.result || !result.data.result.exams) {
+            throw new Error("Failed to fetch ongoing exams");
+        }
+
+        return result.data.result.exams;
     }
 
-    public async fetchFutureExams(): Promise<any[]> {
-        await delay(500)
-        return [
-            { id: "3", title: "History Test", date: "2023-06-15" },
-            { id: "4", title: "English Essay", date: "2023-06-20" },
-        ]
+    public async fetchFutureExams(): Promise<UserFutureExamInfo[]> {
+        let result = await this.examApi.getUserFutureExamsV1(`Bearer ${this.accessToken}`);
+        if (!result?.data?.result || !result.data.result.exams) {
+            throw new Error("Failed to fetch future exams");
+        }
+
+        return result.data.result.exams;
     }
 
-    public async fetchPreviousExams(): Promise<any[]> {
-        await delay(500)
-        return [
-            { id: "5", title: "Geography Quiz", score: 85, date: "2023-05-10" },
-            { id: "6", title: "Literature Exam", score: 92, date: "2023-05-05" },
-        ]
+    public async fetchPreviousExams(data: GetUsersExamHistoryData): Promise<UserExamHistoryInfo[]> {
+        let result = await this.examApi.getUserExamsHistoryV1(`Bearer ${this.accessToken}`, data);
+        if (!result?.data?.result || !result.data.result.exams) {
+            throw new Error("Failed to fetch previous exams");
+        }
+
+        return result.data.result.exams;
     }
 
     public async fetchExamScores(): Promise<{ date: string; score: number }[]> {
@@ -842,11 +849,11 @@ class ExamSphereAPIClient extends UserApi {
     public async fetchExamDurations(): Promise<{ date: string; duration: number }[]> {
         await delay(500)
         return [
-            { date: "2023-05-01", duration: 45 },
-            { date: "2023-05-05", duration: 60 },
-            { date: "2023-05-10", duration: 55 },
-            { date: "2023-05-15", duration: 50 },
-            { date: "2023-05-20", duration: 40 },
+            { date: "2025-05-01", duration: 45 },
+            { date: "2025-05-05", duration: 60 },
+            { date: "2025-05-10", duration: 55 },
+            { date: "2025-05-15", duration: 50 },
+            { date: "2025-05-20", duration: 40 },
         ]
     }
 

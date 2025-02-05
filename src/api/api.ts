@@ -88,7 +88,9 @@ export const APIErrorCode = {
     ErrCodeTopicNotFound: 2155,
     ErrCodeBodyTooLong: 2156,
     ErrCodeStrictExamViolation: 2157,
-    ErrCodeOwnerCannotDoThis: 2158
+    ErrCodeOwnerCannotDoThis: 2158,
+    ErrCodePointedExamMustBeSample: 2159,
+    ErrCodeInvalidPointerToExamId: 2160
 } as const;
 
 export type APIErrorCode = typeof APIErrorCode[keyof typeof APIErrorCode];
@@ -2799,6 +2801,44 @@ export interface GetUserExamsHistoryV1200Response {
 /**
  * 
  * @export
+ * @interface GetUserFutureExamsResult
+ */
+export interface GetUserFutureExamsResult {
+    /**
+     * 
+     * @type {Array<UserFutureExamInfo>}
+     * @memberof GetUserFutureExamsResult
+     */
+    'exams'?: Array<UserFutureExamInfo>;
+}
+/**
+ * 
+ * @export
+ * @interface GetUserFutureExamsV1200Response
+ */
+export interface GetUserFutureExamsV1200Response {
+    /**
+     * 
+     * @type {EndpointError}
+     * @memberof GetUserFutureExamsV1200Response
+     */
+    'error'?: EndpointError;
+    /**
+     * 
+     * @type {GetUserFutureExamsResult}
+     * @memberof GetUserFutureExamsV1200Response
+     */
+    'result'?: GetUserFutureExamsResult;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetUserFutureExamsV1200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
  * @interface GetUserInfoResult
  */
 export interface GetUserInfoResult {
@@ -3862,6 +3902,31 @@ export interface UserExamHistoryInfo {
 /**
  * 
  * @export
+ * @interface UserFutureExamInfo
+ */
+export interface UserFutureExamInfo {
+    /**
+     * 
+     * @type {string}
+     * @memberof UserFutureExamInfo
+     */
+    'exam_date'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof UserFutureExamInfo
+     */
+    'exam_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserFutureExamInfo
+     */
+    'exam_title'?: string;
+}
+/**
+ * 
+ * @export
  * @interface UserOngoingExamInfo
  */
 export interface UserOngoingExamInfo {
@@ -3870,13 +3935,13 @@ export interface UserOngoingExamInfo {
      * @type {number}
      * @memberof UserOngoingExamInfo
      */
-    'course_id'?: number;
+    'exam_id'?: number;
     /**
      * 
      * @type {number}
      * @memberof UserOngoingExamInfo
      */
-    'exam_id'?: number;
+    'exam_title'?: number;
     /**
      * 
      * @type {string}
@@ -5009,6 +5074,48 @@ export const ExamApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
+         * Allows the user to get future exams of a user.
+         * @summary Get future exams of a user
+         * @param {string} authorization Authorization token
+         * @param {string} [targetId] Target user id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserFutureExamsV1: async (authorization: string, targetId?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('getUserFutureExamsV1', 'authorization', authorization)
+            const localVarPath = `/api/v1/exam/userFutureExams`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (targetId !== undefined) {
+                localVarQueryParameter['targetId'] = targetId;
+            }
+
+            if (authorization != null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Allows the user to get ongoing exams of a user.
          * @summary Get ongoing exams of a user
          * @param {string} authorization Authorization token
@@ -5330,6 +5437,20 @@ export const ExamApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Allows the user to get future exams of a user.
+         * @summary Get future exams of a user
+         * @param {string} authorization Authorization token
+         * @param {string} [targetId] Target user id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getUserFutureExamsV1(authorization: string, targetId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetUserFutureExamsV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserFutureExamsV1(authorization, targetId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ExamApi.getUserFutureExamsV1']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Allows the user to get ongoing exams of a user.
          * @summary Get ongoing exams of a user
          * @param {string} authorization Authorization token
@@ -5504,6 +5625,17 @@ export const ExamApiFactory = function (configuration?: Configuration, basePath?
          */
         getUserExamsHistoryV1(authorization: string, data: GetUsersExamHistoryData, options?: any): AxiosPromise<GetUserExamsHistoryV1200Response> {
             return localVarFp.getUserExamsHistoryV1(authorization, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Allows the user to get future exams of a user.
+         * @summary Get future exams of a user
+         * @param {string} authorization Authorization token
+         * @param {string} [targetId] Target user id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserFutureExamsV1(authorization: string, targetId?: string, options?: any): AxiosPromise<GetUserFutureExamsV1200Response> {
+            return localVarFp.getUserFutureExamsV1(authorization, targetId, options).then((request) => request(axios, basePath));
         },
         /**
          * Allows the user to get ongoing exams of a user.
@@ -5687,6 +5819,19 @@ export class ExamApi extends BaseAPI {
      */
     public getUserExamsHistoryV1(authorization: string, data: GetUsersExamHistoryData, options?: RawAxiosRequestConfig) {
         return ExamApiFp(this.configuration).getUserExamsHistoryV1(authorization, data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Allows the user to get future exams of a user.
+     * @summary Get future exams of a user
+     * @param {string} authorization Authorization token
+     * @param {string} [targetId] Target user id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExamApi
+     */
+    public getUserFutureExamsV1(authorization: string, targetId?: string, options?: RawAxiosRequestConfig) {
+        return ExamApiFp(this.configuration).getUserFutureExamsV1(authorization, targetId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
